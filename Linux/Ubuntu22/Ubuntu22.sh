@@ -5,19 +5,19 @@
 # Please run this script as root.
 
 # Adding execute permissions to the other files.  This will allow them to be used by this program.
-chmod +x /var/scripts/auditd.sh
-chmod +x /var/scripts/chkrootkit.sh
-chmod +x /var/scripts/clamav.sh
-chmod +x /var/scripts/libdate-manip-perl.sh
-chmod +x /var/scripts/libpam-cracklib.sh
-chmod +x /var/scripts/logwatch.sh
-chmod +x /var/scripts/managePorts.sh
-chmod +x /var/scripts/nano.sh
-chmod +x /var/scripts/net-tools.sh
-chmod +x /var/scripts/openssl.sh
-chmod +x /var/scripts/rkhunter.sh
-chmod +x /var/scripts/rsyslod.sh
-chmod +x /var/scripts/ufw.sh
+#chmod +x /var/scripts/auditd.sh
+#chmod +x /var/scripts/chkrootkit.sh
+#chmod +x /var/scripts/clamav.sh
+#chmod +x /var/scripts/libdate-manip-perl.sh
+#chmod +x /var/scripts/libpam-cracklib.sh
+#chmod +x /var/scripts/logwatch.sh
+#chmod +x /var/scripts/managePorts.sh
+#chmod +x /var/scripts/nano.sh
+#chmod +x /var/scripts/net-tools.sh
+#chmod +x /var/scripts/openssl.sh
+#chmod +x /var/scripts/rkhunter.sh
+#chmod +x /var/scripts/rsyslod.sh
+#chmod +x /var/scripts/ufw.sh
 
 # Variables
 admins=("user1")
@@ -364,7 +364,7 @@ function start {
    augenrules --load > /dev/null
    systemctl enable rsyslog > /dev/null
    systemctl restart rsyslog > /dev/null
-   
+
    main
 }
 
