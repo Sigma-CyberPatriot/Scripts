@@ -20,176 +20,181 @@ chmod +x /var/scripts/rsyslod.sh
 chmod +x /var/scripts/ufw.sh
 
 # Variables
-pass="Jax1@joe"
-admins=("turbo")
-userstoadd=("user3" "user4")
+pass="h3lloworld"
+admins=("user1")
+userstoadd=("user4" "user5")
 groupstoadd=("group3" "group4")
-userstodel=("user1" "user2")
+userstodel=("user2" "user3")
 groupstodel=("group1" "group2")
 
 echo Note that any new groups will be empty, as I cannot make lists of lists.
 
 # This is the main function.  It acts as a menu.
 function main {
-   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-   printf "   ______    ______    ______    __       __    ______               __      __    ________     __             ________   \n"
-   printf "  /      \  /      |  /      \  /  \     /  |  /      \             /  |    /  |  /        \   /  |           /        \  \n"
-   printf " /&&&&&&  | &&&&&&/  /&&&&&&  | &&  \   /&& | /&&&&&&  |            && |    && | /&&&&&&&&  |  && |          /&&&&&&&&  | \n"
-   printf " && \__&&/    && |   && | _&&/  &&$  \ /&&$ | && |__&& |   ______   && |    && | && |    && |  && |          && |    && | \n"
-   printf " &&      \    && |   && |/    | &&&&  /&&&& | &&    && |  |______|  && |    && | && |    && |  && |          && |    && | \n"
-   printf "  &&&&&&  |   && |   && |&&&& | && && &&/&& | &&&&&&&& |            &&&&&&&&&& | && |    && |  && |          && |    && | \n"
-   printf " /  \__&& |  _&& |_  && \__&& | && |&&$/ && | && |  && |            && |    && | && |    && |  && |_______   && |    && | \n"
-   printf " &&    &&/  / &&   | &&    &&/  && | $/  && | && |  && |            && |    && | && \    && |  &&         |  && \    && | \n"
-   printf "  &&&&&&/   &&&&&&/   &&&&&&/   &&/      &&/  &&/   &&/             &&/     &&/   &&&&&&&&_/   &&&&&&&&&&/    &&&&&&&&_/  \n"
-   printf "              __     __   _______    __     __   ___      __   ________   __     __        ______     ______              \n"
-   printf "             /  |   /  | /       \  /  |   /  | /   \    /  | /        | /  |   /  |      /      \   /      \             \n"
-   printf "             && |   && | &&&&&&&  \ && |   && | &&&& \   && | &&&&&&&&_/ && |   && |     /&&&&&&  | /&&&&&&  |            \n"
-   printf "             && |   && | && |  && | && |   && | && && \  && |    && |    && |   && |     &&_/  && | &&_/  && |            \n"
-   printf "             && |   && | && |  && / && |   && | && &&  \ && |    && |    && |   && |           && |       && |            \n"
-   printf "             && |   && | &&&&&&& <  && |   && | && | && \&& |    && |    && |   && |          && /       && /             \n"
-   printf "             && |   && | && |  && \ && |   && | && | &&  && |    && |    && |   && |        &&& /      &&& /              \n"
-   printf "             && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___            \n"
-   printf "              &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&/    &&&&/     &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/            \n"
-   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-   printf "    1) Start                                                                                                              \n"
-   printf "    2) View checklist                                                                                                     \n"
-   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+   printf "   ______    ______    ______    __       __    ______               __      __    ________    __            ________   \n"
+   printf "  /      \  /      |  /      \  /  \     /  |  /      \             /  |    /  |  /        \  /  |          /        \  \n"
+   printf " /&&&&&&  | &&&&&&/  /&&&&&&  | &&  \   /&& | /&&&&&&  |            && |    && | /&&&&&&&&  | && |         /&&&&&&&&  | \n"
+   printf " && \__&&/    && |   && | _&&/  &&$  \ /&&$ | && |__&& |   ______   && |    && | && |    && | && |         && |    && | \n"
+   printf " &&      \    && |   && |/    | &&&&  /&&&& | &&    && |  |______|  && |    && | && |    && | && |         && |    && | \n"
+   printf "  &&&&&&  |   && |   && |&&&& | && && &&/&& | &&&&&&&& |            &&&&&&&&&& | && |    && | && |         && |    && | \n"
+   printf " /  \__&& |  _&& |_  && \__&& | && |&&$/ && | && |  && |            && |    && | && |    && | && |_______  && |    && | \n"
+   printf " &&    && / / &&   | &&    && / && | $/  && | && |  && |            && |    && | && \    && | &&         | && \    && | \n"
+   printf "  &&&&&&_/  &&&&&&_/  &&&&&&_/  &&_/     &&_/ &&_/  &&_/            &&_/    &&_/  &&&&&&&&_/  &&&&&&&&&&_/  &&&&&&&&_/  \n"
+   printf "             __     __   _______    __     __   ___      __   ________   __     __        ______     ______             \n"
+   printf "            /  |   /  | /       \  /  |   /  | /   \    /  | /        | /  |   /  |      /      \   /      \            \n"
+   printf "            && |   && | &&&&&&&  \ && |   && | &&&& \   && | &&&&&&&&_/ && |   && |     /&&&&&&  | /&&&&&&  |           \n"
+   printf "            && |   && | && |  && | && |   && | && && \  && |    && |    && |   && |     &&_/  && | &&_/  && |           \n"
+   printf "            && |   && | && |  && / && |   && | && &&  \ && |    && |    && |   && |           && |       && |           \n"
+   printf "            && |   && | &&&&&&& <  && |   && | && | && \&& |    && |    && |   && |          && /       && /            \n"
+   printf "            && |   && | && |  && \ && |   && | && | &&  && |    && |    && |   && |        &&& /      &&& /             \n"
+   printf "            && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___           \n"
+   printf "             &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/           \n"
+   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+   printf "    1) Start                                                                                                            \n"
+   printf "    2) View checklist                                                                                                   \n"
+   printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
    read -r answer
-   if [ "$answer" -eq 1 ]; then start; fi
-   if [ "$answer" -eq 2 ]; then checkList; fi
+   if [ "$answer" -eq 1 ]
+      then start;
+   elif [ "$answer" -eq 2 ]
+      then checkList;
+   else
+      main;
+   fi
 }
 
 function start {
    # Differences  -- Implement later
    # Editing host.conf
-   cp /etc/host.conf /etc/host.conf.bak
-   echo "nospoof on" | tee -a /etc/host.conf
-   echo "order bind,hosts" | tee -a /etc/host.conf
-   ip link set dev promisc off 
+   cp /etc/host.conf /etc/host.conf.bak > /dev/null
+   echo "nospoof on" | tee -a /etc/host.conf > /dev/null
+   echo "order bind,hosts" | tee -a /etc/host.conf > /dev/null
+   ip link set dev promisc off  > /dev/null
 
    # Installing apt-get
-   wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.7.2_i386.deb -O apt-get.deb
-   dpkg -i apt-get.deb
+   wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.7.2_i386.deb -O apt-get.deb > /dev/null
+   dpkg -i apt-get.deb > /dev/null
 
    # Updating all apps (snaps included)
-   apt-get update
-   apt-get upgrade
-   snap refresh
+   apt-get update > /dev/null
+   apt-get upgrade > /dev/null
+   snap refresh > /dev/null
 
    # Installing apps
-   apt-get install -y auditd
-   apt-get install -y chkrootkit
-   apt-get install -y clamav
-   apt-get install -y cron
-   apt-get install -y git
-   apt-get install -y libdate-manip-perl
-   apt-get install -y libpam-cracklib
-   apt-get install -y logwatch
-   apt-get install -y nano
-   apt-get install -y net-tools
-   apt-get install -y openssl
-   apt-get install -y rkhunter
-   apt-get install -y rsyslod
-   apt-get install -y ufw
+   apt-get install -y auditd > /dev/null
+   apt-get install -y chkrootkit > /dev/null
+   apt-get install -y clamav > /dev/null
+   apt-get install -y cron > /dev/null
+   apt-get install -y git > /dev/null
+   apt-get install -y libdate-manip-perl > /dev/null
+   apt-get install -y libpam-cracklib > /dev/null
+   apt-get install -y logwatch > /dev/null
+   apt-get install -y nano > /dev/null
+   apt-get install -y net-tools > /dev/null
+   apt-get install -y openssl > /dev/null
+   apt-get install -y rkhunter > /dev/null
+   apt-get install -y rsyslod > /dev/null
+   apt-get install -y ufw > /dev/null
 
    # Updating again to make sure everything is up to date (Can't be too careful!)
-   apt-get update
-   apt-get upgrade
-   snap refresh
+   apt-get update > /dev/null
+   apt-get upgrade > /dev/null
+   snap refresh > /dev/null
 
    # Enabling automatic updates.
-   dpkg-reconfigure --priority=low unattended-upgrades
-   unattended-upgrade -d
+   dpkg-reconfigure --priority=low unattended-upgrades > /dev/null
+   unattended-upgrade -d > /dev/null
 
    # Uninstalling prohibited apps
    # Hacking tools
-   apt-get remove aircrack-ng
-   apt-get remove apache2
-   apt-get remove apktool
-   apt-get remove autopsy
-   apt-get remove deluge
-   apt-get remove dirb
-   apt-get remove dsniff
-   apt-get remove ettercap
-   apt-get remove fcracklib
-   apt-get remove ftp
-   apt-get remove httrack
-   apt-get remove hydra
-   apt-get remove john-the-ripper
-   apt-get remove kismet
-   apt-get remove linuxdcpp
-   apt-get remove metasploit-framework
-   apt-get remove netcat
-   apt-get remove nikto
-   apt-get remove nmap
-   apt-get remove rfdump
-   apt-get remove skipfish
-   apt-get remove snapd
-   apt-get remove snort
-   apt-get remove sqlmap
-   apt-get remove wifite
-   apt-get remove wireshark
-   apt-get remove yersinia
-   apt-get remove zenmap
+   apt-get remove aircrack-ng > /dev/null
+   apt-get remove apache2 > /dev/null
+   apt-get remove apktool > /dev/null
+   apt-get remove autopsy > /dev/null
+   apt-get remove deluge > /dev/null
+   apt-get remove dirb > /dev/null
+   apt-get remove dsniff > /dev/null
+   apt-get remove ettercap > /dev/null
+   apt-get remove fcracklib > /dev/null
+   apt-get remove ftp > /dev/null
+   apt-get remove httrack > /dev/null
+   apt-get remove hydra > /dev/null
+   apt-get remove john-the-ripper > /dev/null
+   apt-get remove kismet > /dev/null
+   apt-get remove linuxdcpp > /dev/null
+   apt-get remove metasploit-framework > /dev/null
+   apt-get remove netcat > /dev/null
+   apt-get remove nikto > /dev/null
+   apt-get remove nmap > /dev/null
+   apt-get remove rfdump > /dev/null
+   apt-get remove skipfish > /dev/null
+   apt-get remove snapd > /dev/null
+   apt-get remove snort > /dev/null
+   apt-get remove sqlmap > /dev/null
+   apt-get remove wifite > /dev/null
+   apt-get remove wireshark > /dev/null
+   apt-get remove yersinia > /dev/null
+   apt-get remove zenmap > /dev/null
    # Games
-   apt-get remove aisleriot
-   apt-get remove endless-sky
-   apt-get remove freeciv
-   apt-get remove gnome-mahjongg
-   apt-get remove gnome-mines
-   apt-get remove gnome-sudoku
-   apt-get remove gnomine
-   apt-get remove wesnoth
+   apt-get remove aisleriot > /dev/null
+   apt-get remove endless-sky > /dev/null
+   apt-get remove freeciv > /dev/null
+   apt-get remove gnome-mahjongg > /dev/null
+   apt-get remove gnome-mines > /dev/null
+   apt-get remove gnome-sudoku > /dev/null
+   apt-get remove gnomine > /dev/null
+   apt-get remove wesnoth > /dev/null
    # Insecure software
-   apt-get remove ldap-utils
-   apt-get remove manaplus
-   apt-get remove nis
-   apt-get remove rpcbind
-   apt-get remove rsh-client
-   apt-get remove rsh-server
-   apt-get remove rsync
-   apt-get remove talk
-   apt-get remove telnet
-   apt-get remove telnetd
+   apt-get remove ldap-utils > /dev/null
+   apt-get remove manaplus > /dev/null
+   apt-get remove nis > /dev/null
+   apt-get remove rpcbind > /dev/null
+   apt-get remove rsh-client > /dev/null
+   apt-get remove rsh-server > /dev/null
+   apt-get remove rsync > /dev/null
+   apt-get remove talk > /dev/null
+   apt-get remove telnet > /dev/null
+   apt-get remove telnetd > /dev/null
    # Unnecessary bloatware
-   apt-get remove apport
-   apt-get remove atd
-   apt-get remove autofs
-   apt-get remove avahi-daemon
-   apt-get remove avahi-utils
-   apt-get remove bind9
-   apt-get remove cups
-   apt-get remove dovecot-imapd
-   apt-get remove dovecot-pop3d
-   apt-get remove iptables-persistent
-   apt-get remove isc-dhcp-server
-   apt-get remove nfs-common
-   apt-get remove nfs-kernel-server
-   apt-get remove nginx
-   apt-get remove portmap
-   apt-get remove python-zeitgeist
-   apt-get remove rhythmbox-plugin-zeitgeist
-   apt-get remove rpcbind
-   apt-get remove slapd
-   apt-get remove squid
-   apt-get remove xserver-xorg*
-   apt-get remove zeitgeist
-   apt-get remove zeitgeist-core
-   apt-get remove zeitgeist-datahub
+   apt-get remove apport > /dev/null
+   apt-get remove atd > /dev/null
+   apt-get remove autofs > /dev/null
+   apt-get remove avahi-daemon > /dev/null
+   apt-get remove avahi-utils > /dev/null
+   apt-get remove bind9 > /dev/null
+   apt-get remove cups > /dev/null
+   apt-get remove dovecot-imapd > /dev/null
+   apt-get remove dovecot-pop3d > /dev/null
+   apt-get remove iptables-persistent > /dev/null
+   apt-get remove isc-dhcp-server > /dev/null
+   apt-get remove nfs-common > /dev/null
+   apt-get remove nfs-kernel-server > /dev/null
+   apt-get remove nginx > /dev/null
+   apt-get remove portmap > /dev/null
+   apt-get remove python-zeitgeist > /dev/null
+   apt-get remove rhythmbox-plugin-zeitgeist > /dev/null
+   apt-get remove rpcbind > /dev/null
+   apt-get remove slapd > /dev/null
+   apt-get remove squid > /dev/null
+   apt-get remove xserver-xorg* > /dev/null
+   apt-get remove zeitgeist > /dev/null
+   apt-get remove zeitgeist-core > /dev/null
+   apt-get remove zeitgeist-datahub > /dev/null
 
    # Removing unused dependencies
-   apt-get autoremove
+   apt-get autoremove > /dev/null
 
    # Runs the Clam antivirus.
-   clamscan -r --remove /
+   clamscan -r --remove / > /dev/null
 
    # Manages Firefox settings
-   wget https://github.com/pyllyukko/user.js/raw/master/user.js
-   mv ./user.js /etc/firefox/user.js
+   wget https://github.com/pyllyukko/user.js/raw/master/user.js > /dev/null
+   mv ./user.js /etc/firefox/user.js > /dev/null
 
    FirefoxPref() {
-      echo "pref($1, $2);" | tee -a user.js
+      echo "user_pref($1, $2);" | tee -a user.js
    }
 
    FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
@@ -213,27 +218,27 @@ function start {
    FirefoxPref '"toolkit.telemetry.reportingpolicy.firstRun"' "false"
 
    # Fixing System file permissions
-   chmod 000 /etc/shadow
-   chmod 644 /etc/passwd
-   chmod 600 /etc/ssh/ssh_host*key
-   chmod 600 /etc/ssh/*key.pub
-   chmod 640 /var/log 
-   chmod 640 /var/log/syslog
-   chown syslog /var/log/syslog
-   chown root /var/log
-   chgrp adm /var/log/syslog 
-   chmod 755 /bin
-   chmod 755 /sbin
-   chmod 755 /usr/bin
-   chmod 755 /usr/sbin
-   chmod 755 /usr/local/bin
-   chmod 755 /usr/local/sbin
+   chmod 000 /etc/shadow > /dev/null
+   chmod 644 /etc/passwd > /dev/null
+   chmod 600 /etc/ssh/ssh_host*key > /dev/null
+   chmod 600 /etc/ssh/*key.pub > /dev/null
+   chmod 640 /var/log  > /dev/null
+   chmod 640 /var/log/syslog > /dev/null
+   chown syslog /var/log/syslog > /dev/null
+   chown root /var/log > /dev/null
+   chgrp adm /var/log/syslog  > /dev/null
+   chmod 755 /bin > /dev/null
+   chmod 755 /sbin > /dev/null
+   chmod 755 /usr/bin > /dev/null
+   chmod 755 /usr/sbin > /dev/null
+   chmod 755 /usr/local/bin > /dev/null
+   chmod 755 /usr/local/sbin > /dev/null
 
    # Edits system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    printf "PASS_MAX_DAYS  90\nPASS_MIN_DAYS  7\nPASS_WARN_AGE  14\nLOGIN_RETRIES 3\nLOGIN_TIMEOUT  30" | tee -a /etc/login.defs
    # Editing sshd_config to set too many things to count.
-   printf "PermitRootLogin no\nPermitUserEnvironment no\nPermitEmptyPasswords no\nProtocol 2\nPrintLastLog no\nPubkeyAuthentication yes\nRSAAuthentication yes\nLoginGraceTime 30\nClientAliveInterval 600\nClientAliveCountMax 1\nUsePAM yes\nUsePrivilegeSeparation yes\nStrictModes yes\nIgnoreUserKnownHosts yes\nIgnoreRhosts yes\nRhostsAuthentication no\nRhostsRSAAuthentication no\nHostBasedAuthentication no\nAllowTcpForwarding no\nX11Forwarding no\nLogLevel VERBOSE\nPort 2453" | tee -a /etc/ssh/sshd_config
+   printf "PermitRootLogin no\nPermitUserEnvironment no\nPermitEmptyPasswords no\nProtocol 2\nPrintLastLog no\nPubkeyAuthentication yes\nRSAAuthentication yes\nLoginGraceTime 30\nClientAliveInterval 600\nClientAliveCountMax 1\nUsePAM yes\nUsePrivilegeSeparation yes\nStrictModes yes\nIgnoreUserKnownHosts yes\nIgnoreRhosts  > /dev/nullyes\nRhostsAuthentication no\nRhostsRSAAuthentication no\nHostBasedAuthentication no\nAllowTcpForwarding no\nX11Forwarding no\nLogLevel VERBOSE\nPort 2453" | tee -a /etc/ssh/sshd_config
    # Editing /etc/pam.d/common-auth to add 'deny=5 unlock_time=1800' to end of 'pam_tally2.so'
    printf "pam_tally2.so   deny=10 unlock_time=1800" | tee -a /etc/pam.d/common-auth
    # Editing /etc/pam.d/common-password to add 'minlen=8 remember=5' to 'pam_unix.so', and add 'ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-' to 'pam_cracklib.so'.
@@ -242,9 +247,9 @@ function start {
    printf "allow-guest=false" | tee -a /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 
    # Setting up audit services
-   augenrules --load
-   systemctl enable rsyslog
-   systemctl restart rsyslog
+   augenrules --load > /dev/null
+   systemctl enable rsyslog > /dev/null
+   systemctl restart rsyslog > /dev/null
 
    # Disabling unnecessary services
    echo DNSStubListener=no | tee -a /etc/systemd/resolved.conf; # DNS Server 1
@@ -257,7 +262,7 @@ function start {
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $7 != "Address") print $7;}' | tee -a pids.txt  # Puts the process ids into a text file
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $4 != "Local") print $4;}'   | tee -a ports.txt # Puts the ports into a text file
 
-   sed -i '1d' processes.txt
+   sed -i '1d' processes.txt > /dev/null
    while read -r -u 10 pid && read -r -u 11 port
    do
       command=$(ps -p "$pid" | awk '{if ($4 != "CMD") print $4;}')
@@ -266,8 +271,8 @@ function start {
    done 10<pids.txt 11<ports.txt
 
    # Removing unnecessary files.
-   rm pids.txt
-   rm ports.txt
+   rm pids.txt > /dev/null
+   rm ports.txt > /dev/null
 
    # Windows command is netstat -ano, in case that is ever helpful.
    printf "When you have looked through the finalPorts.txt file in /var/output"
@@ -277,11 +282,11 @@ function start {
       VAR11=""
       echo "What port do you want to close?"
       read -r VAR10
-      ufw deny "$VAR10"
+      ufw deny "$VAR10" > /dev/null
       echo "Do you want to close another port? [Y/n]"
       read -r VAR11
       if [ "$VAR11" != "Y" ] && [ "$VAR11" != "y" ]; then
-         break
+         break > /dev/null
       fi
    done
 
@@ -294,18 +299,18 @@ function start {
 
    # Network Protections (Lines 74-90)
    # Setting up firewall
-   ufw allow in on lo
-   ufw allow out on lo
-   ufw deny in from 127.0.0.0/8
-   ufw deny in from ::1
-   ufw allow ssh
-   ufw allow http
-   ufw deny 23
-   ufw default deny
-   ufw --force enable
+   ufw allow in on lo > /dev/null
+   ufw allow out on lo > /dev/null
+   ufw deny in from 127.0.0.0/8 > /dev/null
+   ufw deny in from ::1 > /dev/null
+   ufw allow ssh > /dev/null
+   ufw allow http > /dev/null
+   ufw deny 23 > /dev/null
+   ufw default deny > /dev/null
+   ufw --force enable > /dev/null
 
    # Enabling cookie protection
-   sysctl -n net.ipv4.tcp_syncookies
+   sysctl -n net.ipv4.tcp_syncookies > /dev/null
 
    # Disabling ipv6
    echo "net.ipv6.conf.all.disable_ipv6 = 1" | tee -a /etc/sysctl.conf
@@ -317,50 +322,50 @@ function start {
    echo "nospoof on" | tee -a /etc/host.conf
 
    # Deleting prohibited files (This may delete files needed for the image, be careful!)
-   find / -type f -name "*.mp3" -delete
+   find / -type f -name "*.mp3" -delete > /dev/null
 
    # User Management (Lines 93-118)
    # This will create all the users specified in the userstoadd array.
    for user in "${userstoadd[@]}"
    do
-      useradd "$user" -m
+      useradd "$user" -m > /dev/null
    done
 
    # This will create all the groups specified in the groupstoadd array as well as get the people that need to be added to that group.
    for group in "${groupstoadd[@]}"
    do
-      groupadd "$group"
+      groupadd "$group" > /dev/null
       printf "How many users should be in the group %s?" "$group"
       read -r count
       for ((i = 0; i < "$count"; i++))
       do
          echo "Please enter the name of user #$i"
          read -r user
-         usermod -aG "$user"
+         usermod -aG "$user" > /dev/null
       done
    done
 
    # Deletes all the users specified in the userstodel array.
    for user in "${userstodel[@]}"; do
-      userdel "$user" -rf
+      userdel "$user" -rf > /dev/null
    done
 
    # Deletes all the groups specified in the groupstodel array.
    for group in "${groupstodel[@]}"; do
-      groupdel "$group" -f
+      groupdel "$group" -f > /dev/null
    done
 
    # These commands will remove admin rights from all users and then give them back to the users specified in the admins array.
    # Removing admin permissions
-   getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {}
+   getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {} > /dev/null
 
-   # Giving back admin permissions
+   # Giving back admin permissions > /dev/null
    for admin in "${admins[@]}"; do
-      gpasswd -a "$admin"
+      gpasswd -a "$admin" > /dev/null
    done
 
    # This changes the password of every user to the 'pass' variable.  (Default = "h3lloworld")  Edit password above in the "Variables" section
-   getent passwd | awk -F: '{if ($3 > 999) print $1;}' | xargs -Iuser -n 1 echo "user:$pass" | sudo chpasswd -e
+   getent passwd | awk -F: '{if ($3 > 999) print $1;}' | xargs -Iuser -n 1 echo "user:$pass" | sudo chpasswd -e > /dev/null
    echo "$pass" | passwd root
 
    main
