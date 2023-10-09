@@ -247,11 +247,6 @@ function start {
    # Editing /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf to add 'allow-guest=false'. May cause an error.
    printf "allow-guest=false" | tee -a /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 
-   # Setting up audit services
-   augenrules --load > /dev/null
-   systemctl enable rsyslog > /dev/null
-   systemctl restart rsyslog > /dev/null
-
    # Disabling unnecessary services
    echo DNSStubListener=no | tee -a /etc/systemd/resolved.conf; # DNS Server 1
    systemctl stop systemd-resolved; # DNS Server 2
@@ -365,6 +360,11 @@ function start {
       gpasswd -a "$admin" > /dev/null
    done
 
+   # Setting up audit services
+   augenrules --load > /dev/null
+   systemctl enable rsyslog > /dev/null
+   systemctl restart rsyslog > /dev/null
+   
    main
 }
 
