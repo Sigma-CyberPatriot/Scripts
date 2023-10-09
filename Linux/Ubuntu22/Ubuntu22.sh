@@ -20,7 +20,6 @@ chmod +x /var/scripts/rsyslod.sh
 chmod +x /var/scripts/ufw.sh
 
 # Variables
-pass="h3lloworld"
 admins=("user1")
 userstoadd=("user4" "user5")
 groupstoadd=("group3" "group4")
@@ -53,6 +52,8 @@ function main {
    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
    printf "    1) Start                                                                                                            \n"
    printf "    2) View checklist                                                                                                   \n"
+   printf "                                                                                                                        \n"
+   printf "    Disclaimer: This program does not change all of the passwords.  This needs to be done manually.                     \n"
    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
    read -r answer
@@ -69,8 +70,8 @@ function start {
    # Differences  -- Implement later
    # Editing host.conf
    cp /etc/host.conf /etc/host.conf.bak > /dev/null
-   echo "nospoof on" | tee -a /etc/host.conf > /dev/null
-   echo "order bind,hosts" | tee -a /etc/host.conf > /dev/null
+   echo "nospoof on" | tee -a /etc/host.conf
+   echo "order bind,hosts" | tee -a /etc/host.conf
    ip link set dev promisc off  > /dev/null
 
    # Installing apt-get
@@ -359,14 +360,10 @@ function start {
    # Removing admin permissions
    getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {} > /dev/null
 
-   # Giving back admin permissions > /dev/null
+   # Giving back admin permissions
    for admin in "${admins[@]}"; do
       gpasswd -a "$admin" > /dev/null
    done
-
-   # This changes the password of every user to the 'pass' variable.  (Default = "h3lloworld")  Edit password above in the "Variables" section
-   getent passwd | awk -F: '{if ($3 > 999) print $1;}' | xargs -Iuser -n 1 echo "user:$pass" | sudo chpasswd -e > /dev/null
-   echo "$pass" | passwd root
 
    main
 }
