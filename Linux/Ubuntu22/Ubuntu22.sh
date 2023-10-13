@@ -26,8 +26,6 @@ groupstoadd=("group3" "group4")
 userstodel=("user2" "user3")
 groupstodel=("group1" "group2")
 
-echo Note that any new groups will be empty, as I cannot make lists of lists.
-
 # This is the main function.  It acts as a menu.
 function main {
    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
@@ -51,16 +49,21 @@ function main {
    printf "             &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/           \n"
    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
    printf "    1) Start                                                                                                            \n"
-   printf "    2) View checklist                                                                                                   \n"
+   printf "    2) Start audit service (Takes a long time)                                                                          \n"
+   printf "    3) View checklist                                                                                                   \n"
    printf "                                                                                                                        \n"
-   printf "    Disclaimer: This program does not change all of the passwords.  This needs to be done manually.                     \n"
+   printf "    Disclaimers:                                                                                                        \n"
+   printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
+   printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
    read -r answer
    if [ "$answer" -eq 1 ]
       then start;
    elif [ "$answer" -eq 2 ]
-      then checkList;
+      then auditSetup;
+   elif [ "$answer" -eq 3 ]
+      then checklist
    else
       main;
    fi
@@ -186,9 +189,6 @@ function start {
 
    # Removing unused dependencies
    apt-get autoremove > /dev/null
-
-   # Runs the Clam antivirus.
-   clamscan -r --remove / > /dev/null
 
    # Manages Firefox settings
    wget https://github.com/pyllyukko/user.js/raw/master/user.js > /dev/null
@@ -360,6 +360,10 @@ function start {
       gpasswd -a "$admin" > /dev/null
    done
 
+   main
+}
+
+function auditSetup {
    # Setting up audit services
    augenrules --load > /dev/null
    systemctl enable rsyslog > /dev/null
@@ -368,7 +372,7 @@ function start {
    main
 }
 
-function checkList {
+function checklist {
    printf "Checklist\n"
    printf "    1) Install and run ClamAV\n"
    printf "    2) Install and start ufw\n"
@@ -380,6 +384,7 @@ function checkList {
    printf "    8) Win!!!\n\n"
 
    read -rp "Press any key to resume..."
+
    main
 }
 
