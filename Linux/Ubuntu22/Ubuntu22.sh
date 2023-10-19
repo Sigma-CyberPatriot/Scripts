@@ -72,127 +72,127 @@ function main {
 function start {
    # Differences  -- Implement later
    # Editing host.conf
-   cp /etc/host.conf /etc/host.conf.bak >/dev/null 2>&1
-   echo "nospoof on" | tee -a /etc/host.conf >/dev/null 2>&1
-   echo "order bind,hosts" | tee -a /etc/host.conf >/dev/null 2>&1
-   ip link set dev promisc off  >/dev/null 2>&1
+   cp /etc/host.conf /etc/host.conf.bak  2>&1
+   echo "nospoof on" | tee -a /etc/host.conf  2>&1
+   echo "order bind,hosts" | tee -a /etc/host.conf  2>&1
+   ip link set dev promisc off   2>&1
 
    # Installing apt-get
-   wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt-get.deb >/dev/null 2>&1
-   dpkg -i apt-get.deb >/dev/null 2>&1
+   wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt-get.deb  2>&1
+   dpkg -i apt-get.deb  2>&1
 
    # Updating all apps (snaps included)
-   apt-get update >/dev/null 2>&1
-   apt-get upgrade >/dev/null 2>&1
-   snap refresh >/dev/null 2>&1
+   apt-get update  2>&1
+   apt-get upgrade  2>&1
+   snap refresh  2>&1
 
    # Installing apps
-   apt-get install -y auditd >/dev/null 2>&1
-   apt-get install -y chkrootkit >/dev/null 2>&1
-   apt-get install -y clamav >/dev/null 2>&1
-   apt-get install -y cron >/dev/null 2>&1
-   apt-get install -y git >/dev/null 2>&1
-   apt-get install -y libdate-manip-perl >/dev/null 2>&1
-   apt-get install -y libpam-cracklib >/dev/null 2>&1
-   apt-get install -y logwatch >/dev/null 2>&1
-   apt-get install -y nano >/dev/null 2>&1
-   apt-get install -y net-tools >/dev/null 2>&1
-   apt-get install -y openssl >/dev/null 2>&1
-   apt-get install -y rkhunter >/dev/null 2>&1
-   apt-get install -y rsyslod >/dev/null 2>&1
-   apt-get install -y ufw >/dev/null 2>&1
+   apt-get install -y auditd  2>&1
+   apt-get install -y chkrootkit  2>&1
+   apt-get install -y clamav  2>&1
+   apt-get install -y cron  2>&1
+   apt-get install -y git  2>&1
+   apt-get install -y libdate-manip-perl  2>&1
+   apt-get install -y libpam-cracklib  2>&1
+   apt-get install -y logwatch  2>&1
+   apt-get install -y nano  2>&1
+   apt-get install -y net-tools  2>&1
+   apt-get install -y openssl  2>&1
+   apt-get install -y rkhunter  2>&1
+   apt-get install -y rsyslod  2>&1
+   apt-get install -y ufw  2>&1
 
    # Updating again to make sure everything is up to date (Can't be too careful!)
-   apt-get update >/dev/null 2>&1
-   apt-get upgrade >/dev/null 2>&1
-   snap refresh >/dev/null 2>&1
+   apt-get update  2>&1
+   apt-get upgrade  2>&1
+   snap refresh  2>&1
 
    # Enabling automatic updates.
-   dpkg-reconfigure --priority=low unattended-upgrades >/dev/null 2>&1
-   unattended-upgrade -d >/dev/null 2>&1
+   dpkg-reconfigure --priority=low unattended-upgrades  2>&1
+   unattended-upgrade -d  2>&1
 
    # Uninstalling prohibited apps
    # Hacking tools
-   apt-get remove aircrack-ng >/dev/null 2>&1
-   apt-get remove apache2 >/dev/null 2>&1
-   apt-get remove apktool >/dev/null 2>&1
-   apt-get remove autopsy >/dev/null 2>&1
-   apt-get remove deluge >/dev/null 2>&1
-   apt-get remove dirb >/dev/null 2>&1
-   apt-get remove dsniff >/dev/null 2>&1
-   apt-get remove ettercap >/dev/null 2>&1
-   apt-get remove fcracklib >/dev/null 2>&1
-   apt-get remove ftp >/dev/null 2>&1
-   apt-get remove httrack >/dev/null 2>&1
-   apt-get remove hydra >/dev/null 2>&1
-   apt-get remove john-the-ripper >/dev/null 2>&1
-   apt-get remove kismet >/dev/null 2>&1
-   apt-get remove linuxdcpp >/dev/null 2>&1
-   apt-get remove metasploit-framework >/dev/null 2>&1
-   apt-get remove netcat >/dev/null 2>&1
-   apt-get remove nikto >/dev/null 2>&1
-   apt-get remove nmap >/dev/null 2>&1
-   apt-get remove rfdump >/dev/null 2>&1
-   apt-get remove skipfish >/dev/null 2>&1
-   apt-get remove snapd >/dev/null 2>&1
-   apt-get remove snort >/dev/null 2>&1
-   apt-get remove sqlmap >/dev/null 2>&1
-   apt-get remove wifite >/dev/null 2>&1
-   apt-get remove wireshark >/dev/null 2>&1
-   apt-get remove yersinia >/dev/null 2>&1
-   apt-get remove zenmap >/dev/null 2>&1
+   apt-get remove aircrack-ng  2>&1
+   apt-get remove apache2  2>&1
+   apt-get remove apktool  2>&1
+   apt-get remove autopsy  2>&1
+   apt-get remove deluge  2>&1
+   apt-get remove dirb  2>&1
+   apt-get remove dsniff  2>&1
+   apt-get remove ettercap  2>&1
+   apt-get remove fcracklib  2>&1
+   apt-get remove ftp  2>&1
+   apt-get remove httrack  2>&1
+   apt-get remove hydra  2>&1
+   apt-get remove john-the-ripper  2>&1
+   apt-get remove kismet  2>&1
+   apt-get remove linuxdcpp  2>&1
+   apt-get remove metasploit-framework  2>&1
+   apt-get remove netcat  2>&1
+   apt-get remove nikto  2>&1
+   apt-get remove nmap  2>&1
+   apt-get remove rfdump  2>&1
+   apt-get remove skipfish  2>&1
+   apt-get remove snapd  2>&1
+   apt-get remove snort  2>&1
+   apt-get remove sqlmap  2>&1
+   apt-get remove wifite  2>&1
+   apt-get remove wireshark  2>&1
+   apt-get remove yersinia  2>&1
+   apt-get remove zenmap  2>&1
    # Games
-   apt-get remove aisleriot >/dev/null 2>&1
-   apt-get remove endless-sky >/dev/null 2>&1
-   apt-get remove freeciv >/dev/null 2>&1
-   apt-get remove gnome-mahjongg >/dev/null 2>&1
-   apt-get remove gnome-mines >/dev/null 2>&1
-   apt-get remove gnome-sudoku >/dev/null 2>&1
-   apt-get remove gnomine >/dev/null 2>&1
-   apt-get remove wesnoth >/dev/null 2>&1
+   apt-get remove aisleriot  2>&1
+   apt-get remove endless-sky  2>&1
+   apt-get remove freeciv  2>&1
+   apt-get remove gnome-mahjongg  2>&1
+   apt-get remove gnome-mines  2>&1
+   apt-get remove gnome-sudoku  2>&1
+   apt-get remove gnomine  2>&1
+   apt-get remove wesnoth  2>&1
    # Insecure software
-   apt-get remove ldap-utils >/dev/null 2>&1
-   apt-get remove manaplus >/dev/null 2>&1
-   apt-get remove nis >/dev/null 2>&1
-   apt-get remove rpcbind >/dev/null 2>&1
-   apt-get remove rsh-client >/dev/null 2>&1
-   apt-get remove rsh-server >/dev/null 2>&1
-   apt-get remove rsync >/dev/null 2>&1
-   apt-get remove talk >/dev/null 2>&1
-   apt-get remove telnet >/dev/null 2>&1
-   apt-get remove telnetd >/dev/null 2>&1
+   apt-get remove ldap-utils  2>&1
+   apt-get remove manaplus  2>&1
+   apt-get remove nis  2>&1
+   apt-get remove rpcbind  2>&1
+   apt-get remove rsh-client  2>&1
+   apt-get remove rsh-server  2>&1
+   apt-get remove rsync  2>&1
+   apt-get remove talk  2>&1
+   apt-get remove telnet  2>&1
+   apt-get remove telnetd  2>&1
    # Unnecessary bloatware
-   apt-get remove apport >/dev/null 2>&1
-   apt-get remove atd >/dev/null 2>&1
-   apt-get remove autofs >/dev/null 2>&1
-   apt-get remove avahi-daemon >/dev/null 2>&1
-   apt-get remove avahi-utils >/dev/null 2>&1
-   apt-get remove bind9 >/dev/null 2>&1
-   apt-get remove cups >/dev/null 2>&1
-   apt-get remove dovecot-imapd >/dev/null 2>&1
-   apt-get remove dovecot-pop3d >/dev/null 2>&1
-   apt-get remove iptables-persistent >/dev/null 2>&1
-   apt-get remove isc-dhcp-server >/dev/null 2>&1
-   apt-get remove nfs-common >/dev/null 2>&1
-   apt-get remove nfs-kernel-server >/dev/null 2>&1
-   apt-get remove nginx >/dev/null 2>&1
-   apt-get remove portmap >/dev/null 2>&1
-   apt-get remove python-zeitgeist >/dev/null 2>&1
-   apt-get remove rhythmbox-plugin-zeitgeist >/dev/null 2>&1
-   apt-get remove rpcbind >/dev/null 2>&1
-   apt-get remove slapd >/dev/null 2>&1
-   apt-get remove squid >/dev/null 2>&1
-   apt-get remove xserver-xorg* >/dev/null 2>&1
-   apt-get remove zeitgeist >/dev/null 2>&1
-   apt-get remove zeitgeist-core >/dev/null 2>&1
-   apt-get remove zeitgeist-datahub >/dev/null 2>&1
+   apt-get remove apport  2>&1
+   apt-get remove atd  2>&1
+   apt-get remove autofs  2>&1
+   apt-get remove avahi-daemon  2>&1
+   apt-get remove avahi-utils  2>&1
+   apt-get remove bind9  2>&1
+   apt-get remove cups  2>&1
+   apt-get remove dovecot-imapd  2>&1
+   apt-get remove dovecot-pop3d  2>&1
+   apt-get remove iptables-persistent  2>&1
+   apt-get remove isc-dhcp-server  2>&1
+   apt-get remove nfs-common  2>&1
+   apt-get remove nfs-kernel-server  2>&1
+   apt-get remove nginx  2>&1
+   apt-get remove portmap  2>&1
+   apt-get remove python-zeitgeist  2>&1
+   apt-get remove rhythmbox-plugin-zeitgeist  2>&1
+   apt-get remove rpcbind  2>&1
+   apt-get remove slapd  2>&1
+   apt-get remove squid  2>&1
+   apt-get remove xserver-xorg*  2>&1
+   apt-get remove zeitgeist  2>&1
+   apt-get remove zeitgeist-core  2>&1
+   apt-get remove zeitgeist-datahub  2>&1
 
    # Removing unused dependencies
-   apt-get autoremove >/dev/null 2>&1
+   apt-get autoremove  2>&1
 
    # Manages Firefox settings
-   wget https://github.com/pyllyukko/user.js/raw/master/user.js >/dev/null 2>&1
-   mv ./user.js /etc/firefox/user.js >/dev/null 2>&1
+   wget https://github.com/pyllyukko/user.js/raw/master/user.js  2>&1
+   mv ./user.js /etc/firefox/user.js  2>&1
 
    FirefoxPref() {
       echo "user_pref($1, $2);" | tee -a user.js
@@ -219,27 +219,27 @@ function start {
    FirefoxPref '"toolkit.telemetry.reportingpolicy.firstRun"' "false"
 
    # Fixing System file permissions
-   chmod 000 /etc/shadow >/dev/null 2>&1
-   chmod 644 /etc/passwd >/dev/null 2>&1
-   chmod 600 /etc/ssh/ssh_host*key >/dev/null 2>&1
-   chmod 600 /etc/ssh/*key.pub >/dev/null 2>&1
-   chmod 640 /var/log  >/dev/null 2>&1
-   chmod 640 /var/log/syslog >/dev/null 2>&1
-   chown syslog /var/log/syslog >/dev/null 2>&1
-   chown root /var/log >/dev/null 2>&1
-   chgrp adm /var/log/syslog  >/dev/null 2>&1
-   chmod 755 /bin >/dev/null 2>&1
-   chmod 755 /sbin >/dev/null 2>&1
-   chmod 755 /usr/bin >/dev/null 2>&1
-   chmod 755 /usr/sbin >/dev/null 2>&1
-   chmod 755 /usr/local/bin >/dev/null 2>&1
-   chmod 755 /usr/local/sbin >/dev/null 2>&1
+   chmod 000 /etc/shadow  2>&1
+   chmod 644 /etc/passwd  2>&1
+   chmod 600 /etc/ssh/ssh_host*key  2>&1
+   chmod 600 /etc/ssh/*key.pub  2>&1
+   chmod 640 /var/log   2>&1
+   chmod 640 /var/log/syslog  2>&1
+   chown syslog /var/log/syslog  2>&1
+   chown root /var/log  2>&1
+   chgrp adm /var/log/syslog   2>&1
+   chmod 755 /bin  2>&1
+   chmod 755 /sbin  2>&1
+   chmod 755 /usr/bin  2>&1
+   chmod 755 /usr/sbin  2>&1
+   chmod 755 /usr/local/bin  2>&1
+   chmod 755 /usr/local/sbin  2>&1
 
    # Edits system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    printf "PASS_MAX_DAYS  90\nPASS_MIN_DAYS  7\nPASS_WARN_AGE  14\nLOGIN_RETRIES 3\nLOGIN_TIMEOUT  30" | tee -a /etc/login.defs
    # Editing sshd_config to set too many things to count.
-   printf "PermitRootLogin no\nPermitUserEnvironment no\nPermitEmptyPasswords no\nProtocol 2\nPrintLastLog no\nPubkeyAuthentication yes\nRSAAuthentication yes\nLoginGraceTime 30\nClientAliveInterval 600\nClientAliveCountMax 1\nUsePAM yes\nUsePrivilegeSeparation yes\nStrictModes yes\nIgnoreUserKnownHosts yes\nIgnoreRhosts  >/dev/null 2>&1yes\nRhostsAuthentication no\nRhostsRSAAuthentication no\nHostBasedAuthentication no\nAllowTcpForwarding no\nX11Forwarding no\nLogLevel VERBOSE\nPort 2453" | tee -a /etc/ssh/sshd_config
+   printf "PermitRootLogin no\nPermitUserEnvironment no\nPermitEmptyPasswords no\nProtocol 2\nPrintLastLog no\nPubkeyAuthentication yes\nRSAAuthentication yes\nLoginGraceTime 30\nClientAliveInterval 600\nClientAliveCountMax 1\nUsePAM yes\nUsePrivilegeSeparation yes\nStrictModes yes\nIgnoreUserKnownHosts yes\nIgnoreRhosts   2>&1yes\nRhostsAuthentication no\nRhostsRSAAuthentication no\nHostBasedAuthentication no\nAllowTcpForwarding no\nX11Forwarding no\nLogLevel VERBOSE\nPort 2453" | tee -a /etc/ssh/sshd_config
    # Editing /etc/pam.d/common-auth to add 'deny=5 unlock_time=1800' to end of 'pam_tally2.so'
    printf "pam_tally2.so   deny=10 unlock_time=1800" | tee -a /etc/pam.d/common-auth
    # Editing /etc/pam.d/common-password to add 'minlen=8 remember=5' to 'pam_unix.so', and add 'ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-' to 'pam_cracklib.so'.
@@ -258,7 +258,7 @@ function start {
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $7 != "Address") print $7;}' | tee -a pids.txt  # Puts the process ids into a text file
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $4 != "Local") print $4;}'   | tee -a ports.txt # Puts the ports into a text file
 
-   sed -i '1d' processes.txt >/dev/null 2>&1
+   sed -i '1d' processes.txt  2>&1
    while read -r -u 10 pid && read -r -u 11 port
    do
       command=$(ps -p "$pid" | awk '{if ($4 != "CMD") print $4;}')
@@ -267,8 +267,8 @@ function start {
    done 10<pids.txt 11<ports.txt
 
    # Removing unnecessary files.
-   rm pids.txt >/dev/null 2>&1
-   rm ports.txt >/dev/null 2>&1
+   rm pids.txt  2>&1
+   rm ports.txt  2>&1
 
    # Windows command is netstat -ano, in case that is ever helpful.
    printf "When you have looked through the finalPorts.txt file in /var/output"
@@ -278,11 +278,11 @@ function start {
       VAR11=""
       echo "What port do you want to close?"
       read -r VAR10
-      ufw deny "$VAR10" >/dev/null 2>&1
+      ufw deny "$VAR10"  2>&1
       echo "Do you want to close another port? [Y/n]"
       read -r VAR11
       if [ "$VAR11" != "Y" ] && [ "$VAR11" != "y" ]; then
-         break >/dev/null 2>&1
+         break  2>&1
       fi
    done
 
@@ -295,18 +295,18 @@ function start {
 
    # Network Protections (Lines 74-90)
    # Setting up firewall
-   ufw allow in on lo >/dev/null 2>&1
-   ufw allow out on lo >/dev/null 2>&1
-   ufw deny in from 127.0.0.0/8 >/dev/null 2>&1
-   ufw deny in from ::1 >/dev/null 2>&1
-   ufw allow ssh >/dev/null 2>&1
-   ufw allow http >/dev/null 2>&1
-   ufw deny 23 >/dev/null 2>&1
-   ufw default deny >/dev/null 2>&1
-   ufw --force enable >/dev/null 2>&1
+   ufw allow in on lo  2>&1
+   ufw allow out on lo  2>&1
+   ufw deny in from 127.0.0.0/8  2>&1
+   ufw deny in from ::1  2>&1
+   ufw allow ssh  2>&1
+   ufw allow http  2>&1
+   ufw deny 23  2>&1
+   ufw default deny  2>&1
+   ufw --force enable  2>&1
 
    # Enabling cookie protection
-   sysctl -n net.ipv4.tcp_syncookies >/dev/null 2>&1
+   sysctl -n net.ipv4.tcp_syncookies  2>&1
 
    # Disabling ipv6
    echo "net.ipv6.conf.all.disable_ipv6 = 1" | tee -a /etc/sysctl.conf
@@ -318,46 +318,46 @@ function start {
    echo "nospoof on" | tee -a /etc/host.conf
 
    # Deleting prohibited files (This may delete files needed for the image, be careful!)
-   find / -type f -name "*.mp3" -delete >/dev/null 2>&1
+   find / -type f -name "*.mp3" -delete  2>&1
 
    # User Management (Lines 93-118)
    # This will create all the users specified in the userstoadd array.
    for user in "${userstoadd[@]}"
    do
-      useradd "$user" -m >/dev/null 2>&1
+      useradd "$user" -m  2>&1
    done
 
    # This will create all the groups specified in the groupstoadd array as well as get the people that need to be added to that group.
    for group in "${groupstoadd[@]}"
    do
-      groupadd "$group" >/dev/null 2>&1
+      groupadd "$group"  2>&1
       printf "How many users should be in the group %s?" "$group"
       read -r count
       for ((i = 0; i < "$count"; i++))
       do
          echo "Please enter the name of user #$i"
          read -r user
-         usermod -aG "$user" >/dev/null 2>&1
+         usermod -aG "$user"  2>&1
       done
    done
 
    # Deletes all the users specified in the userstodel array.
    for user in "${userstodel[@]}"; do
-      userdel "$user" -rf >/dev/null 2>&1
+      userdel "$user" -rf  2>&1
    done
 
    # Deletes all the groups specified in the groupstodel array.
    for group in "${groupstodel[@]}"; do
-      groupdel "$group" -f >/dev/null 2>&1
+      groupdel "$group" -f  2>&1
    done
 
    # These commands will remove admin rights from all users and then give them back to the users specified in the admins array.
    # Removing admin permissions
-   getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {} >/dev/null 2>&1
+   getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {}  2>&1
 
    # Giving back admin permissions
    for admin in "${admins[@]}"; do
-      gpasswd -a "$admin" >/dev/null 2>&1
+      gpasswd -a "$admin"  2>&1
    done
 
    main
@@ -365,9 +365,9 @@ function start {
 
 function auditSetup {
    # Setting up audit services
-   augenrules --load >/dev/null 2>&1
-   systemctl enable rsyslog >/dev/null 2>&1
-   systemctl restart rsyslog >/dev/null 2>&1
+   augenrules --load  2>&1
+   systemctl enable rsyslog  2>&1
+   systemctl restart rsyslog  2>&1
 
    main
 }
