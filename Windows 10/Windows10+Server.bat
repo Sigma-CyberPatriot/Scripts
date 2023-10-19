@@ -1,15 +1,16 @@
 @echo off
 setlocal EnableDelayedExpansion
-net session
-if %ERRORLEVEL% != 0 (
-echo Run as admin!
+net session >NUL 2>&1
+if %ERRORLEVEL% neq 0 (
+	echo Run as admin!
 	echo Please exit the program.
 	pause >NUL
-exit
+	exit
 )
 
-mkdir %USERPROFILE%/GeneratedStuff
-cd %USERPROFILE%/GeneratedStuff
+cd C:\
+mkdir GeneratedStuff
+cd GeneratedStuff
 
 set myUser=myUser
 set passwd=Sigma23*
@@ -21,76 +22,78 @@ set groupsToDel=group2 group3
 
 echo Exit the program if you have not completed the forensic questions.
 echo Note that any new groups will be empty, as I cannot make lists of lists.
+echo.
 pause >NUL
 
 :main
-cls
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo |   _______    ______     ______     _        __     ______                 __      __     ________     __             ________   |
-echo |  /       \  /      |   /      \   / \      /  |   /      \               /  |    /  |   /        \   /  |           /        \  |
-echo | /$$$$$$  |  $$$$$$/   /$$$$$$_/   $$ \     $$ |  /$$$$$$  |              $$ |    $$ |  /$$$$$$$$  |  $$ |          /$$$$$$$$  | |
-echo | $$ \__$$/     $$ |    $$ | ____   $$$ \   $$$ |  $$ |__$$ |    ______    $$ |    $$ |  $$  |  $$  |  $$ |          $$  |  $$  | |
-echo | $$\    \      $$ |    $$ |/    |  $$$$ \ $$$$ |  $$    $$ |   |______|   $$ |    $$ |  $$  |  $$  |  $$ |          $$  |  $$  | |
-echo |  $$$$$$ \     $$ |    $$ |$$$$ |  $$ $$ $$ $$ |  $$$$$$$$ |              $$$$$$$$$$ |  $$  |  $$  |  $$ |          $$  |  $$  | |
-echo | / \___$$ |   _$$ |_   $$ \__$$ |  $$ |$$$ /$$ |  $$ |  $$ |              $$ |    $$ |  $$  |  $$  |  $$ |_______   $$  |  $$  | |
-echo | $$    $$/   / $$   |  $$    $$/   $$ | $_/ $$ |  $$ |  $$ |              $$ |    $$ |  $$  \  $$  |  $$         |  $$  \  $$  | |
-echo |  $$$$$$/    $$$$$$/    $$$$$$/    $$/      $$/   $$/   $$/               $$/     $$/    $$$$$$$$_/   $$$$$$$$$$/    $$$$$$$$_/  |
-echo |            __           ___     ______     ___       __    _______       _______      __           ___      _______             |
-echo |           /  \         /   |   /      |   /   \     /  |  /       \     /       \    /  \         /   |    /       \            |
-echo |           $$$ |        $$$ |   $$$$$$/    $$$$ \    $$ |  $$$$$$$  \   /$$$$$$$$ \   $$$ |        $$$ |   /$$$$$$  |            |
-echo |           $$$ |        $$$ |     $$ |     $$ $$ \   $$ |  $$    $$$ \  $$ |    $$ |  $$$ |        $$$ |   $$ \__$$/             |
-echo |           $$$ |    _   $$$ |     $$ |     $$ |$$ \  $$ |  $$     $$ |  $$ |    $$ |  $$$ |    _   $$$ |   $$\    \              |
-echo |           $$$ |   $ \  $$$ |     $$ |     $$ | $$ \ $$ |  $$     $$ |  $$ |    $$ |  $$$ |   $ \  $$$ |    $$$$$$ \             |
-echo |           $$$ |  $$$ \ $$$ |    _$$ |_    $$ |  $$ \$$ |  $$     $$ |  $$ |    $$ |  $$$ |  $$$ \ $$$ |   / \___$$ |            |
-echo |            $$$ $$$ $$$ $$ /    / $$   |   $$ |   $$ $$ |  $$    $$$ /  $$ \    $$ |   $$$ $$$ $$$ $$ /    $$    $$/             |
-echo |              $$$_/   $$$_/     $$$$$$/    $$/     $$$$/   $$$$$$$__/    $$$$$$$$_/     $$$_/    $$$_/      $$$$$$/              |
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Lakshay Kansal ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Updated by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo |    1) Do some automatic stuff! (WARNING: Really long runtime.)                                                                  |
-echo |    2) Checklist!                                                                                                                |
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "|   _______    ______     ______     _        __     ______                 __      __     ________     __             ________   |"
+echo "|  /       \  /      |   /      \   / \      /  |   /      \               /  |    /  |   /        \   /  |           /        \  |"
+echo "| /$$$$$$  |  $$$$$$/   /$$$$$$_/   $$ \     $$ |  /$$$$$$  |              $$ |    $$ |  /$$$$$$$$  |  $$ |          /$$$$$$$$  | |"
+echo "| $$ \__$$/     $$ |    $$ | ____   $$$ \   $$$ |  $$ |__$$ |    ______    $$ |    $$ |  $$  |  $$  |  $$ |          $$  |  $$  | |"
+echo "| $$\    \      $$ |    $$ |/    |  $$$$ \ $$$$ |  $$    $$ |   |______|   $$ |    $$ |  $$  |  $$  |  $$ |          $$  |  $$  | |"
+echo "|  $$$$$$ \     $$ |    $$ |$$$$ |  $$ $$ $$ $$ |  $$$$$$$$ |              $$$$$$$$$$ |  $$  |  $$  |  $$ |          $$  |  $$  | |"
+echo "| / \___$$ |   _$$ |_   $$ \__$$ |  $$ |$$$ /$$ |  $$ |  $$ |              $$ |    $$ |  $$  |  $$  |  $$ |_______   $$  |  $$  | |"
+echo "| $$    $$/   / $$   |  $$    $$/   $$ | $_/ $$ |  $$ |  $$ |              $$ |    $$ |  $$  \  $$  |  $$         |  $$  \  $$  | |"
+echo "|  $$$$$$/    $$$$$$/    $$$$$$/    $$/      $$/   $$/   $$/               $$/     $$/    $$$$$$$$_/   $$$$$$$$$$/    $$$$$$$$_/  |"
+echo "|            __           ___     ______     ___       __    _______       _______      __           ___      _______             |"
+echo "|           /  \         /   |   /      |   /   \     /  |  /       \     /       \    /  \         /   |    /       \            |"
+echo "|           $$$ |        $$$ |   $$$$$$/    $$$$ \    $$ |  $$$$$$$  \   /$$$$$$$$ \   $$$ |        $$$ |   /$$$$$$  |            |"
+echo "|           $$$ |        $$$ |     $$ |     $$ $$ \   $$ |  $$    $$$ \  $$ |    $$ |  $$$ |        $$$ |   $$ \__$$/             |"
+echo "|           $$$ |    _   $$$ |     $$ |     $$ |$$ \  $$ |  $$     $$ |  $$ |    $$ |  $$$ |    _   $$$ |   $$\    \              |"
+echo "|           $$$ |   $ \  $$$ |     $$ |     $$ | $$ \ $$ |  $$     $$ |  $$ |    $$ |  $$$ |   $ \  $$$ |    $$$$$$ \             |"
+echo "|           $$$ |  $$$ \ $$$ |    _$$ |_    $$ |  $$ \$$ |  $$     $$ |  $$ |    $$ |  $$$ |  $$$ \ $$$ |   / \___$$ |            |"
+echo "|            $$$ $$$ $$$ $$ /    / $$   |   $$ |   $$ $$ |  $$    $$$ /  $$ \    $$ |   $$$ $$$ $$$ $$ /    $$    $$/             |"
+echo "|              $$$_/   $$$_/     $$$$$$/    $$/     $$$$/   $$$$$$$__/    $$$$$$$$_/     $$$_/    $$$_/      $$$$$$/              |"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Lakshay Kansal ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Updated by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "|    1) Do some automatic stuff! (WARNING: Really long runtime.)                                                                             |"
+echo "|    2) Checklist!                                                                                                                 |"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 set /p answer=What do you want to do:
 if "%answer%"=="1" goto :Auto
-if "%answer%"=="2" goto :checklist
+if "%answer%"=="2" goto :Checklist
 
 echo Error -- Invalid input.  Please enter a number 1-2.
 pause
+cls
 goto main
 
 REM ----------------------------------------------------------------------------------------------
 
 :Auto
+cls
 echo Doing Autonomous Stuff
 
 echo Adding users in userstoAdd
 for %%u in (%userstoAdd%) do (
-	net user %%u %passwd% /add
+	net user %%u %passwd% /add >NUL 2>&1
 )
 echo Users added
 
 echo Deleting users in userstoDel
 for %%u in (%userstoDel%) do (
-	net user %%u /delete
+	net user %%u /delete >NUL 2>&1
 )
 echo Users deleted
 
 echo Adding groups in groupstoAdd
 for %%g in (%groupstoAdd%) do (
-	net localgroup %%g /add
+	net localgroup %%g /add >NUL 2>&1
 )
 echo Groups added
 
 echo Deleting groups in groupstoDel
 for %%g in (%groupstoDel%) do (
-	net localgroup %%g /delete
+	net localgroup %%g /delete >NUL 2>&1
 )
 echo Groups deleted
 
 echo Configuring System users
 net user Administrator /active:no >NUL 2>&1
 net user Guest /active:no >NUL 2>&1
-REM Just in case...
+REM Just in case guest is needed
 REM net user Guest /active:yes >NUL 2>&1
 wmic useraccount where name='Guest' rename notguest >NUL 2>&1
 echo System users configured
@@ -104,7 +107,7 @@ for /f "tokens=2* delims==" %%u in ('Get-WMIObject Win32_UserAccount -filter "Lo
 	WMIC useraccount WHERE "Name='%%~u'" SET PasswordRequired=TRUE >NUL 2>&1
 	WMIC useraccount WHERE "Name='%%~u'" SET PasswordChangeable=TRUE >NUL 2>&1
 	REM If the program gets the player's username, it doesn't remove admin from them.
-	if "%%u" != "%myuser%" net localgroup Administrators %%u /delete
+	if "%%u" != "%myuser%" net localgroup Administrators %%u /delete >NUL 2>&1
 )
 endlocal
 setlocal EnableDelayedExpansion	
@@ -595,11 +598,13 @@ echo You can find them here ("C:\ProgramData\Microsoft\Windows\Start Menu\Progra
 echo And in Registry ("HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce")
 echo Restart the computer after handling any penalties.
 pause
+cls
 goto main
 
 REM ---------------------------------------------------------------------------------------------------------------
 
-:checklist
+:Checklist
+cls
 echo Windows 10 Checklist
 echo 1) Install Malware Bytes and CCleaner
 echo 2) Run Malware Bytes and CCleaner
@@ -631,4 +636,5 @@ echo - tree: Shows Graphical Tree of Directories and Files (tree [dir])
 echo.
 echo Press Enter to return to menu...
 pause >NUL
+cls
 goto main
