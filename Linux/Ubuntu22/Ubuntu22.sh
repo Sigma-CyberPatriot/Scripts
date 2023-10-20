@@ -72,7 +72,7 @@ function main {
    fi
 }
 
-function temp1 {
+function start {
    # Differences  -- Implement later
    # Editing host.conf
    #cp /etc/host.conf /etc/host.conf.bak #>/dev/null 2>&1
@@ -243,9 +243,7 @@ function temp1 {
    # chmod 755 /usr/sbin #>/dev/null 2>&1
    # chmod 755 /usr/local/bin #>/dev/null 2>&1
    # chmod 755 /usr/local/sbin #>/dev/null 2>&1
-}
 
-function start {
    # Edits system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    printf "PASS_MAX_DAYS  90\nPASS_MIN_DAYS  7\nPASS_WARN_AGE  14\nLOGIN_RETRIES 3\nLOGIN_TIMEOUT  30" | tee -a /etc/login.defs #>/dev/null 2>&1
@@ -280,9 +278,7 @@ function start {
    # Removing unnecessary files.
    rm pids.txt #>/dev/null 2>&1
    rm ports.txt #>/dev/null 2>&1
-}
 
-function temp2 {
    # Windows command is netstat -ano, in case that is ever helpful.
    printf "When you have looked through the finalPorts.txt file in /var/output"
    while (true)
