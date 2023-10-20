@@ -72,7 +72,7 @@ function main {
    fi
 }
 
-function start {
+function temp1 {
    # Differences  -- Implement later
    # Editing host.conf
    #cp /etc/host.conf /etc/host.conf.bak #>/dev/null 2>&1
@@ -198,6 +198,9 @@ function start {
 
    # Removing unused dependencies
    apt-get autoremove -y #>/dev/null 2>&1
+}
+
+function start {
 
    # Manages Firefox settings
    wget https://github.com/pyllyukko/user.js/raw/master/user.js #>/dev/null 2>&1
@@ -206,10 +209,6 @@ function start {
    FirefoxPref() {
       echo "user_pref($1, $2);" | tee -a user.js #>/dev/null 2>&1
    }
-
-}
-
-function temp {
 
    FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
    FirefoxPref '"browser.safebrowsing.downloads.remote.enabled"' "true"
@@ -248,6 +247,9 @@ function temp {
    chmod 755 /usr/local/bin #>/dev/null 2>&1
    chmod 755 /usr/local/sbin #>/dev/null 2>&1
 
+}
+
+function temp2 {
    # Edits system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    printf "PASS_MAX_DAYS  90\nPASS_MIN_DAYS  7\nPASS_WARN_AGE  14\nLOGIN_RETRIES 3\nLOGIN_TIMEOUT  30" | tee -a /etc/login.defs #>/dev/null 2>&1
