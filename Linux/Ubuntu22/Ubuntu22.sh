@@ -122,82 +122,82 @@ function start {
 
    # Uninstalling prohibited apps
    # Hacking tools
-   apt-get remove aircrack-ng #>/dev/null 2>&1
-   apt-get remove apache2 #>/dev/null 2>&1
-   apt-get remove apktool #>/dev/null 2>&1
-   apt-get remove autopsy #>/dev/null 2>&1
-   apt-get remove deluge #>/dev/null 2>&1
-   apt-get remove dirb #>/dev/null 2>&1
-   apt-get remove dsniff #>/dev/null 2>&1
-   apt-get remove ettercap #>/dev/null 2>&1
-   apt-get remove fcracklib #>/dev/null 2>&1
-   apt-get remove ftp #>/dev/null 2>&1
-   apt-get remove httrack #>/dev/null 2>&1
-   apt-get remove hydra #>/dev/null 2>&1
-   apt-get remove john-the-ripper #>/dev/null 2>&1
-   apt-get remove kismet #>/dev/null 2>&1
-   apt-get remove linuxdcpp #>/dev/null 2>&1
-   apt-get remove metasploit-framework #>/dev/null 2>&1
-   apt-get remove netcat #>/dev/null 2>&1
-   apt-get remove nikto #>/dev/null 2>&1
-   apt-get remove nmap #>/dev/null 2>&1
-   apt-get remove rfdump #>/dev/null 2>&1
-   apt-get remove skipfish #>/dev/null 2>&1
-   apt-get remove snapd #>/dev/null 2>&1
-   apt-get remove snort #>/dev/null 2>&1
-   apt-get remove sqlmap #>/dev/null 2>&1
-   apt-get remove wifite #>/dev/null 2>&1
-   apt-get remove wireshark #>/dev/null 2>&1
-   apt-get remove yersinia #>/dev/null 2>&1
-   apt-get remove zenmap #>/dev/null 2>&1
+   apt-get remove -y aircrack-ng #>/dev/null 2>&1
+   apt-get remove -y apache2 #>/dev/null 2>&1
+   apt-get remove -y apktool #>/dev/null 2>&1
+   apt-get remove -y autopsy #>/dev/null 2>&1
+   apt-get remove -y deluge #>/dev/null 2>&1
+   apt-get remove -y dirb #>/dev/null 2>&1
+   apt-get remove -y dsniff #>/dev/null 2>&1
+   apt-get remove -y ettercap #>/dev/null 2>&1
+   apt-get remove -y fcracklib #>/dev/null 2>&1
+   apt-get remove -y ftp #>/dev/null 2>&1
+   apt-get remove -y httrack #>/dev/null 2>&1
+   apt-get remove -y hydra #>/dev/null 2>&1
+   apt-get remove -y john-the-ripper #>/dev/null 2>&1
+   apt-get remove -y kismet #>/dev/null 2>&1
+   apt-get remove -y linuxdcpp #>/dev/null 2>&1
+   apt-get remove -y metasploit-framework #>/dev/null 2>&1
+   apt-get remove -y netcat #>/dev/null 2>&1
+   apt-get remove -y nikto #>/dev/null 2>&1
+   apt-get remove -y nmap #>/dev/null 2>&1
+   apt-get remove -y rfdump #>/dev/null 2>&1
+   apt-get remove -y skipfish #>/dev/null 2>&1
+   apt-get remove -y snapd #>/dev/null 2>&1
+   apt-get remove -y snort #>/dev/null 2>&1
+   apt-get remove -y sqlmap #>/dev/null 2>&1
+   apt-get remove -y wifite #>/dev/null 2>&1
+   apt-get remove -y wireshark #>/dev/null 2>&1
+   apt-get remove -y yersinia #>/dev/null 2>&1
+   apt-get remove -y zenmap #>/dev/null 2>&1
    # Games
-   apt-get remove aisleriot #>/dev/null 2>&1
-   apt-get remove endless-sky #>/dev/null 2>&1
-   apt-get remove freeciv #>/dev/null 2>&1
-   apt-get remove gnome-mahjongg #>/dev/null 2>&1
-   apt-get remove gnome-mines #>/dev/null 2>&1
-   apt-get remove gnome-sudoku #>/dev/null 2>&1
-   apt-get remove gnomine #>/dev/null 2>&1
-   apt-get remove wesnoth #>/dev/null 2>&1
+   apt-get remove -y aisleriot #>/dev/null 2>&1
+   apt-get remove -y endless-sky #>/dev/null 2>&1
+   apt-get remove -y freeciv #>/dev/null 2>&1
+   apt-get remove -y gnome-mahjongg #>/dev/null 2>&1
+   apt-get remove -y gnome-mines #>/dev/null 2>&1
+   apt-get remove -y gnome-sudoku #>/dev/null 2>&1
+   apt-get remove -y gnomine #>/dev/null 2>&1
+   apt-get remove -y wesnoth #>/dev/null 2>&1
    # Insecure software
-   apt-get remove ldap-utils #>/dev/null 2>&1
-   apt-get remove manaplus #>/dev/null 2>&1
-   apt-get remove nis #>/dev/null 2>&1
-   apt-get remove rpcbind #>/dev/null 2>&1
-   apt-get remove rsh-client #>/dev/null 2>&1
-   apt-get remove rsh-server #>/dev/null 2>&1
-   apt-get remove rsync #>/dev/null 2>&1
-   apt-get remove talk #>/dev/null 2>&1
-   apt-get remove telnet #>/dev/null 2>&1
-   apt-get remove telnetd #>/dev/null 2>&1
+   apt-get remove -y ldap-utils #>/dev/null 2>&1
+   apt-get remove -y manaplus #>/dev/null 2>&1
+   apt-get remove -y nis #>/dev/null 2>&1
+   apt-get remove -y rpcbind #>/dev/null 2>&1
+   apt-get remove -y rsh-client #>/dev/null 2>&1
+   apt-get remove -y rsh-server #>/dev/null 2>&1
+   apt-get remove -y rsync #>/dev/null 2>&1
+   apt-get remove -y talk #>/dev/null 2>&1
+   apt-get remove -y telnet #>/dev/null 2>&1
+   apt-get remove -y telnetd #>/dev/null 2>&1
    # Unnecessary bloatware
-   apt-get remove apport #>/dev/null 2>&1
-   apt-get remove atd #>/dev/null 2>&1
-   apt-get remove autofs #>/dev/null 2>&1
-   apt-get remove avahi-daemon #>/dev/null 2>&1
-   apt-get remove avahi-utils #>/dev/null 2>&1
-   apt-get remove bind9 #>/dev/null 2>&1
-   apt-get remove cups #>/dev/null 2>&1
-   apt-get remove dovecot-imapd #>/dev/null 2>&1
-   apt-get remove dovecot-pop3d #>/dev/null 2>&1
-   apt-get remove iptables-persistent #>/dev/null 2>&1
-   apt-get remove isc-dhcp-server #>/dev/null 2>&1
-   apt-get remove nfs-common #>/dev/null 2>&1
-   apt-get remove nfs-kernel-server #>/dev/null 2>&1
-   apt-get remove nginx #>/dev/null 2>&1
-   apt-get remove portmap #>/dev/null 2>&1
-   apt-get remove python-zeitgeist #>/dev/null 2>&1
-   apt-get remove rhythmbox-plugin-zeitgeist #>/dev/null 2>&1
-   apt-get remove rpcbind #>/dev/null 2>&1
-   apt-get remove slapd #>/dev/null 2>&1
-   apt-get remove squid #>/dev/null 2>&1
-   apt-get remove xserver-xorg* #>/dev/null 2>&1
-   apt-get remove zeitgeist #>/dev/null 2>&1
-   apt-get remove zeitgeist-core #>/dev/null 2>&1
-   apt-get remove zeitgeist-datahub #>/dev/null 2>&1
+   apt-get remove -y apport #>/dev/null 2>&1
+   apt-get remove -y atd #>/dev/null 2>&1
+   apt-get remove -y autofs #>/dev/null 2>&1
+   apt-get remove -y avahi-daemon #>/dev/null 2>&1
+   apt-get remove -y avahi-utils #>/dev/null 2>&1
+   apt-get remove -y bind9 #>/dev/null 2>&1
+   apt-get remove -y cups #>/dev/null 2>&1
+   apt-get remove -y dovecot-imapd #>/dev/null 2>&1
+   apt-get remove -y dovecot-pop3d #>/dev/null 2>&1
+   apt-get remove -y iptables-persistent #>/dev/null 2>&1
+   apt-get remove -y isc-dhcp-server #>/dev/null 2>&1
+   apt-get remove -y nfs-common #>/dev/null 2>&1
+   apt-get remove -y nfs-kernel-server #>/dev/null 2>&1
+   apt-get remove -y nginx #>/dev/null 2>&1
+   apt-get remove -y portmap #>/dev/null 2>&1
+   apt-get remove -y python-zeitgeist #>/dev/null 2>&1
+   apt-get remove -y rhythmbox-plugin-zeitgeist #>/dev/null 2>&1
+   apt-get remove -y rpcbind #>/dev/null 2>&1
+   apt-get remove -y slapd #>/dev/null 2>&1
+   apt-get remove -y squid #>/dev/null 2>&1
+   apt-get remove -y xserver-xorg* #>/dev/null 2>&1
+   apt-get remove -y zeitgeist #>/dev/null 2>&1
+   apt-get remove -y zeitgeist-core #>/dev/null 2>&1
+   apt-get remove -y zeitgeist-datahub #>/dev/null 2>&1
 
    # Removing unused dependencies
-   apt-get autoremove #>/dev/null 2>&1
+   apt-get autoremove -y #>/dev/null 2>&1
 
    # Manages Firefox settings
    wget https://github.com/pyllyukko/user.js/raw/master/user.js #>/dev/null 2>&1
