@@ -80,9 +80,11 @@ function start {
    #ip link set dev promisc off #>/dev/null 2>&1
 
    # Installing apt-get
+   wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_2.4.11_amd64.deb -O libapt.deb #>/dev/null 2>&1
    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt.deb #>/dev/null 2>&1
-   dpkg -i apt.deb #>/dev/null 2>&1
    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_2.4.11_amd64.deb -O apt-utils.deb #>/dev/null 2>&1
+   dpkg libapt.deb #>/dev/null 2>&1 
+   dpkg -i apt.deb #>/dev/null 2>&1
    dpkg -i apt-utils.deb #>/dev/null 2>&1
    apt-get --fix-broken install -y #>/dev/null 2>&1
 
