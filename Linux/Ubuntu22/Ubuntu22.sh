@@ -84,7 +84,7 @@ function start {
    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_2.4.11_amd64.deb -O libapt.deb #>/dev/null 2>&1
    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt.deb #>/dev/null 2>&1
    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_2.4.11_amd64.deb -O apt-utils.deb #>/dev/null 2>&1
-   dpkg libapt.deb #>/dev/null 2>&1 
+   dpkg -i libapt.deb #>/dev/null 2>&1 
    dpkg -i apt.deb #>/dev/null 2>&1
    dpkg -i apt-utils.deb #>/dev/null 2>&1
    apt-get --fix-broken install -y #>/dev/null 2>&1
@@ -373,6 +373,7 @@ function temp {
       gpasswd -a "$admin" #>/dev/null 2>&1
    done
 
+   read -rp "Press [Enter] to return to the menu."
    clear
    main
 }
@@ -383,6 +384,7 @@ function auditSetup {
    systemctl enable rsyslog #>/dev/null 2>&1
    systemctl restart rsyslog #>/dev/null 2>&1
 
+   read -rp "Press [Enter] to return to the menu."
    clear
    main
 }
@@ -398,8 +400,7 @@ function checklist {
    printf "    7) Get teamates to help you.\n"
    printf "    8) Win!!!\n\n"
 
-   read -rp "Press any key to resume..."
-
+   read -rp "Press [Enter] to return to the menu."
    clear
    main
 }
