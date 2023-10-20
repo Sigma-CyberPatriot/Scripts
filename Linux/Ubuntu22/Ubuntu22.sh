@@ -271,12 +271,10 @@ function start {
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $7 != "Address") print $7;}' | tee -a pids.txt  #>/dev/null 2>&1 # Puts the process ids into a text file
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $4 != "Local") print $4;}'   | tee -a ports.txt #>/dev/null 2>&1 # Puts the ports into a text file
 
-   touch /var/output.finalPorts.txt
+   touch /var/output/finalPorts.txt
    while read -r -u 10 pid && read -r -u 11 port
    do
-      command=$(ps -p "$pid" | awk '{if ($4 != "CMD") print $4;}')
-
-      printf "Port: %s, Command: %s, PID: %s" "$port" "$command" "$pid" | tee -a /var/output/finalPorts.txt #>/dev/null 2>&1 # Puts an outline of each port and the pid/command using it.
+      printf "Port: %s, PID: %s" "$port" "$pid" | tee -a /var/output/finalPorts.txt #>/dev/null 2>&1 # Puts an outline of each port and the pid/command using it.
    done 10<pids.txt 11<ports.txt
 
    # Removing unnecessary files.
