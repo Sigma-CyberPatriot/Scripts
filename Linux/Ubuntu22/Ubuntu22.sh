@@ -227,22 +227,22 @@ function temp1 {
    FirefoxPref '"privacy.socialtracking.block_cookies.enabled"' "true"
    FirefoxPref '"toolkit.telemetry.reportingpolicy.firstRun"' "false"
 
-   # Fixing System file permissions
-   chmod 000 /etc/shadow #>/dev/null 2>&1
-   chmod 644 /etc/passwd #>/dev/null 2>&1
-   chmod 600 /etc/ssh/ssh_host*key #>/dev/null 2>&1
-   chmod 600 /etc/ssh/*key.pub #>/dev/null 2>&1
-   chmod 640 /var/log #>/dev/null 2>&1
-   chmod 640 /var/log/syslog #>/dev/null 2>&1
-   chown syslog /var/log/syslog #>/dev/null 2>&1
-   chown root /var/log #>/dev/null 2>&1
-   chgrp adm /var/log/syslog #>/dev/null 2>&1
-   chmod 755 /bin #>/dev/null 2>&1
-   chmod 755 /sbin #>/dev/null 2>&1
-   chmod 755 /usr/bin #>/dev/null 2>&1
-   chmod 755 /usr/sbin #>/dev/null 2>&1
-   chmod 755 /usr/local/bin #>/dev/null 2>&1
-   chmod 755 /usr/local/sbin #>/dev/null 2>&1
+   ## Fixing System file permissions
+   # chmod 000 /etc/shadow #>/dev/null 2>&1
+   # chmod 644 /etc/passwd #>/dev/null 2>&1
+   # chmod 600 /etc/ssh/ssh_host*key #>/dev/null 2>&1
+   # chmod 600 /etc/ssh/*key.pub #>/dev/null 2>&1
+   # chmod 640 /var/log #>/dev/null 2>&1
+   # chmod 640 /var/log/syslog #>/dev/null 2>&1
+   # chown syslog /var/log/syslog #>/dev/null 2>&1
+   # chown root /var/log #>/dev/null 2>&1
+   # chgrp adm /var/log/syslog #>/dev/null 2>&1
+   # chmod 755 /bin #>/dev/null 2>&1
+   # chmod 755 /sbin #>/dev/null 2>&1
+   # chmod 755 /usr/bin #>/dev/null 2>&1
+   # chmod 755 /usr/sbin #>/dev/null 2>&1
+   # chmod 755 /usr/local/bin #>/dev/null 2>&1
+   # chmod 755 /usr/local/sbin #>/dev/null 2>&1
 }
 
 function start {
