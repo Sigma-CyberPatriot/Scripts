@@ -198,9 +198,6 @@ function temp1 {
 
    # Removing unused dependencies
    apt-get autoremove -y #>/dev/null 2>&1
-}
-
-function start {
 
    # Manages Firefox settings
    wget https://github.com/pyllyukko/user.js/raw/master/user.js #>/dev/null 2>&1
@@ -246,10 +243,9 @@ function start {
    chmod 755 /usr/sbin #>/dev/null 2>&1
    chmod 755 /usr/local/bin #>/dev/null 2>&1
    chmod 755 /usr/local/sbin #>/dev/null 2>&1
-
 }
 
-function temp2 {
+function start {
    # Edits system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    printf "PASS_MAX_DAYS  90\nPASS_MIN_DAYS  7\nPASS_WARN_AGE  14\nLOGIN_RETRIES 3\nLOGIN_TIMEOUT  30" | tee -a /etc/login.defs #>/dev/null 2>&1
@@ -280,7 +276,9 @@ function temp2 {
 
       printf "Port: %s, Command: %s, PID: %s" "$port" "$command" "$pid" | tee -a /var/output/finalPorts.txt #>/dev/null 2>&1 # Puts an outline of each port and the pid/command using it.
    done 10<pids.txt 11<ports.txt
+}
 
+function temp2 {
    # Removing unnecessary files.
    rm pids.txt #>/dev/null 2>&1
    rm ports.txt #>/dev/null 2>&1
