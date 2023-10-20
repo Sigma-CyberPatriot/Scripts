@@ -202,6 +202,10 @@ function start {
       echo "user_pref($1, $2);" | tee -a user.js #>/dev/null 2>&1
    }
 
+}
+
+function test {
+
    FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
    FirefoxPref '"browser.safebrowsing.downloads.remote.enabled"' "true"
    FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous"' "true"
