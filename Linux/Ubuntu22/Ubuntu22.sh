@@ -266,23 +266,25 @@ function start {
    systemctl stop nfs #>/dev/null 2>&1 # NFS Server
 
    # Checks for open ports.
+   touch pids.txt
+   touch ports.txt
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $7 != "Address") print $7;}' | tee -a pids.txt  #>/dev/null 2>&1 # Puts the process ids into a text file
    netstat -tulpna | awk '{if ($7 != "-" && $7 != "" && $4 != "Local") print $4;}'   | tee -a ports.txt #>/dev/null 2>&1 # Puts the ports into a text file
 
-   sed -i '1d' processes.txt #>/dev/null 2>&1
+   touch /var/output.finalPorts.txt
    while read -r -u 10 pid && read -r -u 11 port
    do
       command=$(ps -p "$pid" | awk '{if ($4 != "CMD") print $4;}')
 
       printf "Port: %s, Command: %s, PID: %s" "$port" "$command" "$pid" | tee -a /var/output/finalPorts.txt #>/dev/null 2>&1 # Puts an outline of each port and the pid/command using it.
    done 10<pids.txt 11<ports.txt
-}
 
-function temp2 {
    # Removing unnecessary files.
    rm pids.txt #>/dev/null 2>&1
    rm ports.txt #>/dev/null 2>&1
+}
 
+function temp2 {
    # Windows command is netstat -ano, in case that is ever helpful.
    printf "When you have looked through the finalPorts.txt file in /var/output"
    while (true)
