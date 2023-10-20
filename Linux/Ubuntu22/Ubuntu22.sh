@@ -204,7 +204,7 @@ function start {
 
 }
 
-function test {
+function temp {
 
    FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
    FirefoxPref '"browser.safebrowsing.downloads.remote.enabled"' "true"
