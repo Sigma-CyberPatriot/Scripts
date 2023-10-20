@@ -82,10 +82,11 @@ function start {
    # Installing apt-get
    wget http://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt-get.deb #>/dev/null 2>&1
    dpkg -i apt-get.deb #>/dev/null 2>&1
+   apt-get --fix-broken install -y #>/dev/null 2>&1
 
    # Updating all apps (snaps included)
    apt-get update #>/dev/null 2>&1
-   apt-get upgrade #>/dev/null 2>&1
+   apt-get upgrade -y #>/dev/null 2>&1
    snap refresh #>/dev/null 2>&1
 
    # Installing apps
@@ -106,7 +107,8 @@ function start {
 
    # Updating again to make sure everything is up to date (Can't be too careful!)
    apt-get update #>/dev/null 2>&1
-   apt-get upgrade #>/dev/null 2>&1
+   apt-get upgrade -y #>/dev/null 2>&1
+   apt-get --fix-broken install -y #>/dev/null 2>&1
    snap refresh #>/dev/null 2>&1
 
    # Enabling automatic updates.
