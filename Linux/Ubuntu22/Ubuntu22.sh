@@ -51,6 +51,7 @@ function main {
    printf "    1) Start                                                                                                            \n"
    printf "    2) Start audit service (Takes a long time)                                                                          \n"
    printf "    3) View checklist                                                                                                   \n"
+   printf "    4) Exit Program                                                                                                     \n"
    printf "                                                                                                                        \n"
    printf "    Disclaimers:                                                                                                        \n"
    printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
