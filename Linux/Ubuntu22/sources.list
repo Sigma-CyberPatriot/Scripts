@@ -1,4 +1,0 @@
-deb http://us.archive.ubuntu.com/ubuntu focal main multiverse restricted universe
-deb http://us.archive.ubuntu.com/ubuntu focal-security main multiverse restricted universe
-deb http://us.archive.ubuntu.com/ubuntu focal-updates main multiverse restricted universe
-deb http://archive.canonical.com/ubuntu focal partner
