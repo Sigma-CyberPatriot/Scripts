@@ -95,6 +95,7 @@ function auto {
    apt-get install -y chkrootkit; chkrootkitSetup
    apt-get install -y clamav; clamavSetup
    apt-get install -y cron
+   apt-get install -y firewalld; firewalldSetup
    apt-get install -y git
    apt-get install -y libdate-manip-perl
    apt-get install -y libpam-cracklib
