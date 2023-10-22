@@ -4,18 +4,9 @@
 # To find all apt apps installed, run "apt list --installed"
 # Please run this script as root.
 
-# Adding execute permissions to the other files.  This will allow them to be used by this program.
-chmod +x ./AppSetup/auditd.sh
-source ./AppSetup/auditd.sh
-
-chmod +x ./AppSetup/chkrootkit.sh
-chmod +x ./AppSetup/clamav.sh
-chmod +x ./AppSetup/logwatch.sh
-chmod +x ./AppSetup/openssh-server.sh
-chmod +x ./AppSetup/openssl.sh
-chmod +x ./AppSetup/rkhunter.sh
-chmod +x ./AppSetup/rsyslod.sh
-chmod +x ./AppSetup/ufw.sh
+# Adding execute permissions to the setup file.
+chmod +x ./AppSetup.sh
+source ./AppSetup.sh
 
 # Variables
 pass="SigmaHolo23!"
@@ -101,23 +92,23 @@ function auto {
 
    # Installing apps
    apt-get install -y auditd; auditdSetup
-   apt-get install -y chkrootkit 
-   apt-get install -y clamav 
-   apt-get install -y cron 
-   apt-get install -y git 
-   apt-get install -y libdate-manip-perl 
-   apt-get install -y libpam-cracklib 
-   apt-get install -y logwatch 
-   apt-get install -y nano 
-   apt-get install -y net-tools 
-   apt-get install -y openssl 
-   apt-get install -y openssh-server 
-   apt-get install -y p7zip 
-   apt-get install -y postgresql postgresql-contrib 
-   apt-get install -y rkhunter 
-   apt-get install -y rsyslod 
-   apt-get install -y ufw 
-   apt-get install -y unattended-upgrades 
+   apt-get install -y chkrootkit; chkrootkitSetup
+   apt-get install -y clamav; clamavSetup
+   apt-get install -y cron
+   apt-get install -y git
+   apt-get install -y libdate-manip-perl
+   apt-get install -y libpam-cracklib
+   apt-get install -y logwatch; logwatchSetup
+   apt-get install -y nano
+   apt-get install -y net-tools
+   apt-get install -y openssl; sslSetup
+   apt-get install -y openssh-server; sshSetup
+   apt-get install -y p7zip
+   apt-get install -y postgresql postgresql-contrib
+   apt-get install -y rkhunter; rkhunterSetup
+   apt-get install -y rsyslod; rsyslodSetup
+   apt-get install -y ufw; ufwSetup
+   apt-get install -y unattended-upgrades; upgradeSetup
 
    # Updating again to make sure everything is up to date (Can't be too careful!)
    apt-get update 
