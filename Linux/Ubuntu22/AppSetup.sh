@@ -69,3 +69,70 @@ function auditSetup {
     auditctl -e 1 /etc/audit/rules.d/sudo.rules
     auditctl -e 1 /etc/audit/rules.d/modules.rules
 }
+
+function chkrootkitSetup {
+    # Running chkrootkit
+    sudo chkrootkit | sudo tee -a /scriptDump/RootKitInfo.txt
+
+    # Making chkrootkit run daily
+    sudo echo 'RUN_DAILY="true"' | sudo tee -a /etc/chkrootkit.conf
+}
+
+function clamavSetup {
+    # Getting sample configuration
+    sudo cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
+    sudo cp /usr/local/etc/clamav/clamd.conf.sample /usr/local/etc/clamav/clamd.conf
+    
+    # Runs the Clam antivirus.
+   clamscan -r --remove / > /dev/null
+}
+
+function logwatchSetup {
+    mkdir /var/cache/logwatch
+    cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
+
+    echo "Output = mail" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "MailTo = me@mydomain.org" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "MailFrom = logwatch@host1.mydomain.org" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Detail = Low" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = All" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-http'" | tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-eximstats'" | tee -a /etc/logwatch/conf/logwatch.conf
+
+    logwatch --detail Low --range today
+}
+
+function sshSetup {
+    sshd -t -f /etc/ssh/sshd_config
+
+    echo "Banner /etc/issue.net" | tee -a /etc/ssh/sshd_config
+
+    systemctl restart sshd.service
+
+    # chmod 600 /etc/ssh/ssh_host*key #>/dev/null 2>&1
+    # chmod 600 /etc/ssh/*key.pub #>/dev/null 2>&1
+
+    # Editing sshd_config to set too many things to count.
+    echo "PermitRootLogin no"         | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PermitUserEnvironment no"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PermitEmptyPasswords no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "Protocol 2"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PrintLastLog no"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PubkeyAuthentication yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "RSAAuthentication yes"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "LoginGraceTime 30"          | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "ClientAliveInterval 600"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "ClientAliveCountMax 1"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "UsePAM yes"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "UsePrivilegeSeparation yes" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "StrictModes yes"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "IgnoreUserKnownHosts yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "IgnoreRhosts yes"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "RhostsAuthentication no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "RhostsRSAAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "HostBasedAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "AllowTcpForwarding no"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "X11Forwarding no"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "Port 2453"                  | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+}
