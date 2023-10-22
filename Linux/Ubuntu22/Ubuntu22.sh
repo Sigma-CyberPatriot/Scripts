@@ -6,6 +6,8 @@
 
 # Adding execute permissions to the other files.  This will allow them to be used by this program.
 chmod +x ./AppSetup/auditd.sh
+source ./AppSetup/auditd.sh
+
 chmod +x ./AppSetup/chkrootkit.sh
 chmod +x ./AppSetup/clamav.sh
 chmod +x ./AppSetup/logwatch.sh
@@ -98,7 +100,7 @@ function auto {
    snap refresh 
 
    # Installing apps
-   apt-get install -y auditd 
+   apt-get install -y auditd; auditdSetup
    apt-get install -y chkrootkit 
    apt-get install -y clamav 
    apt-get install -y cron 
