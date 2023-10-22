@@ -16,12 +16,7 @@ chmod +x ./AppSetup/rsyslod.sh
 chmod +x ./AppSetup/ufw.sh
 
 # Variables
-admins=("user1")
 pass="SigmaHolo23!"
-userstoadd=("user4" "user5")
-groupstoadd=("group3" "group4")
-userstodel=("user2" "user3")
-groupstodel=("group1" "group2")
 
 # This is the main function.  It acts as a menu.
 function main {
@@ -109,6 +104,7 @@ function start {
    apt-get install -y nano >/dev/null 2>&1
    apt-get install -y net-tools >/dev/null 2>&1
    apt-get install -y openssl >/dev/null 2>&1
+   apt-get install -y openssh >/dev/null 2>&1
    apt-get install -y rkhunter >/dev/null 2>&1
    apt-get install -y rsyslod >/dev/null 2>&1
    apt-get install -y ufw >/dev/null 2>&1
@@ -204,6 +200,14 @@ function start {
    dpkg-reconfigure --priority=low unattended-upgrades >/dev/null 2>&1
    unattended-upgrade -d >/dev/null 2>&1
 
+   # Changing all user passwords.
+   for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
+   do
+      chpasswd "$user:$pass"
+   done
+
+   
+
    ## Fixing System file permissions
    # chmod 000 /etc/shadow #>/dev/null 2>&1
    # chmod 644 /etc/passwd #>/dev/null 2>&1
@@ -296,50 +300,85 @@ function start {
    find / -type f -name "*.jpg"   -delete #>/dev/null 2>&1
    find / -type f -name "*.jpeg"  -delete #>/dev/null 2>&1
 
-   # User Management (Lines 93-118)
-   # This will create all the users specified in the userstoadd array.
-   for user in "${userstoadd[@]}"
+   # This creates users 
+   while true
    do
-      useradd "$user" -m #>/dev/null 2>&1
+      echo "Enter the name of a user to add.  Type '0' to move on."
+      read -r user
+      if [ "$user" -eq 0 ]
+         then break
+      else
+         useradd "$user" -m #>/dev/null 2>&1
+      fi
    done
 
-   # This will create all the groups specified in the groupstoadd array as well as get the people that need to be added to that group.
-   for group in "${groupstoadd[@]}"
+   # This creates groups
+   while true
    do
-      groupadd "$group" #>/dev/null 2>&1
-      printf "How many users should be in the group %s?" "$group"
-      read -r count
-      for ((i = 0; i < "$count"; i++))
-      do
-         echo "Please enter the name of user #$i"
+      echo "Enter the name of a group to add.  Type '0' to move on."
+      read -r group
+      if [ "$group" -eq 0 ]
+         then break
+      else
+         groupadd "$group" -m #>/dev/null 2>&1
+      fi
+   done
+
+   # This adds users to existing groups
+   while true
+   do
+      echo "Enter a group to add to.  Type '0' to move on."
+      read -r group
+      if [ "$group" -eq 0 ]
+         then break
+      else
+         echo "Now enter a user to add to $group"
          read -r user
-         usermod -aG "$user" #>/dev/null 2>&1
-      done
+         usermod -aG "$group" "$user" #>/dev/null 2>&1
+      fi
    done
 
-   # Deletes all the users specified in the userstodel array.
-   for user in "${userstodel[@]}"; do
-      userdel "$user" -rf #>/dev/null 2>&1
+   # This deletes users
+   while true
+   do
+      echo "Enter the name of a user to delete.  Type '0' to move on."
+      read -r user
+      if [ "$user" -eq 0 ]
+         then break
+      else
+         userdel "$user" #>/dev/null 2>&1
+      fi
    done
 
-   # Deletes all the groups specified in the groupstodel array.
-   for group in "${groupstodel[@]}"; do
-      groupdel "$group" -f #>/dev/null 2>&1
+   # This deletes groups
+   while true
+   do
+      echo "Enter the name of a group to delete.  Type '0' to move on."
+      read -r group
+      if [ "$group" -eq 0 ]
+         then break
+      else
+         groupdel "$group" #>/dev/null 2>&1
+      fi
    done
 
    # These commands will remove admin rights from all users and then give them back to the users specified in the admins array.
    # Removing admin permissions
-   getent passwd | awk -F: '{if ($3 | tee -a 999 && $3 != 65534) print $1}' | xargs -I {} bash -c 'gpasswd -d "$@"' _ {} #>/dev/null 2>&1
-
-   # Giving back admin permissions
-   for admin in "${admins[@]}"; do
-      gpasswd -a "$admin" #>/dev/null 2>&1
-   done
-
-   # Changing passwords
-   for user in $(getent passwd | awk -F: '{print $1}')
+   for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
    do
-      chpasswd "$user:$pass"
+      usermod -G "$user" "$user" #>/dev/null 2>&1
+   done
+   
+   # Giving back admin permissions
+   while true
+   do
+      echo "Enter the name of a admin to add.  Type '0' to move on."
+      read -r admin
+      if [ "$admin" -eq 0 ]
+         then break
+      else
+         usermod -aG "sudo" "$admin" #>/dev/null 2>&1
+      fi
    done
 
    read -rp "Press [Enter] to return to the menu."
