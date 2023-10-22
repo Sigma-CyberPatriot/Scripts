@@ -87,6 +87,12 @@ function clamavSetup {
    clamscan -r --remove / > /dev/null
 }
 
+function firewalldSetup {
+    systemctl enable firewalld
+    firewall-cmd --permanent --add-service=https
+    firewall-cmd --reload
+}
+
 function logwatchSetup {
     mkdir /var/cache/logwatch
     cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
