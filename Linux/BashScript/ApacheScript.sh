@@ -1,6 +1,7 @@
 #!/bin/bash
 # finish forensics questions before running this. REMEMBER WHAT HAPPENED IN ROUND 2 of CP XII.
 
+user="turbo"
 echo "Starting ..."
 
 echo "Updating Apache..."
@@ -56,16 +57,18 @@ sleep 10
 sudo nano /etc/apahce2/mods-enabled/security2.conf
 sudo apt-get install git
 sudo git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
-sudo cd owasp-modsecurity-crs
+cd owasp-modsecurity-crs
 sudo mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
-if [ -d "/etc/modsecurity/rules" ]; then
-  # Control will enter here if $DIRECTORY exists.
-  sudo mv rules/ /etc/modsecurity
-else; then
+
+if [ "$true" ]; then
+    # Control will enter here if $DIRECTORY exists.
+    echo e
+else
     sudo mkdir /etc/modsecurity/rules
     cd rules 
-    sudo cp *.* /etc/modsecurity/rules
+    sudo cp -- *glob* /etc/modsecurity/rules
 fi
+
 echo 'Remember to add the following:
     IncludeOptional /etc/modsecurity/*.conf
     Include /etc/modsecurity/rules/*.conf
@@ -78,7 +81,7 @@ sudo chmod 511 /usr/sbin/apache2
 sudo chmod 750 /var/log/apache2/
 sudo chmod 750 /etc/apache2/conf/
 sudo chmod 640 /etc/apache2/conf/*
-sudo chgrp -R <MyApacheUser> /etc/apache2/conf
+sudo chgrp -R $user /etc/apache2/conf
 
 sudo a2dismod userdir
 sudo a2dismod suexec

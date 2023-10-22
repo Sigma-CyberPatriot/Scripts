@@ -29,7 +29,7 @@ sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
 # echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
 # echo "net.ipv4.icmp_echo_ignore_all=1" | sudo tee -a /etc/sysctl.conf
 # sudo sed -i '19,20 s/#//; 25 s/#//; 28 s/#//; 44,45 s/#//; 52 s/#//; 55,56 s/#//; 59 s/#//' /etc/sysctl.conf
-sudo cat Desktop/Script/sysctl.conf > /etc/sysctl.conf
+cat Desktop/Script/sysctl.conf | sudo tee /etc/sysctl.conf
 echo "Editing host.conf..."
 sudo cp /etc/host.conf /etc/host.conf.bak
 echo "nospoof on" | sudo tee -a /etc/host.conf
@@ -45,11 +45,11 @@ function DelUser() {
     VAR1=""
     INP1=""
     echo "Which user do you want to delete? "
-    read VAR1
+    read -r VAR1
     echo "Are you sure that you want to delete user $VAR1? "
-    read INP1
+    read -r INP1
     if [ "$INP1" == "Yes" ] || [ "$INP1" == "yes" ]; then
-        sudo userdel $VAR1
+        sudo userdel "$VAR1"
     fi
 }
 
@@ -57,11 +57,11 @@ function DelGroup() {
     VAR2=""
     INP2=""
     echo "Which group do you want to delete? "
-    read VAR2
+    read -r VAR2
     echo "Are you sure that you want to delete group $VAR2? "
-    read INP2
+    read -r INP2
     if [ "$INP2" == "Yes" ] || [ "$INP2" == "yes" ]; then
-        sudo groupdel $VAR2
+        sudo groupdel "$VAR2"
     fi
 }
 
@@ -69,11 +69,11 @@ function AddUser() {
     VAR3=""
     INP3=""
     echo "What is the name of the user you want to add? "
-    read VAR3
+    read -r VAR3
     echo "Are you sure that you want to add user $VAR3? "
-    read INP3
+    read -r INP3
     if [ "$INP3" == "Yes" ] || [ "$INP3" == "yes" ]; then
-        sudo adduser $VAR3
+        sudo adduser "$VAR3"
     fi
 }
 
@@ -81,22 +81,22 @@ function PassChange() {
     VAR4=""
     INP4=""
     echo "Which user's password do you want to change? "
-    read VAR4
+    read -r VAR4
     echo "Are you sure that you want to change user $VAR4's password? "
-    read INP4
+    read -r INP4
     if [ "$INP4" == "Yes" ] || [ "$INP4" == "yes" ]; then
-        sudo passwd $VAR4
+        sudo passwd "$VAR4"
     fi
 }
 function PrivChange() {
     VAR5=""
     INP5=""
     echo "Which user's privileges do you want to change? "
-    read VAR5
+    read -r VAR5
     echo "Are you sure that you want to change user $VAR5's privileges? "
-    read INP5
+    read -r INP5
     if [ "$INP5" == "Yes" ] || [ "$INP5" == "yes" ]; then
-        usermod -aG sudo $VAR5
+        usermod -aG sudo "$VAR5"
     fi
 }
 
@@ -113,7 +113,7 @@ do
     VAR5=""
     AddUser
     echo "Do you want to add another user?"
-    read VAR5
+    read -r VAR5
     if [ "$VAR5" != "Yes" ] && [ "$VAR5" != "yes" ]; then
         break
     fi
@@ -124,7 +124,7 @@ do
     VAR5=""
     DelUser
     echo "Do you want to remove another user?"
-    read VAR5
+    read -r VAR5
     if [ "$VAR5" != "Yes" ] && [ "$VAR5" != "yes" ]; then
         break
     fi
@@ -135,7 +135,7 @@ do
     VAR5=""
     PassChange
     echo "Do you want to change another password?"
-    read VAR5
+    read -r VAR5
     if [ "$VAR5" != "Yes" ] && [ "$VAR5" != "yes" ]; then
         break
     fi
@@ -146,7 +146,7 @@ do
     VAR5=""
     PrivChange
     echo "Do you want to change another user's privileges?"
-    read VAR5
+    read -r VAR5
     if [ "$VAR5" != "Yes" ] && [ "$VAR5" != "yes" ]; then
         break
     fi
@@ -157,7 +157,7 @@ do
     VAR5=""
     DelGroup
     echo "Do you want to delete another group?"
-    read VAR5
+    read -r VAR5
     if [ "$VAR5" != "Yes" ] && [ "$VAR5" != "yes" ]; then
         break
     fi
@@ -233,7 +233,7 @@ while (true)
 do
     VAR6=""
     echo "Do you want to remove Apache2? (yes or no)"
-    read VAR6
+    read -r VAR6
     if [ "$VAR6" == "Yes" ] || [ "$VAR6" == "yes" ]; then
         sudo apt-get remove apache2
         break
@@ -248,7 +248,7 @@ while (true)
 do
     VAR7=""
     echo "Do you want to remove nginx? (yes or no)"
-    read VAR7
+    read -r VAR7
     if [ "$VAR7" == "Yes" ] || [ "$VAR7" == "yes" ]; then
         sudo apt-get remove nginx
         break
@@ -263,7 +263,7 @@ while (true)
 do
     VAR11=""
     echo "Do you want to remove samba? (yes or no)"
-    read VAR11
+    read -r VAR11
     if [ "$VAR11" == "Yes" ] || [ "$VAR11" == "yes" ]; then
         sudo apt-get remove samba
         break
@@ -279,7 +279,7 @@ while (true)
 do
     VAR12=""
     echo "Do you want to remove postgresql? (yes or no)"
-    read VAR12
+    read -r VAR12
     if [ "$VAR12" == "Yes" ] || [ "$VAR12" == "yes" ]; then
         sudo apt-get remove postgresql
         break
@@ -294,7 +294,7 @@ while (true)
 do
     VAR8=""
     echo "Do you want to remove FTP? (yes or no)"
-    read VAR8
+    read -r VAR8
     if [ "$VAR8" == "Yes" ] || [ "$VAR8" == "yes" ]; then
         echo "Removing all versions of FTP..."
         sudo apt-get purge ftp
@@ -323,7 +323,7 @@ do
         do
             VAR9=""
             echo "Enter a number (enter anything else to escape)."
-            read VAR9
+            read -r VAR9
             echo VAR9
             if [ "$VAR9" != 1 ] && [ "$VAR9" != 2 ] && [ "$VAR9" != 3 ] && [ "$VAR9" != 4 ] && [ "$VAR9" != 5 ] && [ "$VAR9" != 6 ] && [ "$VAR9" != 7 ] && [ "$VAR9" != 8 ] && [ "$VAR9" != 9 ] && [ "$VAR9" != 10 ]; then
                 break
@@ -518,96 +518,8 @@ echo "------------------------------------"
 echo "Enabling auditing policy..."
 sudo apt-get install auditd augenrules
 sudo su
-sudo cat Desktop/Script/audit.rules > /etc/audit/rules.d/audit.rules
+cat Desktop/Script/audit.rules | sudo tee /etc/audit/rules.d/audit.rules
 exit
-sudo augenrules --load
-sudo apt-get install rsyslog
-sudo systemctl enable rsyslog
-sudo systemctl restart rsyslog
-echo "------------------------------------"
-
-echo "$(tput setaf 3)------------------------------------"
-echo "Fixing firefox settings..."
-cd ~
-cd ~/.mozilla/firefox/*.default
-sudo touch user.js
-function FirefoxPref() {
-    echo "user_pref($1, $2);" | sudo tee -a user.js
-}
-FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.enabled"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous_host"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.block_potentially_unwanted"' "true"
-FirefoxPref '"browser.safebrowsing.downloads.remote.block_uncommon"' "true"
-FirefoxPref '"browser.safebrowsing.malware.enabled"' "true"
-FirefoxPref '"browser.safebrowsing.phishing.enabled"' "true"
-FirefoxPref '"dom.disable_during_load"' "true"
-FirefoxPref '"dom.block_multiple_popups"' "true"
-FirefoxPref '"dom.block_download_insecure"' "true"
-FirefoxPref '"dom.enable_performance"' "true"
-FirefoxPref '"dom.allow_scripts_to_close_windows"' "false"
-FirefoxPref '"media.autoplay.block-webaudio"' "true"
-FirefoxPref '"media.block-autoplay-until-in-foreground"' "true"
-FirefoxPref '"plugins.flashBlock.enabled"' "true"
-FirefoxPref '"privacy.socialtracking.block_cookies.enabled"' "true"
-FirefoxPref '"toolkit.telemetry.reportingpolicy.firstRun"' "false"
-cd ~
-echo "------------------------------------ $(tput sgr0)"
-
-
-echo "$(tput setaf 14)------------------------------------"
-echo "Experimental stuff..."
-sudo systemctl mask ctrl-alt-del.target
-sudo systemctl disable kdump.service
-
-echo "Testing for shellshock vulnerabilities..."
-echo "If the system is vulnerable to CVE-2014-6271, it should print 'vulnerable this is a test'"
-env x='() { :;}; echo vulnerable' bash -c "echo this is a test" 
-echo "If the system is vulnerable to CVE-2014-7169, it should throw a syntax error"
-env X='() { (a)=>\' sh -c "echo date"; cat echo; rm ./echo
-echo "If the system is vulnerable to CVE-2014-6277 or 6278, it should print 'not patched'"
-foo='() { echo not patched; }' bash -c foo
-echo "If the system is vulnerable to CVE-2014-7186, it should throw a syntax error"
-bash -c "export f=1 g='() {'; f() { echo 2;}; export -f f; bash -c 'echo \$f \$g; f; env | grep ^f='" 
-echo "If the system is vulnerable CVE-2014-7187, it should print 'CVE2014-7187 vulnerable, word_lineno'"
-(for x in {1..200} ; do echo "for x$x in ; do :"; done; for x in {1..200} ; do echo done ; done) | bash || echo "CVE-2014-7187 vulnerable, word_lineno" 
-
-echo "Disabling unessecary services..."
-sudo apt-get install bum
-sudo bum
-
-echo "Setting process ID limits..."
-sudo nano /etc/security/limits.conf
-
-echo "Checking for open ports..."
-sudo netstat -tulpna
-while (true)
-do
-    VAR10 = 0
-    VAR11 = ""
-    echo "What port do you want to close?"
-    read VAR10
-    sudo ufw deny VAR10
-    echo "Do you want to close another port?"
-    read VAR11
-    if [ "$VAR11" != "Yes" ] || [ "$VAR11" != "yes" ]; then
-        break
-    fi
-done
-
-echo "Scanning for suspicious cron jobs..."
-echo "Printing out all user cron jobs..."
-for filename in /var/spool/cron/crontabs; do
-    sudo cat "$filename"
-done
-echo "Printing out all root cron jobs..."
-sudo cat /etc/crontab
-
-echo "... script has finished."
-echo "------------------------------------ $(tput sgr0)"
-
 
 # if rm is not working
 # chattr -a -i

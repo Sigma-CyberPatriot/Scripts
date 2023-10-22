@@ -22,8 +22,8 @@ echo "Preventing IP Spoofing..."
 echo "nospoof on" | sudo tee -a /etc/host.conf
 
 echo "Checking for authorized users..."
-userslist=`eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1`
-for i in `more AuthorizedUsers.txt `;
+userslist=$(eval getent passwd "{$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)}" | cut -d: -f1)
+for i in $(more AuthorizedUsers.txt );
 do
 	checkvar=0
 	for b in $userslist;
@@ -31,14 +31,14 @@ do
 		if [ "$b" = "$i" ]
 		then
 			echo "match found"
-			let checkvar=1
+			checkvar=1
 			echo $checkvar
 			break
 		fi
 	done
 	if [ $checkvar -eq 0 ]; 						#sees if user exists. if not, add
 	then
-		sudo adduser $i
+		sudo adduser "$i"
 	fi
 	echo "Changing passwords..."
 	password='Sigma23*'
@@ -50,7 +50,7 @@ for a in $userslist;
 do
 	check2=0
 	echo $check2
-	for j in `more AuthorizedUsers.txt `;
+	for j in $(more AuthorizedUsers.txt);
 	do
 		if [[ "$j" = "$a" && "$j" != "rand74" ]]
 		then
@@ -63,7 +63,7 @@ do
 	if [ $check2 -eq 0 ];
 	then
 		echo "deleting user $a"
-		userdel -r $a
+		userdel -r "$a"
 	fi
 done
 
