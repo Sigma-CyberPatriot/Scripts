@@ -87,6 +87,11 @@ function start {
    echo "deb http://us.archive.ubuntu.com/ubuntu focal-updates main multiverse restricted universe" | tee -a /etc/apt/sources.list
    echo "deb http://archive.canonical.com/ubuntu focal partner" | tee -a /etc/apt/sources.list
 
+   # Making installs require secure ssl connection
+   apt-get install -y wget ca-certificates >/dev/null 2>&1
+   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - >/dev/null 2>&1
+   echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list >/dev/null 2>&1
+
    # Updating all apps (snaps included)
    apt-get update >/dev/null 2>&1
    apt-get upgrade -y >/dev/null 2>&1
@@ -104,10 +109,13 @@ function start {
    apt-get install -y nano >/dev/null 2>&1
    apt-get install -y net-tools >/dev/null 2>&1
    apt-get install -y openssl >/dev/null 2>&1
-   apt-get install -y openssh >/dev/null 2>&1
+   apt-get install -y openssh-server >/dev/null 2>&1
+   apt-get install -y p7zip >/dev/null 2>&1
+   apt-get install -y postgresql postgresql-contrib >/dev/null 2>&1
    apt-get install -y rkhunter >/dev/null 2>&1
    apt-get install -y rsyslod >/dev/null 2>&1
    apt-get install -y ufw >/dev/null 2>&1
+   apt-get install -y unattended-upgrades >/dev/null 2>&1
 
    # Updating again to make sure everything is up to date (Can't be too careful!)
    apt-get update >/dev/null 2>&1
@@ -127,15 +135,18 @@ function start {
    apt-get remove -y ettercap >/dev/null 2>&1
    apt-get remove -y fcracklib >/dev/null 2>&1
    apt-get remove -y ftp >/dev/null 2>&1
+   apt-get remove -y ftpscan >/dev/null 2>&1
    apt-get remove -y httrack >/dev/null 2>&1
    apt-get remove -y hydra >/dev/null 2>&1
    apt-get remove -y john-the-ripper >/dev/null 2>&1
    apt-get remove -y kismet >/dev/null 2>&1
    apt-get remove -y linuxdcpp >/dev/null 2>&1
    apt-get remove -y metasploit-framework >/dev/null 2>&1
+   apt-get remove -y nbtscan >/dev/null 2>&1
    apt-get remove -y netcat >/dev/null 2>&1
    apt-get remove -y nikto >/dev/null 2>&1
    apt-get remove -y nmap >/dev/null 2>&1
+   apt-get remove -y ophcrack >/dev/null 2>&1
    apt-get remove -y rfdump >/dev/null 2>&1
    apt-get remove -y skipfish >/dev/null 2>&1
    apt-get remove -y snort >/dev/null 2>&1
@@ -196,48 +207,60 @@ function start {
    apt-get --fix-broken install -y >/dev/null 2>&1
    snap refresh >/dev/null 2>&1
 
-   # Enabling automatic updates.
-   dpkg-reconfigure --priority=low unattended-upgrades >/dev/null 2>&1
-   unattended-upgrade -d >/dev/null 2>&1
-
+   # Enabling automatic updates and updating daily
+   dpkg-reconfigure -plow unattended-upgrades >/dev/null 2>&1
+   
    # Changing all user passwords.
    for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
    do
       chpasswd "$user:$pass"
    done
 
-   
-
    ## Fixing System file permissions
-   # chmod 000 /etc/shadow #>/dev/null 2>&1
-   # chmod 644 /etc/passwd #>/dev/null 2>&1
-   # chmod 640 /var/log #>/dev/null 2>&1
-   # chmod 640 /var/log/syslog #>/dev/null 2>&1
-   # chown syslog /var/log/syslog #>/dev/null 2>&1
-   # chown root /var/log #>/dev/null 2>&1
-   # chgrp adm /var/log/syslog #>/dev/null 2>&1
-   # chmod 755 /bin #>/dev/null 2>&1
-   # chmod 755 /sbin #>/dev/null 2>&1
-   # chmod 755 /usr/bin #>/dev/null 2>&1
-   # chmod 755 /usr/sbin #>/dev/null 2>&1
-   # chmod 755 /usr/local/bin #>/dev/null 2>&1
-   # chmod 755 /usr/local/sbin #>/dev/null 2>&1
+   chmod 000 /etc/shadow #>/dev/null 2>&1
+   chmod 644 /etc/passwd #>/dev/null 2>&1
+   chmod 640 /var/log #>/dev/null 2>&1
+   chmod 640 /var/log/syslog #>/dev/null 2>&1
+   chown syslog /var/log/syslog #>/dev/null 2>&1
+   chown root /var/log #>/dev/null 2>&1
+   chgrp adm /var/log/syslog #>/dev/null 2>&1
+   chmod 755 /bin #>/dev/null 2>&1
+   chmod 755 /sbin #>/dev/null 2>&1
+   #chmod 755 /usr/bin #>/dev/null 2>&1
+   #chmod 755 /usr/sbin #>/dev/null 2>&1
+   #chmod 755 /usr/local/bin #>/dev/null 2>&1
+   #chmod 755 /usr/local/sbin #>/dev/null 2>&1
 
-   # Editing system files
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
    echo "PASS_MAX_DAYS 90" | tee -a /etc/login.defs #>/dev/null 2>&1
    echo "PASS_MIN_DAYS 7"  | tee -a /etc/login.defs #>/dev/null 2>&1
    echo "PASS_WARN_AGE 14" | tee -a /etc/login.defs #>/dev/null 2>&1
    echo "LOGIN_RETRIES 3"  | tee -a /etc/login.defs #>/dev/null 2>&1
    echo "LOGIN_TIMEOUT 30" | tee -a /etc/login.defs #>/dev/null 2>&1
-   # Editing /etc/pam.d/common-auth to add 'deny=5 unlock_time=1800' to end of 'pam_tally2.so'
+
+   # Setting lockout policy
    echo "pam_tally2.so deny=10 unlock_time=1800" | tee -a /etc/pam.d/common-auth #>/dev/null 2>&1
-   # Editing /etc/pam.d/common-password to add 'minlen=8 remember=5' to 'pam_unix.so', and add 'ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-' to 'pam_cracklib.so'.
+
+   # Setting minimum password length and how many passwords to remember
    echo "pam_unix.so minlen=8 remember=5" | tee -a /etc/pam.d/common-password #>/dev/null 2>&1
+
+   # I don't know what this does, but it helps
    echo "pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-" | tee -a /etc/pam.d/common-password #>/dev/null 2>&1
+
    # Editing /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf to add 'allow-guest=false'. May cause an error.
    echo "allow-guest=false" | tee -a /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf #>/dev/null 2>&1
 
+   # Disabling ssh root login
+   echo "PermitRootLogin=No" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+
+   # Forces user authentication for sudo
+   # Gets the original 9th line
+   old="$(sed '9q;d' /etc/sudoers)"
+   # This is what it will be replaced with
+   new="Defaults env_reset, timestamp_timeout=0"
+   # Replaces the line with sed
+   sed -i.bak "17 s/$old/$new/" /etc/sudoers
+   
    # Disabling unnecessary services
    # DNS Server
    echo DNSStubListener=no | tee -a /etc/systemd/resolved.conf; #>/dev/null 2>&1
