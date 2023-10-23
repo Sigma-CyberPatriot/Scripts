@@ -142,3 +142,32 @@ function sshSetup {
     echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
     echo "Port 2453"                  | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
 }
+
+function rkhunterSetup {
+    # Editing rkhunter permissions
+    echo "UPDATE_MIRRORS=1" | tee -a "/etc/rkhunter.conf"
+    echo "CRON_DAILY_RUN=true" | tee -a "/etc/rkhunter.conf"
+    echo "ALLOW_SSH_ROOT_USER=no" | tee -a "/etc/rkhunter.conf"
+    echo "ALOW_SSH_PROT_1=no" | tee -a "/etc/rkhunter.conf"
+    echo "ALLOW_SYSLOG_REMOTE=no" | tee -a "/etc/rkhunter.conf"
+    echo "USER_SYSLOG=authpriv.notice" | tee -a "/etc/rkhunter.conf"
+    
+    # Updating and running rkhunter
+    rkhunter --update
+    rkhunter --check
+
+    # Running rkhunter daily (just moves a file into cron.daily)
+    mv rkhunter /etc/cron.daily
+}
+
+function rsyslodSetup {
+
+}
+
+function ufwSetup {
+
+}
+
+function upgradeSetup {
+
+}
