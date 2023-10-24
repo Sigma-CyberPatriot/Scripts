@@ -226,54 +226,54 @@ function auto {
    #chmod 755 /usr/local/bin
    #chmod 755 /usr/local/sbin
 
+   # Finds a string in the file and replaces it with the text given as param 2 if param3 is "safe".  Used for updating values in system files.  If the line is not found or param 3 is not "safe", the program appends the string to the file.
    function editFile {
-      line=$(cat -n $1 | grep "$2" | awk '{print $1}')
-      sed -i "$line" 'a\'"$2 $3" "$1"
-      sed -i "$line"'d' "$1"
+      line=$(cat -n "$1" | grep "$(echo "$2" | awk '{print $1}')" | awk '{print $1}')
+      if [ "$line" = "" ] || [ "$3" != "safe" ]; then
+         line=$(wc -l "$1" | awk '{print $1}')
+      fi
+
+      sed -i "$line a\\$2" "$1"
+      sed -i "$line d" "$1"
    }
-
-   # test case: editFile "test" "f" "34"
-   # Expected cat:
-   # a
-   # b
-   # c
-   # d
-   # f 34
-   # g
-
    
    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
-   editFile "/etc/login.defs" "PASS_MAX_DAYS" "90"
-
-   echo "PASS_MAX_DAYS 90" | tee -a /etc/login.defs
-   echo "PASS_MIN_DAYS 7"  | tee -a /etc/login.defs
-   echo "PASS_WARN_AGE 14" | tee -a /etc/login.defs
-   echo "LOGIN_RETRIES 3"  | tee -a /etc/login.defs
-   echo "LOGIN_TIMEOUT 30" | tee -a /etc/login.defs
+   editFile "/etc/login.defs" "PASS_MAX_DAYS 90" "safe"
+   editFile "/etc/login.defs" "PASS_MIN_DAYS  7" "safe"
+   editFile "/etc/login.defs" "PASS_WARN_AGE 14" "safe"
+   editFile "/etc/login.defs" "LOGIN_RETRIES  3" "safe"
+   editFile "/etc/login.defs" "LOGIN_TIMEOUT 30" "safe"
 
    # Setting lockout policy
-   echo "pam_tally2.so deny=10 unlock_time=1800" | tee -a /etc/pam.d/common-auth
+   editFile "/etc/pam.d/common-auth" "auth required pam_tally2.so deny=10 unlock_time=1800"
 
    # Setting minimum password length and how many passwords to remember
-   echo "pam_unix.so minlen=8 remember=5" | tee -a /etc/pam.d/common-password
+   editFile "/etc/pam.d/common-password" "pam_unix.so minlen=8 remember=5"
 
    # I don't know what this does, but it helps
-   echo "pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-" | tee -a /etc/pam.d/common-password
+   editFile "/etc/pam.d/common-password" "pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-"
 
    # Editing /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf to add 'allow-guest=false'. May cause an error.
-   echo "allow-guest=false" | tee -a /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+   editFile "/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf" "allow-guest=false"
 
    # Disabling ssh root login
-   echo "PermitRootLogin=No" | tee -a /etc/ssh/sshd_config
+   editFile "/etc/ssh/sshd_config" "PermitRootLogin No" "safe"
 
-   # Forces user authentication for sudo
-   # Gets the original 9th line
-   old="$(sed '9q;d' /etc/sudoers)"
-   # This is what it will be replaced with
-   new="Defaults env_reset, timestamp_timeout=0"
-   # Replaces the line with sed
-   sed -i.bak "17 s/$old/$new/" /etc/sudoers
-  
+   # Forces user authentication for sudo.  I can't use editFile for this because I can't append it and Defaults appears many times.
+   sed -i "9 a\Defaults env_reset, timestamp_timeout=0" /etc/sudoers
+   sed -i "9 d" /etc/sudoers
+
+   # Managing FTP permissions (Removing write commands and allowing ssl)
+   editFile "/etc/vsftpd.conf" "cmds_denied rmdir send rename put mput mdelete delete chmod"
+   editFile "/etc/vsftpd" "ssl_enable=YES"
+
+   # Disabling SMTP
+   sudo service sendmail stop
+
+   # Enabling ASLR
+   echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+   echo "kernel.randomize_va_space = 0" | sudo tee /etc/sysctl.d/01-disable-aslr.conf
+
    # Disabling unnecessary services
    # DNS Server
    echo DNSStubListener=no | tee -a /etc/systemd/resolved.conf;
