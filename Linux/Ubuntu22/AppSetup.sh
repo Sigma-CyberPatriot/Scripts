@@ -160,14 +160,20 @@ function rkhunterSetup {
     mv rkhunter /etc/cron.daily
 }
 
-function rsyslodSetup {
-
-}
-
 function ufwSetup {
-
+    # Setting up firewall
+    ufw allow in on lo
+    ufw allow out on lo
+    ufw deny in from 127.0.0.0/8
+    ufw deny in from ::1
+    ufw allow ssh
+    ufw allow http
+    ufw deny 23
+    ufw default deny
+    ufw --force enable
 }
 
 function upgradeSetup {
-
+    # Enabling automatic updates and updating daily
+    dpkg-reconfigure -plow unattended-upgrades
 }

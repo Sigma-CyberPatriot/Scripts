@@ -108,7 +108,7 @@ function auto {
    apt-get install -y p7zip
    apt-get install -y postgresql postgresql-contrib
    apt-get install -y rkhunter; rkhunterSetup
-   apt-get install -y rsyslod; rsyslodSetup
+   apt-get install -y rsyslog
    apt-get install -y ufw; ufwSetup
    apt-get install -y unattended-upgrades; upgradeSetup
 
@@ -201,9 +201,6 @@ function auto {
    apt-get upgrade -y
    apt-get --fix-broken install -y
    snap refresh
-
-   # Enabling automatic updates and updating daily
-   dpkg-reconfigure -plow unattended-upgrades
   
    # Changing all user passwords.
    for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
@@ -290,18 +287,6 @@ function auto {
    done
    cat /etc/crontab | tee -a /var/output/cronjobs.txt
    # Use 'crontab -r' to remove unnecessary jobs.
-
-   # Network Protections (Lines 74-90)
-   # Setting up firewall
-   ufw allow in on lo
-   ufw allow out on lo
-   ufw deny in from 127.0.0.0/8
-   ufw deny in from ::1
-   ufw allow ssh
-   ufw allow http
-   ufw deny 23
-   ufw default deny
-   ufw --force enable
 
    # Enabling cookie protection
    sysctl -n net.ipv4.tcp_syncookies
