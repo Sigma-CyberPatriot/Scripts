@@ -10,7 +10,6 @@ source ./AppSetup.sh
 
 # Variables
 pass="SigmaHolo23!"
-outfile="$HOME/Desktop/ScriptOutput.txt"
 
 # This is the main function.  It acts as a menu.
 function main {
