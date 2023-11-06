@@ -48,8 +48,8 @@ echo "|    3) Exit Program                                                      
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 set /p answer=What do you want to do:
-if "%answer%"=="1" goto :Auto
-if "%answer%"=="2" goto :Checklist
+if "%answer%"=="1" goto Auto
+if "%answer%"=="2" goto Checklist
 if "%answer%"=="3" exit
 
 echo Error -- Invalid input.  Please enter a number 1-2.
@@ -65,41 +65,41 @@ echo Doing Autonomous Stuff
 
 echo Adding users
 :AddUsers
-for /l %%i in () do (
-	set /p "user=Enter the name of a user to add.  Type '0' to move on."
-	if %user% == "0" goto :EndOfAddUsers
-	net user %user% %passwd% /add
-)
+set /p "user=Enter the name of a user to add.  Type '0' to move on."
+if "%user%"=="0" goto EndOfAddUsers
+net user %user% %passwd% /add
+goto AddUsers
+
 :EndOfAddUsers
 echo Users added
 
 echo Deleting users
 :DelUsers
-for /l %%i in () do (
-	set /p "user=Enter the name of a user to delete.  Type '0' to move on."
-	if %user% == "0" goto :EndOfDelUsers
-	net user %user% %passwd% /delete
-)
+set /p "user=Enter the name of a user to delete.  Type '0' to move on."
+if "%user%"=="0" goto EndOfDelUsers
+net user %user% %passwd% /delete
+goto DelUsers
+
 :EndOfDelUsers
 echo Users deleted
 
 echo Adding groups
 :AddGroups
-for /l %%i in () do (
-	set /p "group=Enter the name of a group to add.  Type '0' to move on."
-	if %group% == "0" goto :EndOfAddGroups
-	net localgroup /add %group%
-)
+set /p "group=Enter the name of a group to add.  Type '0' to move on."
+if "%group%"=="0" goto EndOfAddGroups 
+net localgroup /add %group%
+goto AddGroups
+
 :EndOfAddGroups
 echo Groups added
 
 echo Deleting groups
 :DelGroups
-for /l %%i in () do (
-	set /p "group=Enter the name of a group to delete.  Type '0' to move on."
-	if %group% == "0" goto :EndOfDelGroups
-	net localgroup /delete %group%
-)
+set /p "group=Enter the name of a groupto delete.  Type '0' to move on."
+if "%group%"=="0" goto EndOfDelGroups
+net localgroup /delete %group%
+goto DelGroups
+
 :EndOfDelGroups
 echo Groups deleted
 
@@ -112,18 +112,18 @@ echo 3. "The command completed successfully."
 for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 	REM Alowing the user to skip modification of a group.
 	set /p "skip=Enter '0' to skip modifying group %%g"
-	if %skip% == "0" goto :DontModifyGroup
+	if "%skip%"=="0" goto DontModifyGroup
 
 	REM Printing the members of the group for the user to better manage them.
 	echo Users of %%g
 	net localgroup %%g
 
 	:AddUserToGroup
-	for /l %%i in () do (
-		set /p "user=Enter the name of a user to add to group %%g.  Type '0' to move on."
-		if %user% == "0" goto :EndOfAddUserToGroup
-		net localgroup %%g /add %user%
-	)
+	set /p "user=Enter the name of a user to add to group %%g.  Type '0' to move on."
+	if "%user%"=="0" goto EndOfAddUserToGroup
+	net localgroup %%g /add %user%
+	goto AddUserToGroup
+
 	:EndOfAddUserToGroup
 
 	REM Printing the members of the group for the user to better manage them.
@@ -131,11 +131,11 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 	net localgroup %%g
 
 	:DelUserFromGroup
-	for /l %%i in () do (
-		set /p "user=Enter the name of a user to delete from group %%g.  Type '0' to move on."
-		if %user% == "0" goto :EndOfDelUserFromGroup
-		net localgroup %%g /delete %user%
-	)
+	set /p "user=Enter the name of a user to delete from group %%g.  Type '0' to move on."
+	if "%user%"=="0" goto EndOfDelUserFromGroup
+	net localgroup %%g /delete %user%
+	goto DelUserFromGroup
+
 	:EndOfDelUserFromGroup
 
 	:DontModifyGroup
@@ -233,57 +233,57 @@ findstr.exe Target "%TEMP%\List.txt" > "%TEMP%\tokensonly.txt"
 FOR /f "tokens=1,2 delims= " %%G IN (%TEMP%\tokensonly.txt) DO cmdkey.exe /delete:%%H
 
 echo Disabling weak services
-dism /online /disable-feature /featurename:IIS-WebServerRole 
-dism /online /disable-feature /featurename:IIS-WebServer 
-dism /online /disable-feature /featurename:IIS-CommonHttpFeatures 
-dism /online /disable-feature /featurename:IIS-HttpErrors 
-dism /online /disable-feature /featurename:IIS-HttpRedirect 
-dism /online /disable-feature /featurename:IIS-ApplicationDevelopment 
-dism /online /disable-feature /featurename:IIS-NetFxExtensibility 
-dism /online /disable-feature /featurename:IIS-NetFxExtensibility45 
-dism /online /disable-feature /featurename:IIS-HealthAndDiagnostics 
-dism /online /disable-feature /featurename:IIS-HttpLogging 
-dism /online /disable-feature /featurename:IIS-LoggingLibraries 
-dism /online /disable-feature /featurename:IIS-RequestMonitor 
-dism /online /disable-feature /featurename:IIS-HttpTracing 
-dism /online /disable-feature /featurename:IIS-Security 
-dism /online /disable-feature /featurename:IIS-URLAuthorization 
-dism /online /disable-feature /featurename:IIS-RequestFiltering 
-dism /online /disable-feature /featurename:IIS-IPSecurity 
-dism /online /disable-feature /featurename:IIS-Performance 
-dism /online /disable-feature /featurename:IIS-HttpCompressionDynamic 
-dism /online /disable-feature /featurename:IIS-WebServerManagementTools 
-dism /online /disable-feature /featurename:IIS-ManagementScriptingTools 
-dism /online /disable-feature /featurename:IIS-IIS6ManagementCompatibility 
-dism /online /disable-feature /featurename:IIS-Metabase 
-dism /online /disable-feature /featurename:IIS-HostableWebCore 
-dism /online /disable-feature /featurename:IIS-StaticContent 
-dism /online /disable-feature /featurename:IIS-DefaultDocument 
-dism /online /disable-feature /featurename:IIS-DirectoryBrowsing 
-dism /online /disable-feature /featurename:IIS-WebDAV 
-dism /online /disable-feature /featurename:IIS-WebSockets 
-dism /online /disable-feature /featurename:IIS-ApplicationInit 
-dism /online /disable-feature /featurename:IIS-ASPNET 
-dism /online /disable-feature /featurename:IIS-ASPNET45 
-dism /online /disable-feature /featurename:IIS-ASP 
-dism /online /disable-feature /featurename:IIS-CGI 
-dism /online /disable-feature /featurename:IIS-ISAPIExtensions 
-dism /online /disable-feature /featurename:IIS-ISAPIFilter 
-dism /online /disable-feature /featurename:IIS-ServerSideIncludes 
-dism /online /disable-feature /featurename:IIS-CustomLogging 
-dism /online /disable-feature /featurename:IIS-BasicAuthentication 
-dism /online /disable-feature /featurename:IIS-HttpCompressionStatic 
-dism /online /disable-feature /featurename:IIS-ManagementConsole 
-dism /online /disable-feature /featurename:IIS-ManagementService 
-dism /online /disable-feature /featurename:IIS-WMICompatibility 
-dism /online /disable-feature /featurename:IIS-LegacyScripts 
-dism /online /disable-feature /featurename:IIS-LegacySnapIn 
-dism /online /disable-feature /featurename:IIS-FTPServer 
-dism /online /disable-feature /featurename:IIS-FTPSvc 
-dism /online /disable-feature /featurename:IIS-FTPExtensibility 
-dism /online /disable-feature /featurename:TFTP 
-dism /online /disable-feature /featurename:TelnetClient 
-dism /online /disable-feature /featurename:TelnetServer 
+dism /online /disable-feature /featurename:IIS-WebServerRole /NoRestart
+dism /online /disable-feature /featurename:IIS-WebServer /NoRestart
+dism /online /disable-feature /featurename:IIS-CommonHttpFeatures /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpErrors /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpRedirect /NoRestart
+dism /online /disable-feature /featurename:IIS-ApplicationDevelopment /NoRestart
+dism /online /disable-feature /featurename:IIS-NetFxExtensibility /NoRestart
+dism /online /disable-feature /featurename:IIS-NetFxExtensibility45 /NoRestart
+dism /online /disable-feature /featurename:IIS-HealthAndDiagnostics /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpLogging /NoRestart
+dism /online /disable-feature /featurename:IIS-LoggingLibraries /NoRestart
+dism /online /disable-feature /featurename:IIS-RequestMonitor /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpTracing /NoRestart
+dism /online /disable-feature /featurename:IIS-Security /NoRestart
+dism /online /disable-feature /featurename:IIS-URLAuthorization /NoRestart
+dism /online /disable-feature /featurename:IIS-RequestFiltering /NoRestart
+dism /online /disable-feature /featurename:IIS-IPSecurity /NoRestart
+dism /online /disable-feature /featurename:IIS-Performance /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpCompressionDynamic /NoRestart
+dism /online /disable-feature /featurename:IIS-WebServerManagementTools /NoRestart
+dism /online /disable-feature /featurename:IIS-ManagementScriptingTools /NoRestart
+dism /online /disable-feature /featurename:IIS-IIS6ManagementCompatibility /NoRestart
+dism /online /disable-feature /featurename:IIS-Metabase /NoRestart
+dism /online /disable-feature /featurename:IIS-HostableWebCore /NoRestart
+dism /online /disable-feature /featurename:IIS-StaticContent /NoRestart
+dism /online /disable-feature /featurename:IIS-DefaultDocument /NoRestart
+dism /online /disable-feature /featurename:IIS-DirectoryBrowsing /NoRestart
+dism /online /disable-feature /featurename:IIS-WebDAV /NoRestart
+dism /online /disable-feature /featurename:IIS-WebSockets /NoRestart
+dism /online /disable-feature /featurename:IIS-ApplicationInit /NoRestart
+dism /online /disable-feature /featurename:IIS-ASPNET /NoRestart
+dism /online /disable-feature /featurename:IIS-ASPNET45 /NoRestart
+dism /online /disable-feature /featurename:IIS-ASP /NoRestart
+dism /online /disable-feature /featurename:IIS-CGI /NoRestart
+dism /online /disable-feature /featurename:IIS-ISAPIExtensions /NoRestart
+dism /online /disable-feature /featurename:IIS-ISAPIFilter /NoRestart
+dism /online /disable-feature /featurename:IIS-ServerSideIncludes /NoRestart
+dism /online /disable-feature /featurename:IIS-CustomLogging /NoRestart
+dism /online /disable-feature /featurename:IIS-BasicAuthentication /NoRestart
+dism /online /disable-feature /featurename:IIS-HttpCompressionStatic /NoRestart
+dism /online /disable-feature /featurename:IIS-ManagementConsole /NoRestart
+dism /online /disable-feature /featurename:IIS-ManagementService /NoRestart
+dism /online /disable-feature /featurename:IIS-WMICompatibility /NoRestart
+dism /online /disable-feature /featurename:IIS-LegacyScripts /NoRestart
+dism /online /disable-feature /featurename:IIS-LegacySnapIn /NoRestart
+dism /online /disable-feature /featurename:IIS-FTPServer /NoRestart
+dism /online /disable-feature /featurename:IIS-FTPSvc /NoRestart
+dism /online /disable-feature /featurename:IIS-FTPExtensibility /NoRestart
+dism /online /disable-feature /featurename:TFTP /NoRestart
+dism /online /disable-feature /featurename:TelnetClient /NoRestart
+dism /online /disable-feature /featurename:TelnetServer /NoRestart
 
 echo Configures UAC
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f 
