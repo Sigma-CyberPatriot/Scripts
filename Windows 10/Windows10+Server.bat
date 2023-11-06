@@ -4,7 +4,7 @@ net session
 if %ERRORLEVEL% neq 0 (
 	echo Run as admin!
 	echo Please exit the program.
-	pause >NUL
+	pause
 	exit
 )
 
@@ -19,7 +19,7 @@ set admins=user2 user7
 echo Exit the program if you have not completed the forensic questions.
 echo Note that any new groups will be empty, as I cannot make lists of lists.
 echo.
-pause >NUL
+pause
 
 :main
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -115,6 +115,7 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 	if %skip% == "0" goto :DontModifyGroup
 
 	REM Printing the members of the group for the user to better manage them.
+	echo Users of %%g
 	net localgroup %%g
 
 	:AddUserToGroup
@@ -124,6 +125,10 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 		net localgroup %%g /add %user%
 	)
 	:EndOfAddUserToGroup
+
+	REM Printing the members of the group for the user to better manage them.
+	echo Users of %%g
+	net localgroup %%g
 
 	:DelUserFromGroup
 	for /l %%i in () do (
@@ -138,60 +143,44 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 
 echo Configuring System users
 net user Administrator /active:no 
-net user Guest /active:no 
-REM Just in case guest is needed
-REM net user Guest /active:yes 
+net user Guest /active:no
 wmic useraccount where name='Guest' rename notguest 
 echo System users configured
-
-echo Changing all user passwords and removing admin from them
 endlocal
+
 setlocal EnableExtensions
-for /f "tokens=2* delims==" %%u in ('powershell "glu | select Name"') do (
+echo Managing users
+for /f "tokens=2* delims==" %%u in ('powershell "glu | select -ExpandProperty Name"') do (
 	REM Skips over the output if it is one of these strings.
-	REM The first two strings are output from powershell, not users, and the other two are your account and the Administrator account.
-	if "%%u" == "Name" or "%%u" == "----" or "%%u" == "%myuser%" or "%%u" == "Administrator" ()
-	else (
-		net user "%%u" "%passwd%"
-		net user "%%u" 
-		WMIC useraccount WHERE "Name='%%~u'" SET PasswordExpires=TRUE 
-		WMIC useraccount WHERE "Name='%%~u'" SET PasswordRequired=TRUE 
-		WMIC useraccount WHERE "Name='%%~u'" SET PasswordChangeable=TRUE 
-		net localgroup Administrators %%u /delete 
-	)
+	net user "%%u" "%passwd%"
+	wmic useraccount where "Name='%%~u'" set PasswordExpires=TRUE
+	wmic useraccount where "Name='%%~u'" set PasswordRequired=TRUE
+	wmic useraccount where "Name='%%~u'" set PasswordChangeable=TRUE
 )
 endlocal
-setlocal EnableDelayedExpansion	
-echo Passwords changed and admin removed
 
-echo Giving admins their permissions back
-for %%u in (%admins%) do (
-	net localgroup Administrators %%u /add
-)
-echo Permissions given back
+setlocal EnableDelayedExpansion	
 
 echo Cleaning out the DNS cache...
 ipconfig /flushdns 
-echo Writing over the hosts file...
-attrib -r -s C:\WINDOWS\system32\drivers\etc\hosts
+
+echo Clearing the hosts file...
+attrib -r -s C:\Windows\System32\drivers\etc\hosts
 echo > C:\Windows\System32\drivers\etc\hosts
-if %ERRORLEVEL%==1 echo There was an error in writing to the hosts file
-echo Services
+attrib +r +s C:\Windows\System32\drivers\etc\hosts
+if %ERRORLEVEL%==1 echo There was an error in overwriting
+
 echo Showing you the services...
 net start
 echo Now writing services to a file and searching for vulnerable services...
 net start > servicesstarted.txt
-echo This is only common services, not nessecarily going to catch 100%
-
+echo These are only some common services, so this might not get everything.
 echo Setting audit policies
 auditpol /set /category:* /success:enable 
 auditpol /set /category:* /failure:enable 
 
 echo Removing all saved credentials
-cmdkey.exe /list > "%TEMP%\List.txt"
-findstr.exe Target "%TEMP%\List.txt" > "%TEMP%\tokensonly.txt"
-FOR /f "tokens=1,2 delims= " %%G IN (%TEMP%\tokensonly.txt) DO cmdkey.exe /delete:%%H
-del "%TEMP%\*.*" /s /f /q
+for /f "tokens=2 delims= " %%l in ('cmdkey /list') do cmdkey.exe /delete:%%l
 
 echo Configuring Windows Firewall
 netsh advfirewall set allprofiles state on 
@@ -588,16 +577,16 @@ dir /b /s "C:\Program Files\" > programfiles_flashed.txt
 dir /b /s "C:\Program Files (x86)\" >> programfiles_flashed.txt
 
 echo Finding common Hacktools...
-findstr "Cain" programfiles_flashed.txt | findstr Cain >NUL && echo Cain > BadApps.txt
-findstr "nmap" programfiles_flashed.txt | findstr nmap >NUL && echo nmap >> BadApps.txt
-findstr "keylogger" programfiles_flashed.txt | findstr keylogger >NUL && echo keylogger >> BadApps.txt
-findstr "Armitage" programfiles_flashed.txt | findstr Armitage >NUL && echo Armitage >> BadApps.txt
-findstr "Metasploit" programfiles_flashed.txt | findstr Metasploit >NUL && echo Metasploit >> BadApps.txt
-findstr "Shellter" programfiles_flashed.txt | findstr Shellter >NUL && echo Shellter >> BadApps.txt
-findstr "ophcrack" programfiles_flashed.txt | findstr ophcrack >NUL && echo ophcrack >> BadApps.txt
-findstr "BitTorrent" programfiles_flashed.txt | findstr BitTorrent >NUL && echo BitTorrent >> BadApps.txt
-findstr "Wireshark" programfiles_flashed.txt | findstr Wireshark >NUL && echo Wireshark >> BadApps.txt
-findstr "Npcap" programfiles_flashed.txt | findstr Npcap >NUL && echo Npcap >> BadApps.txt
+findstr "Cain" programfiles_flashed.txt | findstr Cain && echo Cain > BadApps.txt
+findstr "nmap" programfiles_flashed.txt | findstr nmap && echo nmap >> BadApps.txt
+findstr "keylogger" programfiles_flashed.txt | findstr keylogger && echo keylogger >> BadApps.txt
+findstr "Armitage" programfiles_flashed.txt | findstr Armitage && echo Armitage >> BadApps.txt
+findstr "Metasploit" programfiles_flashed.txt | findstr Metasploit && echo Metasploit >> BadApps.txt
+findstr "Shellter" programfiles_flashed.txt | findstr Shellter && echo Shellter >> BadApps.txt
+findstr "ophcrack" programfiles_flashed.txt | findstr ophcrack && echo ophcrack >> BadApps.txt
+findstr "BitTorrent" programfiles_flashed.txt | findstr BitTorrent && echo BitTorrent >> BadApps.txt
+findstr "Wireshark" programfiles_flashed.txt | findstr Wireshark && echo Wireshark >> BadApps.txt
+findstr "Npcap" programfiles_flashed.txt | findstr Npcap && echo Npcap >> BadApps.txt
 
 del programfiles_flashed.txt
 
@@ -686,6 +675,6 @@ echo - shutdown: Shut Down PC
 echo - tree: Shows Graphical Tree of Directories and Files (tree [dir])
 echo.
 echo Press Enter to return to menu...
-pause >NUL
+pause
 cls
 goto main
