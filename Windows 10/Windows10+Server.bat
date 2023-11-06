@@ -12,9 +12,7 @@ cd C:\
 mkdir GeneratedStuff
 cd GeneratedStuff
 
-set myUser=myUser
-set passwd=Sigma23*
-set admins=user2 user7
+set passwd=SigmaHolo23!
 
 echo Exit the program if you have not completed the forensic questions.
 echo Note that any new groups will be empty, as I cannot make lists of lists.
@@ -47,7 +45,7 @@ echo "|    2) Checklist^!                                                       
 echo "|    3) Exit Program                                                                                                              |"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-set /p answer=What do you want to do:
+set /p "answer=What do you want to do: "
 if "%answer%"=="1" goto Auto
 if "%answer%"=="2" goto Checklist
 if "%answer%"=="3" exit
