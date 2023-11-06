@@ -183,6 +183,7 @@ echo Removing all saved credentials
 for /f "tokens=2 delims= " %%l in ('cmdkey /list') do cmdkey.exe /delete:%%l
 
 echo Configuring Windows Firewall
+
 netsh advfirewall set allprofiles state on 
 netsh advfirewall set allprofiles firewallpolicy blockinbound,allowoutbound 
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=no 
@@ -226,11 +227,6 @@ netsh interface ipv6 set teredo disable
 
 echo Failsafe
 if %ERRORLEVEL%==1 netsh advfirewall firewall set service type=remotedesktop mode=disable 
-
-echo Remove all saved credentials
-cmdkey.exe /list > "%TEMP%\List.txt"
-findstr.exe Target "%TEMP%\List.txt" > "%TEMP%\tokensonly.txt"
-FOR /f "tokens=1,2 delims= " %%G IN (%TEMP%\tokensonly.txt) DO cmdkey.exe /delete:%%H
 
 echo Disabling weak services
 dism /online /disable-feature /featurename:IIS-WebServerRole /NoRestart
@@ -344,12 +340,12 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSync"
 
 echo Disabling Location
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" /v "DisableWindowsLocationProvider" /t REG_DWORD /d "1" /f 
-reg add "HLKM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "1" /f 
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "1" /f 
 
 echo Configuring Windows Update
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "ElevateNonAdmins"/t REG_DWORD /d "1"/f 
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "IncludeRecommendedUpdates" /t REG_DWORD /d "1"/f 
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "ScheduledInstallTime"/t REG_DWORD /d "22" /f 
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "ElevateNonAdmins" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "IncludeRecommendedUpdates" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "ScheduledInstallTime" /t REG_DWORD /d "22" /f
 
 echo Restricting CD ROM drive
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AllocateCDRoms" /t REG_DWORD /d "1" /f 
@@ -430,7 +426,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "H
 echo Showing super hidden files
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSuperHidden" /t REG_DWORD /d "1" /f 
 echo Disabling sticky keys
-reg add "HKLM\.DEFAULT\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /d "506" /f 
+reg add "HKU\.DEFAULT\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /d "506" /f 
 echo Enable Installer Detection
 reg ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableInstallerDetection" /t REG_DWORD /d "1" /f 
 
