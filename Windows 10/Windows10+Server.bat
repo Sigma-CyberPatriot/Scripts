@@ -692,6 +692,7 @@ echo 	2d) Disable remote assistance connections
 echo 3) Disable DNS Server in Chrome
 echo 4) Install Windows Defender from https://aka.ms/WindowsDefender
 echo 5) Enable Windows Firewall (Just make everything green in Windows Defender)
+echo.
 echo Press Enter to return to menu...
 pause
 cls
