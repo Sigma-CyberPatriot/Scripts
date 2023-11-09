@@ -8,14 +8,9 @@ if %ERRORLEVEL% neq 0 (
 	exit
 )
 
-cd C:\
-mkdir GeneratedStuff
-cd GeneratedStuff
-
 set passwd=SigmaHolo23!
 
 echo Exit the program if you have not completed the forensic questions.
-echo Note that any new groups will be empty, as I cannot make lists of lists.
 echo.
 pause
 
@@ -60,6 +55,16 @@ REM ----------------------------------------------------------------------------
 :Auto
 cls
 echo Doing Autonomous Stuff
+
+echo Checking PC health
+dism /online /cleanup-image /checkhealth
+echo Scanning PC health
+dism /online /cleanup-image /scanhealth
+echo Restoring PC health
+dism /online /cleanup-image /restorehealth 
+
+echo Making Windows Defender scan exes
+powershell "Add-MpPreference -ExclusionExtension '.test'"
 
 echo Adding users
 :AddUsers
@@ -226,7 +231,7 @@ netsh interface ipv6 set teredo disable
 echo Failsafe
 if %ERRORLEVEL%==1 netsh advfirewall firewall set service type=remotedesktop mode=disable 
 
-echo Disabling weak services
+echo Disabling weak/old services
 dism /online /disable-feature /featurename:IIS-WebServerRole /NoRestart
 dism /online /disable-feature /featurename:IIS-WebServer /NoRestart
 dism /online /disable-feature /featurename:IIS-CommonHttpFeatures /NoRestart
@@ -275,9 +280,14 @@ dism /online /disable-feature /featurename:IIS-LegacySnapIn /NoRestart
 dism /online /disable-feature /featurename:IIS-FTPServer /NoRestart
 dism /online /disable-feature /featurename:IIS-FTPSvc /NoRestart
 dism /online /disable-feature /featurename:IIS-FTPExtensibility /NoRestart
+dism /online /disable-feature /featurename:SMB1Protocol /NoRestart
+dism /online /disable-feature /featurename:SMB1Protocol-Client /NoRestart
+dism /online /disable-feature /featurename:SMB1Protocol-Server /NoRestart
+dism /online /disable-feature /featurename:SMB1Protocol-Deprecation /NoRestart
 dism /online /disable-feature /featurename:TFTP /NoRestart
 dism /online /disable-feature /featurename:TelnetClient /NoRestart
 dism /online /disable-feature /featurename:TelnetServer /NoRestart
+
 
 echo Configures UAC
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f 
@@ -381,8 +391,8 @@ echo Requiring Sign Channel
 reg add "HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters" /v "SignSecureChannel" /t REG_DWORD /d "1" /f 
 echo Requiring Seal Channel
 reg add "HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters" /v "SealSecureChannel" /t REG_DWORD /d "1" /f 
-echo Enabling CTRL+ALT+DEL
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "DisableCAD" /t REG_DWORD /d "0" /f 
+echo Disabling CTRL+ALT+DEL (It's weird)
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "DisableCAD" /t REG_DWORD /d "1" /f 
 echo Restricting Anonymous Enumeration #1
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f 
 echo Restricting Anonymous Enumeration #2
@@ -430,13 +440,15 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "Ena
 
 echo Registry editing complete.  Changing password policies.
 echo Passwords must be 10 digits
-net accounts /minpwlen:10 
+net accounts /minpwlen:10
 echo Passwords must be changed every 90 days
-net accounts /maxpwage:90 
+net accounts /maxpwage:90
 echo Passwords can only be changed after 7 days have passed
-net accounts /minpwage:7 
+net accounts /minpwage:7
 echo Lockout threshold is 5
 net accounts /lockoutthreshold:5 
+echo Passwords remembered is 24
+net accounts /uniquepw:24
 
 echo Uninstalling OneDrive
 taskkill /f /im OneDrive.exe 
@@ -668,6 +680,18 @@ echo - where: Find Files by Extension (where /r [dir] *.[xxx] .[etc])
 echo - shutdown: Shut Down PC
 echo - tree: Shows Graphical Tree of Directories and Files (tree [dir])
 echo.
+echo.
+echo This program does not do a few things... Make sure to do them manually.
+echo 1) Check the file shares.  To know what to delete, go to Google.
+echo 2) It cannot edit group policy reliably, so refer to the checklist for that.
+echo 	2) Some Policies to change:
+echo 	2a) Always sign communication over Microsoft network Server
+echo 	2b) Disable everyone perms for anonymous users
+echo 	2c) Enable RDP network level authentication
+echo 	2d) Disable remote assistance connections
+echo 3) Disable DNS Server in Chrome
+echo 4) Install Windows Defender from https://aka.ms/WindowsDefender
+echo 5) Enable Windows Firewall (Just make everything green in Windows Defender)
 echo Press Enter to return to menu...
 pause
 cls
