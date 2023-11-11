@@ -578,6 +578,9 @@ where /r C:\ *.bmp >> pics.txt
 where /r C:\ *.jpg >> pics.txt
 where /r C:\ *.jpeg >> pics.txt
 
+echo Finding executable files in C:\
+where /r C:\ *.exe > exes.txt
+
 echo Flashing Program Files to a .txt file to reference.
 dir /b /s "C:\Program Files\" > programfiles_flashed.txt
 dir /b /s "C:\Program Files (x86)\" >> programfiles_flashed.txt
