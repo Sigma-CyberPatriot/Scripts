@@ -309,28 +309,28 @@ function auto {
     systemctl restart sshd.service
 
     # Editing sshd_config to set too many things to count.
-    echo "PermitRootLogin no"         | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PermitUserEnvironment no"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PermitEmptyPasswords no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "Protocol 2"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PrintLastLog no"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PubkeyAuthentication yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RSAAuthentication yes"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "LoginGraceTime 30"          | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "ClientAliveInterval 600"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "ClientAliveCountMax 1"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "UsePAM yes"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "UsePrivilegeSeparation yes" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "StrictModes yes"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "IgnoreUserKnownHosts yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "IgnoreRhosts yes"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RhostsAuthentication no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RhostsRSAAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "HostBasedAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "AllowTcpForwarding no"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "X11Forwarding no"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "Port 2453"                  | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PermitRootLogin no"         | tee -a /etc/ssh/sshd_config
+    echo "PermitUserEnvironment no"   | tee -a /etc/ssh/sshd_config
+    echo "PermitEmptyPasswords no"    | tee -a /etc/ssh/sshd_config
+    echo "Protocol 2"                 | tee -a /etc/ssh/sshd_config
+    echo "PrintLastLog no"            | tee -a /etc/ssh/sshd_config
+    echo "PubkeyAuthentication yes"   | tee -a /etc/ssh/sshd_config
+    echo "RSAAuthentication yes"      | tee -a /etc/ssh/sshd_config
+    echo "LoginGraceTime 30"          | tee -a /etc/ssh/sshd_config
+    echo "ClientAliveInterval 600"    | tee -a /etc/ssh/sshd_config
+    echo "ClientAliveCountMax 1"      | tee -a /etc/ssh/sshd_config
+    echo "UsePAM yes"                 | tee -a /etc/ssh/sshd_config
+    echo "UsePrivilegeSeparation yes" | tee -a /etc/ssh/sshd_config
+    echo "StrictModes yes"            | tee -a /etc/ssh/sshd_config
+    echo "IgnoreUserKnownHosts yes"   | tee -a /etc/ssh/sshd_config
+    echo "IgnoreRhosts yes"           | tee -a /etc/ssh/sshd_config
+    echo "RhostsAuthentication no"    | tee -a /etc/ssh/sshd_config
+    echo "RhostsRSAAuthentication no" | tee -a /etc/ssh/sshd_config
+    echo "HostBasedAuthentication no" | tee -a /etc/ssh/sshd_config
+    echo "AllowTcpForwarding no"      | tee -a /etc/ssh/sshd_config
+    echo "X11Forwarding no"           | tee -a /etc/ssh/sshd_config
+    echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config
+    echo "Port 2453"                  | tee -a /etc/ssh/sshd_config
 
     # Editing rkhunter permissions
     echo "UPDATE_MIRRORS=1" | tee -a "/etc/rkhunter.conf"
