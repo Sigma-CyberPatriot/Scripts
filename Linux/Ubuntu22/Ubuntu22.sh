@@ -362,7 +362,7 @@ function auto {
     dpkg-reconfigure -plow unattended-upgrades
     
     ## Fixing System file permissions
-    chmod 000 /etc/shadow
+    chmod 640 /etc/shadow
     chmod 644 /etc/passwd
     chmod 640 /var/log
     chmod 640 /var/log/syslog
