@@ -597,10 +597,10 @@ function deprecated {
     # Firefox is no longer used by CyberPatriot, but just in case...
     # Manages Firefox settings
     wget https://github.com/pyllyukko/user.js/raw/master/user.js
-    mv ./user.js /etc/firefox/user.js
+    mv ./user.js /etc/firefox/syspref.js
  
     FirefoxPref() {
-        echo "user_pref($1, $2);" | tee -a user.js
+        echo "pref($1, $2);" | tee -a syspref.js
     }
  
     FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
