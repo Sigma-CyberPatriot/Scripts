@@ -429,11 +429,11 @@ function auto {
     # Use 'crontab -r' to remove unnecessary jobs.
  
     # Enabling cookie protection
-    sysctl -n net.ipv4.tcp_syncookies
+    sysctl -w net.ipv4.tcp_syncookies=1
     # Disabling ipv6
-    echo "net.ipv6.conf.all.disable_ipv6 = 1" | tee -a /etc/sysctl.conf
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1
     # Disabling IP forwarding
-    echo 0 | tee -a /proc/sys/net/ipv4/ip_forward
+    sysctl -w net.ipv4.ip_forward=0
     # Preventing IP Spoofing
     echo "nospoof on" | tee -a /etc/host.conf
  
