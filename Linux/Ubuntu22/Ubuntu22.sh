@@ -196,7 +196,7 @@ function auto {
     apt-get update
     apt-get upgrade -y
     apt-get --fix-broken install -y
-    apt-get autoremove
+    apt-get autoremove -y
     snap refresh
    
     # Setting up auditd
