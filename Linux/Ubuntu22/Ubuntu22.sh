@@ -460,6 +460,12 @@ function auto {
     find / -type f -name "*.bmp"   > pics.txt
     find / -type f -name "*.jpg"   > pics.txt
     find / -type f -name "*.jpeg"  > pics.txt
+
+    echo "Setting all passwords to SigmaCyberPatriot23!"
+    for user in $(getent passwd | awk -F: '{print $1}')
+    do
+        echo "$user:SigmaCyberPatriot23!" | tee test.txt; sudo chpasswd < test.txt
+    done
  
     # This creates users
     while true
