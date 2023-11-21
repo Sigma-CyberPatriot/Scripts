@@ -69,12 +69,13 @@ function auto {
     dpkg -i libapt.deb 
     dpkg -i apt.deb
     dpkg -i apt-utils.deb
-   
+
+    VERSION_CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME" | awk -F= '{print $2}')
     # Editing sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu focal main multiverse restricted universe" | tee /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu focal-security main multiverse restricted universe" | tee -a /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu focal-updates main multiverse restricted universe" | tee -a /etc/apt/sources.list
-    echo "deb http://archive.canonical.com/ubuntu focal partner" | tee -a /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME main multiverse restricted universe" | tee /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME-security main multiverse restricted universe" | tee -a /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME-updates main multiverse restricted universe" | tee -a /etc/apt/sources.list
+    echo "deb http://archive.canonical.com/ubuntu $VERSION_CODENAME partner" | tee -a /etc/apt/sources.list
  
     # Making installs require secure ssl connection
     apt-get install -y wget ca-certificates
