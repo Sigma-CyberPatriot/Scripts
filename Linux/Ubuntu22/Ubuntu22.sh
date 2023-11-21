@@ -70,17 +70,17 @@ function auto {
     dpkg -i apt.deb
     dpkg -i apt-utils.deb
 
-    VERSION_CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME" | awk -F= '{print $2}')
+    CODENAME=$(lsb_release -cs)
     # Editing sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME main multiverse restricted universe" | tee /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME-security main multiverse restricted universe" | tee -a /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu $VERSION_CODENAME-updates main multiverse restricted universe" | tee -a /etc/apt/sources.list
-    echo "deb http://archive.canonical.com/ubuntu $VERSION_CODENAME partner" | tee -a /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | tee /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | tee -a /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | tee -a /etc/apt/sources.list
+    echo "deb http://archive.canonical.com/ubuntu $CODENAME partner" | tee -a /etc/apt/sources.list
  
     # Making installs require secure ssl connection
     apt-get install -y wget ca-certificates
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-    echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ $CODENAME-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list
  
     # Updating all apps (snaps included)
     apt-get update
