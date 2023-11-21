@@ -283,7 +283,7 @@ function auto {
     sudo cp /usr/local/etc/clamav/clamd.conf.sample /usr/local/etc/clamav/clamd.conf
 
     # Runs the Clam antivirus.
-    clamscan -r --remove / > /dev/null
+    clamscan -r --remove /
 
     # Starts firewalld
     systemctl enable firewalld
