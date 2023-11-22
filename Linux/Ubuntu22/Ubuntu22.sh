@@ -74,8 +74,8 @@ function auto {
     dpkg -i apt.deb
     dpkg -i apt-utils.deb
 
-    OS=$(cat /etc/os-release | grep "ID=" | awk -F= 'print $2')
-    CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME=" | awk -F= 'print $2')
+    OS=$(cat /etc/os-release | grep "ID=" | awk -F= '{print $2}')
+    CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME=" | awk -F= '{print $2}')
 
     # Editing sources.list
     if [ "$OS" -eq "debian" ]; then
