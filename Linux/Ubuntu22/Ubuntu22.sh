@@ -31,8 +31,9 @@ function main {
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     printf "    1) Start                                                                                                            \n"
     printf "    2) Edit ports                                                                                                       \n"
-    printf "    3) View checklist                                                                                                   \n"
-    printf "    4) Exit Program                                                                                                     \n"
+    printf "    3) Update Firefox Policies (Deprecated)                                                                             \n"
+    printf "    4) View checklist                                                                                                   \n"
+    printf "    5) Exit Program                                                                                                     \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
@@ -45,8 +46,10 @@ function main {
     elif [ "$answer" -eq 2 ]
         then managePorts;
     elif [ "$answer" -eq 3 ]
-        then checklist;
+        then firefoxPolicies;
     elif [ "$answer" -eq 4 ]
+        then checklist;
+    elif [ "$answer" -eq 5 ]
         then exit;
     else
         main;
@@ -592,8 +595,8 @@ function managePorts {
     main
 }
  
-# This function contains deprecated code that may be useful some other time.  It is never run in the program
-function deprecated {
+# This function updates the properties for firefox
+function firefoxPolicies {
     # Firefox is no longer used by CyberPatriot, but just in case...
     # Manages Firefox settings
     touch syspref.js
