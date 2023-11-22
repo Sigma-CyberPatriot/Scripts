@@ -78,12 +78,12 @@ function auto {
     CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME=" | awk -F= '{print $2}')
 
     # Editing sources.list
-    if [ "$OS" -eq "debian" ]; then
+    if [ "$OS" = "debian" ]; then
         echo "deb http://deb.debian.org/debian $CODENAME main" | tee /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-backports main" | tee -a /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-updates main" | tee -a /etc/apt/sources.list
         echo "deb http://security.debian.org/debian-security $CODENAME-security main" | tee -a /etc/apt/sources.list
-    elif [ "$OS" -eq "ubuntu" ]; then
+    elif [ "$OS" = "ubuntu" ]; then
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | tee /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | tee -a /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | tee -a /etc/apt/sources.list
