@@ -596,32 +596,318 @@ function managePorts {
 function deprecated {
     # Firefox is no longer used by CyberPatriot, but just in case...
     # Manages Firefox settings
-    wget https://github.com/pyllyukko/user.js/raw/master/user.js
-    mv ./user.js /etc/firefox/syspref.js
- 
-    FirefoxPref() {
-        echo "pref($1, $2);" | tee -a syspref.js
-    }
- 
-    FirefoxPref '"browser.safebrowsing.downloads.enabled"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.enabled"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.block_dangerous_host"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.block_potentially_unwanted"' "true"
-    FirefoxPref '"browser.safebrowsing.downloads.remote.block_uncommon"' "true"
-    FirefoxPref '"browser.safebrowsing.malware.enabled"' "true"
-    FirefoxPref '"browser.safebrowsing.phishing.enabled"' "true"
-    FirefoxPref '"dom.disable_during_load"' "true"
-    FirefoxPref '"dom.block_multiple_popups"' "true"
-    FirefoxPref '"dom.block_download_insecure"' "true"
-    FirefoxPref '"dom.enable_performance"' "true"
-    FirefoxPref '"dom.allow_scripts_to_close_windows"' "false"
-    FirefoxPref '"media.autoplay.block-webaudio"' "true"
-    FirefoxPref '"media.block-autoplay-until-in-foreground"' "true"
-    FirefoxPref '"plugins.flashBlock.enabled"' "true"
-    FirefoxPref '"privacy.socialtracking.block_cookies.enabled"' "true"
-    FirefoxPref '"toolkit.telemetry.reportingpolicy.firstRun"' "false"
+    touch syspref.js
+
+    echo 'pref("dom.serviceWorkers.enabled", false);' | tee syspref.js
+    echo 'pref("dom.webnotifications.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.enable_performance", true);' | tee -a syspref.js
+    echo 'pref("dom.enable_resource_timing", false);' | tee -a syspref.js
+    echo 'pref("dom.enable_timing", false);' | tee -a syspref.js
+    echo 'pref("dom.webaudio.enabled", false);' | tee -a syspref.js
+    echo 'pref("geo.enabled", false);' | tee -a syspref.js
+    echo 'pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");' | tee -a syspref.js
+    echo 'pref("geo.wifi.logging.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.mozTCPSocket.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.netinfo.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.network.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.peerconnection.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.peerconnection.ice.no_host",  true);' | tee -a syspref.js
+    echo 'pref("media.navigator.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.navigator.video.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.getusermedia.screensharing.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.getusermedia.audiocapture.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.battery.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.telephony.enabled", false);' | tee -a syspref.js
+    echo 'pref("beacon.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.event.clipboardevents.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.allow_cut_copy", false);' | tee -a syspref.js
+    echo 'pref("media.webspeech.recognition.enable", false);' | tee -a syspref.js
+    echo 'pref("media.webspeech.synth.enabled", false);' | tee -a syspref.js
+    echo 'pref("device.sensors.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.send_pings", false);' | tee -a syspref.js
+    echo 'pref("browser.send_pings.require_same_host", true);' | tee -a syspref.js
+    echo 'pref("dom.gamepad.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.vr.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.vibrator.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.archivereader.enabled", false);' | tee -a syspref.js
+    echo 'pref("webgl.disabled", true);' | tee -a syspref.js
+    echo 'pref("webgl.min_capability_mode", true);' | tee -a syspref.js
+    echo 'pref("webgl.disable-extensions", true);' | tee -a syspref.js
+    echo 'pref("webgl.disable-fail-if-major-performance-caveat", true);' | tee -a syspref.js
+    echo 'pref("webgl.enable-debug-renderer-info", false);' | tee -a syspref.js
+    echo 'pref("dom.maxHardwareConcurrency", 2);' | tee -a syspref.js
+    echo 'pref("javascript.options.wasm", false);' | tee -a syspref.js
+    echo 'pref("camera.control.face_detection.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.search.countryCode", "US");' | tee -a syspref.js
+    echo 'pref("browser.search.region", "US");' | tee -a syspref.js
+    echo 'pref("browser.search.geoip.url", "");' | tee -a syspref.js
+    echo 'pref("intl.accept_languages", "en-US, en");' | tee -a syspref.js
+    echo 'pref("intl.locale.matchOS", false);' | tee -a syspref.js
+    echo 'pref("browser.search.geoSpecificDefaults", false);' | tee -a syspref.js
+    echo 'pref("clipboard.autocopy", false);' | tee -a syspref.js
+    echo 'pref("javascript.use_us_english_locale", true);' | tee -a syspref.js
+    echo 'pref("keyword.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.trimURLs", false);' | tee -a syspref.js
+    echo 'pref("browser.fixup.alternate.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.fixup.hide_pass", true);' | tee -a syspref.js
+    echo 'pref("network.proxy.socks_remote_dns", true);' | tee -a syspref.js
+    echo 'pref("network.manage-offline-status", false);' | tee -a syspref.js
+    echo 'pref("security.mixed_content.block_active_content", true);' | tee -a syspref.js
+    echo 'pref("security.mixed_content.block_display_content", true);' | tee -a syspref.js
+    echo 'pref("network.jar.open-unsafe-types", false);' | tee -a syspref.js
+    echo 'pref("security.xpconnect.plugin.unrestricted", false);' | tee -a syspref.js
+    echo 'pref("security.fileuri.strict_origin_policy", true);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.filter.javascript", true);' | tee -a syspref.js
+    echo 'pref("javascript.options.asmjs", false);' | tee -a syspref.js
+    echo 'pref("gfx.font_rendering.opentype_svg.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.video_stats.enabled", false);' | tee -a syspref.js
+    echo 'pref("general.buildID.override", "20100101");' | tee -a syspref.js
+    echo 'pref("browser.startup.homepage_override.buildID", "20100101");' | tee -a syspref.js
+    echo 'pref("browser.display.use_document_fonts", 0);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.warn-external-default", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.http", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.https", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.javascript", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.moz-extension", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.ftp", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.file", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.about", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.chrome", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.blob", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.external.data", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose-all", false);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.http", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.https", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.javascript", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.moz-extension", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.ftp", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.file", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.about", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.chrome", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.blob", true);' | tee -a syspref.js
+    echo 'pref("network.protocol-handler.expose.data", true);' | tee -a syspref.js
+    echo 'pref("security.dialog_enable_delay", 1000);' | tee -a syspref.js
+    echo 'pref("extensions.getAddons.cache.enabled", false);' | tee -a syspref.js
+    echo 'pref("lightweightThemes.update.enabled", false);' | tee -a syspref.js
+    echo 'pref("plugin.state.flash", 0);' | tee -a syspref.js
+    echo 'pref("plugin.state.java", 0);' | tee -a syspref.js
+    echo 'pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.ipc.plugins.reportCrashURL", false);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.blockedURIs.enabled", true);' | tee -a syspref.js
+    echo 'pref("plugin.state.libgnome-shell-browser-plugin", 0);' | tee -a syspref.js
+    echo 'pref("plugins.click_to_play", true);' | tee -a syspref.js
+    echo 'pref("extensions.update.enabled", true);' | tee -a syspref.js
+    echo 'pref("extensions.blocklist.enabled", true);' | tee -a syspref.js
+    echo 'pref("services.blocklist.update_enabled", true);' | tee -a syspref.js
+    echo 'pref("extensions.blocklist.url", "https://blocklist.addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/");' | tee -a syspref.js
+    echo 'pref("extensions.systemAddon.update.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);' | tee -a syspref.js
+    echo 'pref("devtools.webide.enabled", false);' | tee -a syspref.js
+    echo 'pref("devtools.webide.autoinstallADBHelper", false);' | tee -a syspref.js
+    echo 'pref("devtools.webide.autoinstallFxdtAdapters", false);' | tee -a syspref.js
+    echo 'pref("devtools.debugger.remote-enabled", false);' | tee -a syspref.js
+    echo 'pref("devtools.chrome.enabled", false);' | tee -a syspref.js
+    echo 'pref("devtools.debugger.force-local", true);' | tee -a syspref.js
+    echo 'pref("toolkit.telemetry.enabled", false);' | tee -a syspref.js
+    echo 'pref("toolkit.telemetry.unified", false);' | tee -a syspref.js
+    echo 'pref("toolkit.telemetry.archive.enabled", false);' | tee -a syspref.js
+    echo 'pref("experiments.supported", false);' | tee -a syspref.js
+    echo 'pref("experiments.enabled", false);' | tee -a syspref.js
+    echo 'pref("experiments.manifest.uri", "");' | tee -a syspref.js
+    echo 'pref("network.allow-experiments", false);' | tee -a syspref.js
+    echo 'pref("breakpad.reportURL", "");' | tee -a syspref.js
+    echo 'pref("browser.tabs.crashReporting.sendReport", false);' | tee -a syspref.js
+    echo 'pref("browser.crashReports.unsubmittedCheck.enabled", false);' | tee -a syspref.js
+    echo 'pref("dom.flyweb.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.uitour.enabled", false);' | tee -a syspref.js
+    echo 'pref("privacy.trackingprotection.enabled", true);' | tee -a syspref.js
+    echo 'pref("privacy.trackingprotection.pbmode.enabled", true);' | tee -a syspref.js
+    echo 'pref("privacy.userContext.enabled", true);' | tee -a syspref.js
+    echo 'pref("privacy.resistFingerprinting", true);' | tee -a syspref.js
+    echo 'pref("privacy.resistFingerprinting.block_mozAddonManager", true);' | tee -a syspref.js
+    echo 'pref("extensions.webextensions.restrictedDomains", "");' | tee -a syspref.js
+    echo 'pref("browser.startup.blankWindow", false);' | tee -a syspref.js
+    echo 'pref("pdfjs.disabled", true);' | tee -a syspref.js
+    echo 'pref("datareporting.healthreport.uploadEnabled", false);' | tee -a syspref.js
+    echo 'pref("datareporting.healthreport.service.enabled", false);' | tee -a syspref.js
+    echo 'pref("datareporting.policy.dataSubmissionEnabled", false);' | tee -a syspref.js
+    echo 'pref("browser.discovery.enabled", false);' | tee -a syspref.js
+    echo 'pref("app.normandy.enabled", false);' | tee -a syspref.js
+    echo 'pref("app.normandy.api_url", "");' | tee -a syspref.js
+    echo 'pref("extensions.shield-recipe-client.enabled", false);' | tee -a syspref.js
+    echo 'pref("app.shield.optoutstudies.enabled", false);' | tee -a syspref.js
+    echo 'pref("loop.logDomains", false);' | tee -a syspref.js
+    echo 'pref("app.update.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.phishing.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.malware.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.pocket.enabled", false);' | tee -a syspref.js
+    echo 'pref("extensions.pocket.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);' | tee -a syspref.js
+    echo 'pref("network.prefetch-next", false);' | tee -a syspref.js
+    echo 'pref("network.dns.disablePrefetch", true);' | tee -a syspref.js
+    echo 'pref("network.dns.disablePrefetchFromHTTPS", true);' | tee -a syspref.js
+    echo 'pref("network.predictor.enabled", false);' | tee -a syspref.js
+    echo 'pref("network.dns.blockDotOnion", true);' | tee -a syspref.js
+    echo 'pref("browser.search.suggest.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.suggest.searches", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.suggest.history", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.groupLabels.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.casting.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.gmp-gmpopenh264.enabled", false);' | tee -a syspref.js
+    echo 'pref("media.gmp-manager.url", "");' | tee -a syspref.js
+    echo 'pref("network.http.speculative-parallel-limit", 0);' | tee -a syspref.js
+    echo 'pref("browser.aboutHomeSnippets.updateUrl", "");' | tee -a syspref.js
+    echo 'pref("browser.search.update", false);' | tee -a syspref.js
+    echo 'pref("network.captive-portal-service.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.topsites.contile.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.feeds.topsites", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);' | tee -a syspref.js
+    echo 'pref("network.negotiate-auth.allow-insecure-ntlm-v1", false);' | tee -a syspref.js
+    echo 'pref("security.csp.experimentalEnabled", true);' | tee -a syspref.js
+    echo 'pref("security.csp.enable", true);' | tee -a syspref.js
+    echo 'pref("security.sri.enable", true);' | tee -a syspref.js
+    echo 'pref("network.http.referer.XOriginPolicy", 2);' | tee -a syspref.js
+    echo 'pref("network.cookie.cookieBehavior", 1);' | tee -a syspref.js
+    echo 'pref("privacy.firstparty.isolate", true);' | tee -a syspref.js
+    echo 'pref("network.cookie.thirdparty.sessionOnly", true);' | tee -a syspref.js
+    echo 'pref("browser.privatebrowsing.autostart", true);' | tee -a syspref.js
+    echo 'pref("browser.cache.offline.enable", false);' | tee -a syspref.js
+    echo 'pref("privacy.sanitize.sanitizeOnShutdown", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.cache", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.cookies", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.downloads", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.formdata", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.history", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.offlineApps", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.sessions", true);' | tee -a syspref.js
+    echo 'pref("privacy.clearOnShutdown.openWindows", true);' | tee -a syspref.js
+    echo 'pref("privacy.sanitize.timeSpan", 0);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.offlineApps", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.cache", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.cookies", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.downloads", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.formdata", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.history", true);' | tee -a syspref.js
+    echo 'pref("privacy.cpd.sessions", true);' | tee -a syspref.js
+    echo 'pref("places.history.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.cache.disk.enable", false);' | tee -a syspref.js
+    echo 'pref("browser.cache.disk_cache_ssl", false);' | tee -a syspref.js
+    echo 'pref("browser.download.manager.retention", 0);' | tee -a syspref.js
+    echo 'pref("signon.rememberSignons", false);' | tee -a syspref.js
+    echo 'pref("browser.formfill.enable", false);' | tee -a syspref.js
+    echo 'pref("network.cookie.lifetimePolicy", 2);' | tee -a syspref.js
+    echo 'pref("signon.autofillForms", false);' | tee -a syspref.js
+    echo 'pref("signon.formlessCapture.enabled", false);' | tee -a syspref.js
+    echo 'pref("signon.autofillForms.http", false);' | tee -a syspref.js
+    echo 'pref("security.insecure_field_warning.contextual.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.formfill.expire_days", 0);' | tee -a syspref.js
+    echo 'pref("browser.sessionstore.privacy_level", 2);' | tee -a syspref.js
+    echo 'pref("browser.helperApps.deleteTempFileOnExit", true);' | tee -a syspref.js
+    echo 'pref("browser.pagethumbnails.capturing_disabled", true);' | tee -a syspref.js
+    echo 'pref("browser.shell.shortcutFavicons", false);' | tee -a syspref.js
+    echo 'pref("browser.bookmarks.max_backups", 0);' | tee -a syspref.js
+    echo 'pref("browser.chrome.site_icons", false);' | tee -a syspref.js
+    echo 'pref("security.insecure_password.ui.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.download.folderList", 2);' | tee -a syspref.js
+    echo 'pref("browser.download.useDownloadDir", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.newtab.url", "about:blank");' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.feeds.snippets", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.activity-stream.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.enhanced", false);' | tee -a syspref.js
+    echo 'pref("browser.newtab.preload", false);' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.directory.ping", "");' | tee -a syspref.js
+    echo 'pref("browser.newtabpage.directory.source", "data:text/plain,{}");' | tee -a syspref.js
+    echo 'pref("browser.vpn_promo.enabled", false);' | tee -a syspref.js
+    echo 'pref("plugins.update.notifyUser", true);' | tee -a syspref.js
+    echo 'pref("network.IDN_show_punycode", true);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.autoFill", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.autoFill.typed", false);' | tee -a syspref.js
+    echo 'pref("layout.css.visited_links_enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.urlbar.autocomplete.enabled", false);' | tee -a syspref.js
+    echo 'pref("browser.shell.checkDefaultBrowser", false);' | tee -a syspref.js
+    echo 'pref("security.ask_for_password", 2);' | tee -a syspref.js
+    echo 'pref("security.password_lifetime", 1);' | tee -a syspref.js
+    echo 'pref("browser.offline-apps.notify", true);' | tee -a syspref.js
+    echo 'pref("dom.security.https_only_mode", true);' | tee -a syspref.js
+    echo 'pref("network.stricttransportsecurity.preloadlist", true);' | tee -a syspref.js
+    echo 'pref("security.OCSP.enabled", 1);' | tee -a syspref.js
+    echo 'pref("security.ssl.enable_ocsp_stapling", true);' | tee -a syspref.js
+    echo 'pref("security.ssl.enable_ocsp_must_staple", true);' | tee -a syspref.js
+    echo 'pref("security.OCSP.require", true);' | tee -a syspref.js
+    echo 'pref("security.ssl.disable_session_identifiers", true);' | tee -a syspref.js
+    echo 'pref("security.tls.version.min", 3);' | tee -a syspref.js
+    echo 'pref("security.tls.version.max", 4);' | tee -a syspref.js
+    echo 'pref("security.tls.version.fallback-limit", 4);' | tee -a syspref.js
+    echo 'pref("security.cert_pinning.enforcement_level", 2);' | tee -a syspref.js
+    echo 'pref("security.pki.sha1_enforcement_level", 1);' | tee -a syspref.js
+    echo 'pref("security.ssl.treat_unsafe_negotiation_as_broken", true);' | tee -a syspref.js
+    echo 'pref("security.ssl.errorReporting.automatic", false);' | tee -a syspref.js
+    echo 'pref("browser.ssl_override_behavior", 1);' | tee -a syspref.js
+    echo 'pref("network.security.esni.enabled", true);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_null_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_null_md5", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_null_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_null_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_rsa_null_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_ecdsa_null_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_seed_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_rc4_40_md5", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_rc2_40_md5", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_1024_rc4_56_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_camellia_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_rsa_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_ecdsa_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_rsa_camellia_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_rsa_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_ecdsa_rc4_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_rsa_rc4_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_rc4_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_rc4_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_rc4_128_md5", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_rc4_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.tls.unrestricted_rc4_fallback", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_dss_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_rsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_ecdsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_rsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_fips_des_ede3_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_rsa_aes_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdh_ecdsa_aes_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.rsa_camellia_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_aes_128_gcm_sha256", true);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_aes_128_gcm_sha256", true);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_ecdsa_chacha20_poly1305_sha256", true);' | tee -a syspref.js
+    echo 'pref("security.ssl3.ecdhe_rsa_chacha20_poly1305_sha256", true);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_rsa_camellia_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_rsa_aes_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_dss_aes_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_dss_aes_256_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_dss_camellia_128_sha", false);' | tee -a syspref.js
+    echo 'pref("security.ssl3.dhe_dss_camellia_256_sha", false);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.enabled", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.block_dangerous", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.block_dangerous", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.block_dangerous_host", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", true);' | tee -a syspref.js
+    echo 'pref("browser.safebrowsing.downloads.remote.block_uncommon", true);' | tee -a syspref.js
+    echo 'pref("dom.disable_during_load", true);' | tee -a syspref.js
+    echo 'pref("dom.block_multiple_popups", true);' | tee -a syspref.js
+    echo 'pref("dom.block_download_insecure", true);' | tee -a syspref.js
+    echo 'pref("dom.allow_scripts_to_close_windows", false);' | tee -a syspref.js
+    echo 'pref("media.autoplay.block-webaudio", true);' | tee -a syspref.js
+    echo 'pref("media.block-autoplay-until-in-foreground", true);' | tee -a syspref.js
+    echo 'pref("plugins.flashBlock.enabled", true);' | tee -a syspref.js
+    echo 'pref("privacy.socialtracking.block_cookies.enabled", true);' | tee -a syspref.js
+    echo 'pref("toolkit.telemetry.reportingpolicy.firstRun", false);' | tee -a syspref.js
+
+    mv ./syspref.js /etc/firefox/syspref.js
  
     read -rp "Press [Enter] to return to the menu."
     clear
