@@ -4,9 +4,6 @@
 # To find all apt apps installed, run "apt list --installed"
 # Please run this script as root.
 
-# Variables
-pass="SigmaCyberPatriot23!"
-
 # This is the main function.  It acts as a menu.
 function main {
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
@@ -66,6 +63,10 @@ function auto {
     #ip link set dev promisc off
  
     # Installing apt-get
+    # Debian 12 uses apt 2.6.4
+    # Debian 11 uses apt x.x.x
+    # Ubuntu 22 uses apt x.x.x
+    # Ubuntu 20 uses apt x.x.x
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_2.4.11_amd64.deb -O libapt.deb
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt.deb
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_2.4.11_amd64.deb -O apt-utils.deb
@@ -74,7 +75,7 @@ function auto {
     dpkg -i apt-utils.deb
 
     OS=$(cat /etc/os-release | grep "ID=" | awk -F= 'print $2')
-    OS=$(cat /etc/os-release | grep "VERSION_CODENAME=" | awk -F= 'print $2')
+    CODENAME=$(cat /etc/os-release | grep "VERSION_CODENAME=" | awk -F= 'print $2')
 
     # Editing sources.list
     if [ "$OS" -eq "debian" ]; then
