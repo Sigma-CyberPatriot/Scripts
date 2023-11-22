@@ -354,7 +354,7 @@ function auto {
     echo "USER_SYSLOG=authpriv.notice" | sudo tee -a "/etc/rkhunter.conf"
 
     # Forcing sudo authentication
-    echo "Defaults Authenticate" | sudo tee -a "/etc/sudoers"
+    echo "Defaults authenticate" | sudo tee -a "/etc/sudoers"
 
     # Updating and running rkhunter
     rkhunter --update
@@ -426,21 +426,11 @@ function auto {
     echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
     echo "kernel.randomize_va_space = 0" | sudo tee /etc/sysctl.d/01-disable-aslr.conf
  
-    # Disabling unnecessary services
-    # DNS Server
-    echo DNSStubListener=no | sudo tee -a /etc/systemd/resolved.conf;
-    systemctl stop systemd-resolved;
-    systemctl disable systemd-resolved
-    # inetd
-    echo inetd_enable=no | sudo tee -a /etc/rc.conf
-    # NFS Server
-    systemctl stop nfs
- 
     # Puts the cron jobs onto the desktop.  (Both user and root)
     for filename in /var/spool/cron/crontabs/*; do
-        cat "$filename" | sudo tee -a /var/output/cronjobs.txt
+        cat "$filename" | sudo tee -a cronjobs.txt
     done
-    cat /etc/crontab | sudo tee -a /var/output/cronjobs.txt
+    cat /etc/crontab | sudo tee -a cronjobs.txt
     # Use 'crontab -r' to remove unnecessary jobs.
  
     # Enabling cookie protection
