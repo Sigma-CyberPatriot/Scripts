@@ -125,7 +125,6 @@ function auto {
     apt-get install -y rkhunter
     apt-get install -y rsyslog
     apt-get install -y ufw
-    apt-get install -y unattended-upgrades
  
     # Updating again to make sure everything is up to date (Can't be too careful!)
     apt-get update
@@ -373,9 +372,6 @@ function auto {
     ufw deny 23
     ufw default deny
     ufw --force enable
-
-    # Enabling automatic updates and updating daily
-    dpkg-reconfigure -plow unattended-upgrades
     
     ## Fixing System file permissions
     chmod 640 /etc/shadow
@@ -403,7 +399,7 @@ function auto {
     echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
  
     # Setting minimum password length and how many passwords to remember
-    echo "auth required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
+    echo "password required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
  
     # I don't know what this does, but it helps
     echo "auth required pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-" | sudo tee -a "/etc/pam.d/common-password"
@@ -434,15 +430,21 @@ function auto {
     # Use 'crontab -r' to remove unnecessary jobs.
  
     # Enabling cookie protection
-    sysctl -w net.ipv4.tcp_syncookies=1
+    sysctl -w net.ipv4.tcp_syncookies=
+    
     # Disabling ipv6
     sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    
     # Disabling IP forwarding
     sysctl -w net.ipv4.ip_forward=0
+    
     # Preventing IP Spoofing
-    echo "nospoof on" | sudo tee -a /etc/host.conf
+    echo "nospoof on" | sudo tee -a /etc/host.
+    
+    # Saving active services
+    systemctl list-units --type=service --state=active > services.txt
  
-    # Deleting prohibited files (This may delete files needed for the image, be careful!)
+    # Saving prohibited file paths
     find / -type f -name "*.mp3"   > audio.txt
     find / -type f -name "*.ac3"   > audio.txt
     find / -type f -name "*.aac"   > audio.txt
@@ -553,7 +555,8 @@ function auto {
         fi
     done
  
-    echo "Check /var/log/rkhunter.log for rootkits before exiting."
+    echo "Check the files in this directory to find more vulnerabilities."
+    echo "Manage Software Updater (Things like installing important security updates and automatically checking for updates daily)"
  
     read -rp "Press [Enter] to return to the menu."
     clear
