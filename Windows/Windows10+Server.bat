@@ -1,3 +1,7 @@
+REM Things to Remember
+REM Search for "Active Directory" to manage domain users and groups.
+REM Edit group policy in gpmc.msc as that has the default domain.
+
 @echo off
 setlocal EnableDelayedExpansion
 net session 
@@ -147,7 +151,8 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 echo Configuring System users
 net user Administrator /active:no 
 net user Guest /active:no
-wmic useraccount where name='Guest' rename notguest 
+wmic useraccount where name='Guest' rename NotAGuest
+wmic useraccount where name='Administrator' rename NotAnAdmin
 echo System users configured
 endlocal
 
@@ -169,7 +174,7 @@ ipconfig /flushdns
 
 echo Clearing the hosts file...
 attrib -r -s C:\Windows\System32\drivers\etc\hosts
-echo > C:\Windows\System32\drivers\etc\hosts
+echo "" > C:\Windows\System32\drivers\etc\hosts
 attrib +r +s C:\Windows\System32\drivers\etc\hosts
 if %ERRORLEVEL%==1 echo There was an error in overwriting
 
