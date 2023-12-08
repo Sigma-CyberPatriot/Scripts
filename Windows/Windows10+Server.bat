@@ -64,7 +64,7 @@ echo Restoring PC health
 dism /online /cleanup-image /restorehealth 
 
 echo Making Windows Defender scan exes
-powershell "Add-MpPreference -ExclusionExtension '.'"
+powershell "Add-MpPreference -ExclusionExtension '.exe'"
 
 echo Adding users
 :AddUsers
@@ -98,7 +98,7 @@ echo Groups added
 
 echo Deleting groups
 :DelGroups
-set /p "group=Enter the name of a groupto delete.  Type '0' to move on. "
+set /p "group=Enter the name of a group to delete.  Type '0' to move on. "
 if "%group%"=="0" goto EndOfDelGroups
 net localgroup /delete %group%
 goto DelGroups
