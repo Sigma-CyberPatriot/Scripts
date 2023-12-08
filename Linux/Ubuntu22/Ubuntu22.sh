@@ -70,6 +70,28 @@ function auto {
     #ip link set dev promisc off
  
     # Installing apt-get
+<<<<<<< HEAD
+    # Debian 12 (bookworm) uses apt 2.6.1
+    # Debian 11 (bullseye) uses apt 2.2.4
+    # Ubuntu 22 (jammy) uses apt 2.4.11
+    # Ubuntu 20 (focal) uses apt 2.0.9
+    OSID=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
+    CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
+
+    if [ "$CODENAME" = "bookworm"]; then
+        APT_VERS="2.6.1"
+    elif [ "$CODENAME" = "bullseye" ]; then
+        APT_VERS="2.2.4"
+    elif [ "$CODENAME" = "jammy" ]; then
+        APT_VERS="2.4.11"
+    elif [ "$CODENAME" = "focal" ]; then
+        APT_VERS="2.0.9"
+    fi
+    
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_"$APT_VERS"_amd64.deb" -O libapt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_"$APT_VERS"_amd64.deb" -O apt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_"$APT_VERS"_amd64.deb" -O apt-utils.deb
+=======
     # Debian 12 uses apt 2.6.4
     # Debian 11 uses apt x.x.x
     # Ubuntu 22 uses apt x.x.x
@@ -77,20 +99,30 @@ function auto {
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_2.4.11_amd64.deb -O libapt.deb
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt.deb
     wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_2.4.11_amd64.deb -O apt-utils.deb
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
     dpkg -i libapt.deb 
     dpkg -i apt.deb
     dpkg -i apt-utils.deb
 
+<<<<<<< HEAD
+    # Editing sources.list
+    if [ "$OSID" = "debian" ]; then
+=======
     OS=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
     CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
 
     # Editing sources.list
     if [ "$OS" = "debian" ]; then
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
         echo "deb http://deb.debian.org/debian $CODENAME main" | sudo tee /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-backports main" | sudo tee -a /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-updates main" | sudo tee -a /etc/apt/sources.list
         echo "deb http://security.debian.org/debian-security $CODENAME-security main" | sudo tee -a /etc/apt/sources.list
+<<<<<<< HEAD
+    elif [ "$OSID" = "ubuntu" ]; then
+=======
     elif [ "$OS" = "ubuntu" ]; then
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
@@ -241,7 +273,11 @@ function auto {
     echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
     echo "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
     echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+<<<<<<< HEAD
+    echo "-a always,exit -F arch=b32 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+=======
     echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
     echo "wa -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
  
     # System Locale Rules
@@ -413,8 +449,13 @@ function auto {
     # Setting lockout policy (deny after 10 attempts, lock for 30 minutes)
     echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
  
+<<<<<<< HEAD
+    # Setting the length of the password history (it's 5)
+    echo "password required pam_unix.so remember=5" | sudo tee -a "/etc/pam.d/common-password"
+=======
     # Setting minimum password length and how many passwords to remember
     echo "password required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
  
     # Managing password complexity requirements (minimum length of 8, 1 upper, 1 lower, 1 digit, 1 special)
     echo "password required pam_cracklib.so minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1" | sudo tee -a "/etc/pam.d/common-password"
@@ -438,10 +479,13 @@ function auto {
     # Disabling SMTP
     sudo service sendmail stop
  
+<<<<<<< HEAD
+=======
     # Enabling ASLR
     echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
     echo "kernel.randomize_va_space = 0" | sudo tee /etc/sysctl.d/01-disable-aslr.conf
  
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
     # Puts the cron jobs onto the desktop.  (Both user and root)
     for filename in /var/spool/cron/crontabs/*; do
         cat "$filename" | sudo tee -a cronjobs.txt
@@ -452,6 +496,19 @@ function auto {
     # Enabling ASLR
     sysctl -w kernel.randomize_va_space 2
     # Enabling cookie protection
+<<<<<<< HEAD
+    sysctl -w net.ipv4.tcp_syncookies 1
+    # Disabling ipv6
+    sysctl -w net.ipv6.conf.all.disable_ipv6 1
+    # Disabling IP forwarding
+    sysctl -w net.ipv4.ip_forward 0
+    # Hiding kernel pointer from unprivileged users
+    sysctl -w kernel.kptr_restrict 1
+
+    # Preventing IP Spoofing
+    echo "nospoof on" | sudo tee -a /etc/host.conf
+
+=======
     sysctl -w net.ipv4.tcp_syncookies=
     
     # Disabling ipv6
@@ -463,6 +520,7 @@ function auto {
     # Preventing IP Spoofing
     echo "nospoof on" | sudo tee -a /etc/host.
     
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
     # Saving active services
     systemctl list-units --type=service --state=active > services.txt
  
@@ -490,12 +548,23 @@ function auto {
     find / -type f -name "*.jpg"   > pics.txt
     find / -type f -name "*.jpeg"  > pics.txt
 
+<<<<<<< HEAD
+    # Changes the passwords for all users
+    echo "Setting all passwords to SigmaCyberPatriot23!"
+    for user in $(getent passwd | awk -F: '{if ($3 > 999) print $1}')
+    do
+        echo "$user:SigmaCyberPatriot23!" | sudo tee -a passes.txt
+        sudo chpasswd < passes.txt
+    done
+
+=======
     echo "Setting all passwords to SigmaCyberPatriot23!"
     for user in $(getent passwd | awk -F: '{print $1}')
     do
         echo "$user:SigmaCyberPatriot23!" | sudo tee test.txt; sudo chpasswd < test.txt
     done
  
+>>>>>>> 1a1f53e7b6ec43b827465b26804ba5e8aadcdab6
     # This creates users
     while true
     do
