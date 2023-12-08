@@ -3,9 +3,13 @@
 # To get this script to work, run "chmod +x ./Ubuntu22.sh"
 # To find all apt apps installed, run "apt list --installed"
 # Please run this script as root.
+# Fun fact: The text editor app on ubuntu can be run from command line with "gedit"
 
-# Variables
-pass="SigmaCyberPatriot23!"
+# TODO
+# Go over active services with this command
+#systemctl list-units --type=service --state=active
+# Remove things like nginx
+
 
 # This is the main function.  It acts as a menu.
 function main {
@@ -31,8 +35,9 @@ function main {
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     printf "    1) Start                                                                                                            \n"
     printf "    2) Edit ports                                                                                                       \n"
-    printf "    3) View checklist                                                                                                   \n"
-    printf "    4) Exit Program                                                                                                     \n"
+    printf "    3) Update Firefox Policies (Deprecated)                                                                             \n"
+    printf "    4) View checklist                                                                                                   \n"
+    printf "    5) Exit Program                                                                                                     \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
@@ -45,8 +50,10 @@ function main {
     elif [ "$answer" -eq 2 ]
         then managePorts;
     elif [ "$answer" -eq 3 ]
-        then checklist;
+        then firefoxPolicies;
     elif [ "$answer" -eq 4 ]
+        then checklist;
+    elif [ "$answer" -eq 5 ]
         then exit;
     else
         main;
@@ -63,37 +70,27 @@ function auto {
     #ip link set dev promisc off
  
     # Installing apt-get
-    # Debian 12 (bookworm) uses apt 2.6.1
-    # Debian 11 (bullseye) uses apt 2.2.4
-    # Ubuntu 22 (jammy) uses apt 2.4.11
-    # Ubuntu 20 (focal) uses apt 2.0.9
-    OSID=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
-    CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
-
-    if [ "$CODENAME" = "bookworm"]; then
-        APT_VERS="2.6.1"
-    elif [ "$CODENAME" = "bullseye" ]; then
-        APT_VERS="2.2.4"
-    elif [ "$CODENAME" = "jammy" ]; then
-        APT_VERS="2.4.11"
-    elif [ "$CODENAME" = "focal" ]; then
-        APT_VERS="2.0.9"
-    fi
-    
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_"$APT_VERS"_amd64.deb" -O libapt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_"$APT_VERS"_amd64.deb" -O apt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_"$APT_VERS"_amd64.deb" -O apt-utils.deb
+    # Debian 12 uses apt 2.6.4
+    # Debian 11 uses apt x.x.x
+    # Ubuntu 22 uses apt x.x.x
+    # Ubuntu 20 uses apt x.x.x
+    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_2.4.11_amd64.deb -O libapt.deb
+    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_2.4.11_amd64.deb -O apt.deb
+    wget http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_2.4.11_amd64.deb -O apt-utils.deb
     dpkg -i libapt.deb 
     dpkg -i apt.deb
     dpkg -i apt-utils.deb
 
+    OS=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
+    CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
+
     # Editing sources.list
-    if [ "$OSID" = "debian" ]; then
+    if [ "$OS" = "debian" ]; then
         echo "deb http://deb.debian.org/debian $CODENAME main" | sudo tee /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-backports main" | sudo tee -a /etc/apt/sources.list
         echo "deb http://deb.debian.org/debian $CODENAME-updates main" | sudo tee -a /etc/apt/sources.list
         echo "deb http://security.debian.org/debian-security $CODENAME-security main" | sudo tee -a /etc/apt/sources.list
-    elif [ "$OSID" = "ubuntu" ]; then
+    elif [ "$OS" = "ubuntu" ]; then
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
         echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
@@ -232,7 +229,7 @@ function auto {
     apt-get update
     apt-get upgrade -y
     apt-get --fix-broken install -y
-    apt-get autoremove
+    apt-get autoremove -y
     snap refresh
    
     # Setting up auditd
@@ -244,7 +241,7 @@ function auto {
     echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
     echo "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
     echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-    echo "-a always,exit -F arch=b32 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+    echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
     echo "wa -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
  
     # System Locale Rules
@@ -416,8 +413,8 @@ function auto {
     # Setting lockout policy (deny after 10 attempts, lock for 30 minutes)
     echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
  
-    # Setting the length of the password history (it's 5)
-    echo "password required pam_unix.so remember=5" | sudo tee -a "/etc/pam.d/common-password"
+    # Setting minimum password length and how many passwords to remember
+    echo "password required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
  
     # Managing password complexity requirements (minimum length of 8, 1 upper, 1 lower, 1 digit, 1 special)
     echo "password required pam_cracklib.so minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1" | sudo tee -a "/etc/pam.d/common-password"
@@ -441,6 +438,10 @@ function auto {
     # Disabling SMTP
     sudo service sendmail stop
  
+    # Enabling ASLR
+    echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+    echo "kernel.randomize_va_space = 0" | sudo tee /etc/sysctl.d/01-disable-aslr.conf
+ 
     # Puts the cron jobs onto the desktop.  (Both user and root)
     for filename in /var/spool/cron/crontabs/*; do
         cat "$filename" | sudo tee -a cronjobs.txt
@@ -451,21 +452,21 @@ function auto {
     # Enabling ASLR
     sysctl -w kernel.randomize_va_space 2
     # Enabling cookie protection
-    sysctl -w net.ipv4.tcp_syncookies 1
+    sysctl -w net.ipv4.tcp_syncookies=
+    
     # Disabling ipv6
-    sysctl -w net.ipv6.conf.all.disable_ipv6 1
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    
     # Disabling IP forwarding
-    sysctl -w net.ipv4.ip_forward 0
-    # Hiding kernel pointer from unprivileged users
-    sysctl -w kernel.kptr_restrict 1
-
+    sysctl -w net.ipv4.ip_forward=0
+    
     # Preventing IP Spoofing
-    echo "nospoof on" | sudo tee -a /etc/host.conf
-
+    echo "nospoof on" | sudo tee -a /etc/host.
+    
     # Saving active services
     systemctl list-units --type=service --state=active > services.txt
  
-    # Deleting prohibited files (This may delete files needed for the image, be careful!)
+    # Saving prohibited file paths
     find / -type f -name "*.mp3"   > audio.txt
     find / -type f -name "*.ac3"   > audio.txt
     find / -type f -name "*.aac"   > audio.txt
@@ -489,14 +490,12 @@ function auto {
     find / -type f -name "*.jpg"   > pics.txt
     find / -type f -name "*.jpeg"  > pics.txt
 
-    # Changes the passwords for all users
     echo "Setting all passwords to SigmaCyberPatriot23!"
-    for user in $(getent passwd | awk -F: '{if ($3 > 999) print $1}')
+    for user in $(getent passwd | awk -F: '{print $1}')
     do
-        echo "$user:SigmaCyberPatriot23!" | sudo tee -a passes.txt
-        sudo chpasswd < passes.txt
+        echo "$user:SigmaCyberPatriot23!" | sudo tee test.txt; sudo chpasswd < test.txt
     done
-
+ 
     # This creates users
     while true
     do
@@ -623,8 +622,8 @@ function managePorts {
     main
 }
  
-# This function contains deprecated code that may be useful some other time.  It is never run in the program
-function deprecated {
+# This function updates the properties for firefox
+function firefoxPolicies {
     # Firefox is no longer used by CyberPatriot, but just in case...
     # Manages Firefox settings
     touch syspref.js
