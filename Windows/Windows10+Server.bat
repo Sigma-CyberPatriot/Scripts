@@ -68,7 +68,7 @@ powershell "Add-MpPreference -ExclusionExtension '.test'"
 
 echo Adding users
 :AddUsers
-set /p "user=Enter the name of a user to add.  Type '0' to move on."
+set /p "user=Enter the name of a user to add.  Type '0' to move on. "
 if "%user%"=="0" goto EndOfAddUsers
 net user %user% %passwd% /add
 goto AddUsers
@@ -78,7 +78,7 @@ echo Users added
 
 echo Deleting users
 :DelUsers
-set /p "user=Enter the name of a user to delete.  Type '0' to move on."
+set /p "user=Enter the name of a user to delete.  Type '0' to move on. "
 if "%user%"=="0" goto EndOfDelUsers
 net user %user% %passwd% /delete
 goto DelUsers
@@ -88,7 +88,7 @@ echo Users deleted
 
 echo Adding groups
 :AddGroups
-set /p "group=Enter the name of a group to add.  Type '0' to move on."
+set /p "group=Enter the name of a group to add.  Type '0' to move on. "
 if "%group%"=="0" goto EndOfAddGroups 
 net localgroup /add %group%
 goto AddGroups
@@ -98,7 +98,7 @@ echo Groups added
 
 echo Deleting groups
 :DelGroups
-set /p "group=Enter the name of a groupto delete.  Type '0' to move on."
+set /p "group=Enter the name of a groupto delete.  Type '0' to move on. "
 if "%group%"=="0" goto EndOfDelGroups
 net localgroup /delete %group%
 goto DelGroups
@@ -113,7 +113,7 @@ echo 1. "Aliases for HOSTNAME"
 echo 2. "-------------------------------------------------------------"
 echo 3. "The command completed successfully."
 for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
-	REM Alowing the user to skip modification of a group.
+	REM Allowing the user to skip modification of a group.
 	set /p "skip=Enter '0' to skip modifying group %%g"
 	if "%skip%"=="0" goto DontModifyGroup
 
@@ -122,7 +122,7 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 	net localgroup %%g
 
 	:AddUserToGroup
-	set /p "user=Enter the name of a user to add to group %%g.  Type '0' to move on."
+	set /p "user=Enter the name of a user to add to group %%g.  Type '0' to move on. "
 	if "%user%"=="0" goto EndOfAddUserToGroup
 	net localgroup %%g /add %user%
 	goto AddUserToGroup
@@ -134,7 +134,7 @@ for /f "tokens=1 delims=*" %%g in ('net localgroup') do (
 	net localgroup %%g
 
 	:DelUserFromGroup
-	set /p "user=Enter the name of a user to delete from group %%g.  Type '0' to move on."
+	set /p "user=Enter the name of a user to delete from group %%g.  Type '0' to move on. "
 	if "%user%"=="0" goto EndOfDelUserFromGroup
 	net localgroup %%g /delete %user%
 	goto DelUserFromGroup
