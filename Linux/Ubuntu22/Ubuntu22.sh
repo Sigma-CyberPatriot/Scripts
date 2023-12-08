@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# To get this script to work, run "chmod +x ./main.sh"
+# To get this script to work, run "chmod +x ./Ubuntu22.sh"
 # To find all apt apps installed, run "apt list --installed"
 # Please run this script as root.
 # Fun fact: The text editor app on ubuntu can be run from command line with "gedit"
