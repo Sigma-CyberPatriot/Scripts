@@ -116,7 +116,6 @@ function auto {
     # Uninstalling prohibited apps
     # Hacking tools
     apt-get remove -y aircrack-ng
-    apt-get remove -y apache2
     apt-get remove -y apktool
     apt-get remove -y autopsy
     apt-get remove -y deluge
@@ -195,7 +194,7 @@ function auto {
     apt-get update
     apt-get upgrade -y
     apt-get --fix-broken install -y
-    apt-get autoremove
+    apt-get autoremove -y
     snap refresh
    
     # Setting up auditd
@@ -309,28 +308,28 @@ function auto {
     systemctl restart sshd.service
 
     # Editing sshd_config to set too many things to count.
-    echo "PermitRootLogin no"         | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PermitUserEnvironment no"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PermitEmptyPasswords no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "Protocol 2"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PrintLastLog no"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "PubkeyAuthentication yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RSAAuthentication yes"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "LoginGraceTime 30"          | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "ClientAliveInterval 600"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "ClientAliveCountMax 1"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "UsePAM yes"                 | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "UsePrivilegeSeparation yes" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "StrictModes yes"            | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "IgnoreUserKnownHosts yes"   | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "IgnoreRhosts yes"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RhostsAuthentication no"    | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "RhostsRSAAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "HostBasedAuthentication no" | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "AllowTcpForwarding no"      | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "X11Forwarding no"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
-    echo "Port 2453"                  | tee -a /etc/ssh/sshd_config #>/dev/null 2>&1
+    echo "PermitRootLogin no"         | tee -a /etc/ssh/sshd_config
+    echo "PermitUserEnvironment no"   | tee -a /etc/ssh/sshd_config
+    echo "PermitEmptyPasswords no"    | tee -a /etc/ssh/sshd_config
+    echo "Protocol 2"                 | tee -a /etc/ssh/sshd_config
+    echo "PrintLastLog no"            | tee -a /etc/ssh/sshd_config
+    echo "PubkeyAuthentication yes"   | tee -a /etc/ssh/sshd_config
+    echo "RSAAuthentication yes"      | tee -a /etc/ssh/sshd_config
+    echo "LoginGraceTime 30"          | tee -a /etc/ssh/sshd_config
+    echo "ClientAliveInterval 600"    | tee -a /etc/ssh/sshd_config
+    echo "ClientAliveCountMax 1"      | tee -a /etc/ssh/sshd_config
+    echo "UsePAM yes"                 | tee -a /etc/ssh/sshd_config
+    echo "UsePrivilegeSeparation yes" | tee -a /etc/ssh/sshd_config
+    echo "StrictModes yes"            | tee -a /etc/ssh/sshd_config
+    echo "IgnoreUserKnownHosts yes"   | tee -a /etc/ssh/sshd_config
+    echo "IgnoreRhosts yes"           | tee -a /etc/ssh/sshd_config
+    echo "RhostsAuthentication no"    | tee -a /etc/ssh/sshd_config
+    echo "RhostsRSAAuthentication no" | tee -a /etc/ssh/sshd_config
+    echo "HostBasedAuthentication no" | tee -a /etc/ssh/sshd_config
+    echo "AllowTcpForwarding no"      | tee -a /etc/ssh/sshd_config
+    echo "X11Forwarding no"           | tee -a /etc/ssh/sshd_config
+    echo "LogLevel VERBOSE"           | tee -a /etc/ssh/sshd_config
+    echo "Port 2453"                  | tee -a /etc/ssh/sshd_config
 
     # Editing rkhunter permissions
     echo "UPDATE_MIRRORS=1" | tee -a "/etc/rkhunter.conf"
@@ -407,9 +406,8 @@ function auto {
     sudo service sendmail stop
  
     # Enabling ASLR
-    echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
-    echo "kernel.randomize_va_space = 0" | sudo tee /etc/sysctl.d/01-disable-aslr.conf
- 
+    sysctl -w kernel.randomize_va_space = 2
+     
     # Disabling unnecessary services
     # DNS Server
     echo DNSStubListener=no | tee -a /etc/systemd/resolved.conf;
@@ -422,17 +420,17 @@ function auto {
  
     # Puts the cron jobs onto the desktop.  (Both user and root)
     for filename in /var/spool/cron/crontabs/*; do
-        cat "$filename" | tee -a /var/output/cronjobs.txt
+        cat "$filename" | tee -a cronjobs.txt
     done
-    cat /etc/crontab | tee -a /var/output/cronjobs.txt
+    cat /etc/crontab | tee -a cronjobs.txt
     # Use 'crontab -r' to remove unnecessary jobs.
  
     # Enabling cookie protection
-    sysctl -n net.ipv4.tcp_syncookies
+    sysctl -w net.ipv4.tcp_syncookies = 0
     # Disabling ipv6
-    echo "net.ipv6.conf.all.disable_ipv6 = 1" | tee -a /etc/sysctl.conf
+    sysctl -w net.ipv6.conf.all.disable_ipv6 = 1
     # Disabling IP forwarding
-    echo 0 | tee -a /proc/sys/net/ipv4/ip_forward
+    sysctl -w net.ipv4.ip_forward = 0
     # Preventing IP Spoofing
     echo "nospoof on" | tee -a /etc/host.conf
  
