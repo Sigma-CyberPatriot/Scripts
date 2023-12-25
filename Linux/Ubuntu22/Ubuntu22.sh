@@ -71,45 +71,28 @@ function auto {
  
     # Installing apt-get
 
-    # Debian 12 (bookworm) uses apt 2.6.1
-    # Debian 11 (bullseye) uses apt 2.2.4
-    # Ubuntu 22 (jammy) uses apt 2.4.11
-    # Ubuntu 20 (focal) uses apt 2.0.9
-    OSID=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
-    CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
-
-    if [ "$CODENAME" = "bookworm"]; then
-        APT_VERS="2.6.1"
-    elif [ "$CODENAME" = "bullseye" ]; then
-        APT_VERS="2.2.4"
-    elif [ "$CODENAME" = "jammy" ]; then
-        APT_VERS="2.4.11"
-    elif [ "$CODENAME" = "focal" ]; then
-        APT_VERS="2.0.9"
-    fi
+    # Getting apt version, OS name, and the codename of the OS
+    APT_VERS=$(apt -v | awk '{print $2}')
+    OS=$(awk -F= '{if ($1 == "ID") print $2}' < /etc/os-release)
+    CODENAME=$(awk -F= '{if ($1 == "VERSION_CODENAME") print $2}' < /etc/os-release)
     
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_"$APT_VERS"_amd64.deb" -O libapt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_"$APT_VERS"_amd64.deb" -O apt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_"$APT_VERS"_amd64.deb" -O apt-utils.deb
+    # Installing apt
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_" + "$APT_VERS" + "_amd64.deb" -O libapt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_" + "$APT_VERS" + "_amd64.deb" -O apt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_" + "$APT_VERS" + "_amd64.deb" -O apt-utils.deb
+    dpkg -Ri .
 
-    dpkg -i libapt.deb 
-    dpkg -i apt.deb
-    dpkg -i apt-utils.deb
-
-    OS=$(cat /etc/os-release | awk -F= '{if ($1 == "ID") print $2}')
-    CODENAME=$(cat /etc/os-release | awk -F= '{if ($1 == "VERSION_CODENAME") print $2}')
-
-    # Editing sources.list
+    # Editing /etc/apt/sources.list
     if [ "$OS" = "debian" ]; then
-        echo "deb http://deb.debian.org/debian $CODENAME main" | sudo tee /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian $CODENAME-backports main" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian $CODENAME-updates main" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://security.debian.org/debian-security $CODENAME-security main" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian $CODENAME contrib main non-free non-free-firmware" | sudo tee /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian $CODENAME-backports contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian $CODENAME-updates contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://security.debian.org/debian-security $CODENAME-security main non-free updates" | sudo tee -a /etc/apt/sources.list
     elif [ "$OS" = "ubuntu" ]; then
-        echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
     fi
  
     # Making installs require secure ssl connection
