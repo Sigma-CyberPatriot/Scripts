@@ -128,26 +128,40 @@ function auto {
     apt-get purge -y autopsy
     apt-get purge -y deluge
     apt-get purge -y dirb
+    apt-get purge -y dirbuster
     apt-get purge -y dsniff
     apt-get purge -y ettercap
     apt-get purge -y fcracklib
+    apt-get purge -y fcrackzip
+    apt-get purge -y freeciv
+    apt-get purge -y Frostwire
     apt-get purge -y ftp
     apt-get purge -y ftpscan
+    apt-get purge -y gobuster
+    apt-get purge -y hashcat
     apt-get purge -y httrack
     apt-get purge -y hydra
-    apt-get purge -y john-the-ripper
+    apt-get purge -y john
     apt-get purge -y kismet
+    apt-get purge -y knocker
     apt-get purge -y linuxdcpp
+    apt-get purge -y medusa
     apt-get purge -y metasploit-framework
+    apt-get purge -y minetest
     apt-get purge -y nbtscan
+    apt-get purge -y ncrack
     apt-get purge -y netcat
     apt-get purge -y nikto
     apt-get purge -y nmap
     apt-get purge -y ophcrack
     apt-get purge -y rfdump
     apt-get purge -y skipfish
+    apt-get purge -y smbmap
     apt-get purge -y snort
     apt-get purge -y sqlmap
+    apt-get purge -y tshark
+    apt-get purge -y vuze
+    apt-get purge -y wfuzz
     apt-get purge -y wifite
     apt-get purge -y wireshark
     apt-get purge -y yersinia
@@ -373,6 +387,7 @@ function auto {
     ufw allow ssh
     ufw allow http
     ufw deny 23
+    ufw deny icmp
     ufw default deny
     ufw --force enable
 
@@ -451,28 +466,28 @@ function auto {
     systemctl list-units --type=service --state=active > services.txt
 
     # Saving prohibited file paths
-    find / -type f -name "*.mp3"   > audio.txt
-    find / -type f -name "*.ac3"   > audio.txt
-    find / -type f -name "*.aac"   > audio.txt
-    find / -type f -name "*.aiff"  > audio.txt
-    find / -type f -name "*.flac"  > audio.txt
-    find / -type f -name "*.m4a"   > audio.txt
-    find / -type f -name "*.m4p"   > audio.txt
-    find / -type f -name "*.midi"  > audio.txt
-    find / -type f -name "*.mp2"   > audio.txt
-    find / -type f -name "*.m3u"   > audio.txt
-    find / -type f -name "*.ogg"   > audio.txt
-    find / -type f -name "*.vqf"   > audio.txt
-    find / -type f -name "*.wav"   > audio.txt
-    find / -type f -name "*.wma"   > vids.txt
-    find / -type f -name "*.mp4"   > vids.txt
-    find / -type f -name "*.avi"   > vids.txt
-    find / -type f -name "*.mpeg4" > vids.txt
-    find / -type f -name "*.gif"   > pics.txt
-    find / -type f -name "*.png"   > pics.txt
-    find / -type f -name "*.bmp"   > pics.txt
-    find / -type f -name "*.jpg"   > pics.txt
-    find / -type f -name "*.jpeg"  > pics.txt
+    find / -type f -name "*.mp3"   >> audio.txt
+    find / -type f -name "*.ac3"   >> audio.txt
+    find / -type f -name "*.aac"   >> audio.txt
+    find / -type f -name "*.aiff"  >> audio.txt
+    find / -type f -name "*.flac"  >> audio.txt
+    find / -type f -name "*.m4a"   >> audio.txt
+    find / -type f -name "*.m4p"   >> audio.txt
+    find / -type f -name "*.midi"  >> audio.txt
+    find / -type f -name "*.mp2"   >> audio.txt
+    find / -type f -name "*.m3u"   >> audio.txt
+    find / -type f -name "*.ogg"   >> audio.txt
+    find / -type f -name "*.vqf"   >> audio.txt
+    find / -type f -name "*.wav"   >> audio.txt
+    find / -type f -name "*.wma"   >> vids.txt
+    find / -type f -name "*.mp4"   >> vids.txt
+    find / -type f -name "*.avi"   >> vids.txt
+    find / -type f -name "*.mpeg4" >> vids.txt
+    find / -type f -name "*.gif"   >> pics.txt
+    find / -type f -name "*.png"   >> pics.txt
+    find / -type f -name "*.bmp"   >> pics.txt
+    find / -type f -name "*.jpg"   >> pics.txt
+    find / -type f -name "*.jpeg"  >> pics.txt
 
     # Changes the passwords for all users
     echo "Setting all passwords to Somethingsecur3!"
