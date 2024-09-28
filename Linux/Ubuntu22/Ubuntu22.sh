@@ -475,11 +475,10 @@ function auto {
     find / -type f -name "*.jpeg"  > pics.txt
 
     # Changes the passwords for all users
-    echo "Setting all passwords to SigmaCyberPatriot23!"
+    echo "Setting all passwords to Somethingsecur3!"
     for user in $(getent passwd | awk -F: '{if ($3 > 999) print $1}')
     do
-        echo "$user:SigmaCyberPatriot23!" | sudo tee passes.txt
-        sudo chpasswd < passes.txt
+        echo "$user:Somethingsecur3!" | chpasswd
     done
 
     # This creates users
