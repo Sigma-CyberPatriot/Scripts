@@ -91,6 +91,13 @@ function auto {
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
     echo "deb http://apt.postgresql.org/pub/repos/apt/ $CODENAME-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
 
+    # Configuring
+    echo "APT::Periodic::Update-Package-Lists \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
+    echo "APT::Periodic::Download-Upgradeable-Packages \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
+    echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
+    echo "APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
+
+
     # Updating all apps (snaps included)
     apt-get update
     apt-get upgrade -y
@@ -154,6 +161,7 @@ function auto {
     apt-get purge -y nikto
     apt-get purge -y nmap
     apt-get purge -y ophcrack
+    apt-get purge -y osquery
     apt-get purge -y rfdump
     apt-get purge -y skipfish
     apt-get purge -y smbmap
@@ -166,6 +174,7 @@ function auto {
     apt-get purge -y wireshark
     apt-get purge -y yersinia
     apt-get purge -y zenmap
+    apt-get purge -y zmap
     # Games
     apt-get purge -y aisleriot
     apt-get purge -y endless-sky
@@ -189,6 +198,7 @@ function auto {
     apt-get purge -y telnet
     apt-get purge -y telnetd
     # Unnecessary bloatware
+    apt-get purge -y amule
     apt-get purge -y apport
     apt-get purge -y atd
     apt-get purge -y autofs
@@ -199,19 +209,24 @@ function auto {
     apt-get purge -y doona
     apt-get purge -y dovecot-imapd
     apt-get purge -y dovecot-pop3d
+    apt-get purge -y fcrackzip
     apt-get purge -y iptables-persistent
     apt-get purge -y isc-dhcp-server
     apt-get purge -y nfs-common
     apt-get purge -y nfs-kernel-server
     apt-get purge -y nginx
+    apt-get purge -y packit
+    apt-get purge -y pompem
     apt-get purge -y portmap
     apt-get purge -y proxychains
     apt-get purge -y python-zeitgeist
     apt-get purge -y rhythmbox-plugin-zeitgeist
     apt-get purge -y rpcbind
     apt-get purge -y slapd
+    apt-get purge -y SNMP
     apt-get purge -y squidclient
     apt-get purge -y squid-cgi
+    apt-get purge -y themole
     apt-get purge -y xprobe
     apt-get purge -y xserver-xorg*
     apt-get purge -y zeitgeist
@@ -219,13 +234,7 @@ function auto {
     apt-get purge -y zeitgeist-datahub
     apt-get purge -y nmapsi4
     apt-get purge -y pumpa
-    apt-get purge -y amule
     apt-get purge -y zangband
-    apt-get purge -y fcrackzip
-    apt-get purge -y themole
-    apt-get purge -y SNMP
-    apt-get purge -y packit
-    apt-get purge -y pompem
 
     # Updating again to make sure everything is up to date (Can't be too careful!)
     apt-get update
@@ -407,11 +416,12 @@ function auto {
     chmod 755 /usr/local/sbin
 
     # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
-    echo "PASS_MAX_DAYS 90" | sudo tee -a "/etc/login.defs"
-    echo "PASS_MIN_DAYS 7"  | sudo tee -a "/etc/login.defs"
-    echo "PASS_WARN_AGE 14" | sudo tee -a "/etc/login.defs"
-    echo "LOGIN_RETRIES 3"  | sudo tee -a "/etc/login.defs"
-    echo "LOGIN_TIMEOUT 30" | sudo tee -a "/etc/login.defs"
+    echo "PASS_MAX_DAYS 90"      | sudo tee -a "/etc/login.defs"
+    echo "PASS_MIN_DAYS 7"       | sudo tee -a "/etc/login.defs"
+    echo "PASS_WARN_AGE 14"      | sudo tee -a "/etc/login.defs"
+    echo "LOGIN_RETRIES 3"       | sudo tee -a "/etc/login.defs"
+    echo "LOGIN_TIMEOUT 30"      | sudo tee -a "/etc/login.defs"
+    echo "ENCRYPT_METHOD SHA512" | sudo tee -a "/etc/login.defs"
 
     # Setting lockout policy (deny after 10 attempts, lock for 30 minutes)
     echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
