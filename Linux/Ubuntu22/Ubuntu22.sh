@@ -7,35 +7,33 @@
 
 # This is the main function.  It acts as a menu.
 function main {
-    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    printf "   ______    ______    ______    __       __    ______               __      __    ________    __            ________   \n"
-    printf "  /      \  /      |  /      \  /  \     /  |  /      \             /  |    /  |  /        \  /  |          /        \  \n"
-    printf " /&&&&&&  | &&&&&&/  /&&&&&&  | &&  \   /&& | /&&&&&&  |            && |    && | /&&&&&&&&  | && |         /&&&&&&&&  | \n"
-    printf " && \__&&/    && |   && | _&&/  &&$  \ /&&$ | && |__&& |   ______   && |    && | && |    && | && |         && |    && | \n"
-    printf " &&      \    && |   && |/    | &&&&  /&&&& | &&    && |  |______|  && |    && | && |    && | && |         && |    && | \n"
-    printf "  &&&&&&  |   && |   && |&&&& | && && &&/&& | &&&&&&&& |            &&&&&&&&&& | && |    && | && |         && |    && | \n"
-    printf " /  \__&& |  _&& |_  && \__&& | && |&&$/ && | && |  && |            && |    && | && |    && | && |_______  && |    && | \n"
-    printf " &&    && / / &&   | &&    && / && | $/  && | && |  && |            && |    && | && \    && | &&         | && \    && | \n"
-    printf "  &&&&&&_/  &&&&&&_/  &&&&&&_/  &&_/     &&_/ &&_/  &&_/            &&_/    &&_/  &&&&&&&&_/  &&&&&&&&&&_/  &&&&&&&&_/  \n"
-    printf "             __     __   _______    __     __   ___      __   ________   __     __        ______     ______             \n"
-    printf "            /  |   /  | /       \  /  |   /  | /   \    /  | /        | /  |   /  |      /      \   /      \            \n"
-    printf "            && |   && | &&&&&&&  \ && |   && | &&&& \   && | &&&&&&&&_/ && |   && |     /&&&&&&  | /&&&&&&  |           \n"
-    printf "            && |   && | && |  && | && |   && | && && \  && |    && |    && |   && |     &&_/  && | &&_/  && |           \n"
-    printf "            && |   && | && |  && / && |   && | && &&  \ && |    && |    && |   && |           && |       && |           \n"
-    printf "            && |   && | &&&&&&& <  && |   && | && | && \&& |    && |    && |   && |          && /       && /            \n"
-    printf "            && |   && | && |  && \ && |   && | && | &&  && |    && |    && |   && |        &&& /      &&& /             \n"
-    printf "            && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___           \n"
-    printf "             &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/           \n"
-    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    printf "    1) Start                                                                                                            \n"
-    printf "    2) Edit ports                                                                                                       \n"
-    printf "    3) View checklist                                                                                                   \n"
-    printf "    4) Exit Program                                                                                                     \n"
-    printf "                                                                                                                        \n"
-    printf "    Disclaimers:                                                                                                        \n"
-    printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
-    printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
-    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+    printf "    __     __   _______    __     __   ___      __   ________   __     __        ______     ______    \n"
+    printf "   /  |   /  | /       \  /  |   /  | /   \    /  | /        | /  |   /  |      /      \   /      \   \n"
+    printf "   && |   && | &&&&&&&  \ && |   && | &&&& \   && | &&&&&&&&_/ && |   && |     /&&&&&&  | /&&&&&&  |  \n"
+    printf "   && |   && | && |  && | && |   && | && && \  && |    && |    && |   && |     &&_/  && | &&_/  && |  \n"
+    printf "   && |   && | && |  && / && |   && | && &&  \ && |    && |    && |   && |           && |       && |  \n"
+    printf "   && |   && | &&&&&&& <  && |   && | && | && \&& |    && |    && |   && |          && /       && /   \n"
+    printf "   && |   && | && |  && \ && |   && | && | &&  && |    && |    && |   && |        &&& /      &&& /    \n"
+    printf "   && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___  \n"
+    printf "    &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/  \n"
+    printf "                                                                                                      \n"
+    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+    printf "    1) Update Apps (snap and apt)                                                                     \n"
+    printf "    2) Install Apps (apt)                                                                             \n"
+    printf "    2) Remove Apps (apt)                                                                              \n"
+    printf "    3) Reinstall apt                                                                                  \n"
+    printf "    1) Start                                                                                          \n"
+    printf "    1) Start                                                                                          \n"
+    printf "    1) Start                                                                                          \n"
+    printf "    2) Edit ports                                                                                     \n"
+    printf "    3) View checklist                                                                                 \n"
+    printf "    4) Exit Program                                                                                   \n"
+    printf "                                                                                                      \n"
+    printf "    Disclaimers:                                                                                      \n"
+    printf "        This program does not any passwords.  This needs to be done manually.                         \n"
+    printf "        Note that any new groups will be empty, as you cannot make lists of lists.                    \n"
+    printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
  
     read -r answer
     if [ "$answer" -eq 1 ]
@@ -62,29 +60,29 @@ function auto {
 
     # Installing apt-get
 
-    # Getting apt version, OS name, and the codename of the OS
-    APT_VERS=$(apt -v | awk '{print $2}')
-    OS=$(awk -F= '{if ($1 == "ID") print $2}' < /etc/os-release)
-    CODENAME=$(awk -F= '{if ($1 == "VERSION_CODENAME") print $2}' < /etc/os-release)
+    # # Getting apt version, OS name, and the codename of the OS
+    # APT_VERS=$(apt -v | awk '{print $2}')
+    # OS=$(awk -F= '{if ($1 == "ID") print $2}' < /etc/os-release)
+    # CODENAME=$(awk -F= '{if ($1 == "VERSION_CODENAME") print $2}' < /etc/os-release)
 
-    # Installing apt
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_" + "$APT_VERS" + "_amd64.deb" -O libapt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_" + "$APT_VERS" + "_amd64.deb" -O apt.deb
-    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_" + "$APT_VERS" + "_amd64.deb" -O apt-utils.deb
-    dpkg -Ri .
+    # # Installing apt
+    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_" + "$APT_VERS" + "_amd64.deb" -O libapt.deb
+    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_" + "$APT_VERS" + "_amd64.deb" -O apt.deb
+    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_" + "$APT_VERS" + "_amd64.deb" -O apt-utils.deb
+    # dpkg -Ri .
 
-    # Editing /etc/apt/sources.list
-    if [ "$OS" = "debian" ]; then
-        echo "deb http://deb.debian.org/debian $CODENAME contrib main non-free non-free-firmware" | sudo tee /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian $CODENAME-backports contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian $CODENAME-updates contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://security.debian.org/debian-security $CODENAME-security main non-free updates" | sudo tee -a /etc/apt/sources.list
-    elif [ "$OS" = "ubuntu" ]; then
-        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
-        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-        echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-    fi
+    # # Editing /etc/apt/sources.list
+    # if [ "$OS" = "debian" ]; then
+    #     echo "deb http://deb.debian.org/debian $CODENAME contrib main non-free non-free-firmware" | sudo tee /etc/apt/sources.list
+    #     echo "deb http://deb.debian.org/debian $CODENAME-backports contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
+    #     echo "deb http://deb.debian.org/debian $CODENAME-updates contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
+    #     echo "deb http://security.debian.org/debian-security $CODENAME-security main non-free updates" | sudo tee -a /etc/apt/sources.list
+    # elif [ "$OS" = "ubuntu" ]; then
+    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
+    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+    # fi
 
     # Making installs require secure ssl connection
     apt-get install -y wget ca-certificates
@@ -97,30 +95,13 @@ function auto {
     echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
 
-
     # Updating all apps (snaps included)
     apt-get update
     apt-get upgrade -y
     snap refresh
 
     # Installing apps
-    apt-get install -y auditd
-    apt-get install -y chkrootkit
-    apt-get install -y cron
-    apt-get install -y firewalld
-    apt-get install -y libdate-manip-perl
-    apt-get install -y libpam-cracklib
-    apt-get install -y logwatch
-    apt-get install -y nano
-    apt-get install -y net-tools
-    apt-get install -y openssh-server
-    apt-get install -y openssl
-    apt-get install -y p7zip
-    apt-get install -y postgresql
-    apt-get install -y postgresql-contrib
-    apt-get install -y rkhunter
-    apt-get install -y rsyslog
-    apt-get install -y ufw
+    apt-get install -y auditd chkrootkit cron firewalld libdate-manip-perl logwatch nano net-tools openssh-server openssl p7zip postgresql postgresql-contrib rkhunter rsyslog ufw
 
     # Updating again to make sure everything is up to date (Can't be too careful!)
     apt-get update
@@ -130,111 +111,13 @@ function auto {
 
     # Uninstalling prohibited apps
     # Hacking tools
-    apt-get purge -y aircrack-ng
-    apt-get purge -y apktool
-    apt-get purge -y autopsy
-    apt-get purge -y deluge
-    apt-get purge -y dirb
-    apt-get purge -y dirbuster
-    apt-get purge -y dsniff
-    apt-get purge -y ettercap
-    apt-get purge -y fcracklib
-    apt-get purge -y fcrackzip
-    apt-get purge -y freeciv
-    apt-get purge -y Frostwire
-    apt-get purge -y ftp
-    apt-get purge -y ftpscan
-    apt-get purge -y gobuster
-    apt-get purge -y hashcat
-    apt-get purge -y httrack
-    apt-get purge -y hydra
-    apt-get purge -y john
-    apt-get purge -y kismet
-    apt-get purge -y knocker
-    apt-get purge -y linuxdcpp
-    apt-get purge -y medusa
-    apt-get purge -y metasploit-framework
-    apt-get purge -y minetest
-    apt-get purge -y nbtscan
-    apt-get purge -y ncrack
-    apt-get purge -y netcat
-    apt-get purge -y nikto
-    apt-get purge -y nmap
-    apt-get purge -y ophcrack
-    apt-get purge -y osquery
-    apt-get purge -y rfdump
-    apt-get purge -y skipfish
-    apt-get purge -y smbmap
-    apt-get purge -y snort
-    apt-get purge -y sqlmap
-    apt-get purge -y tshark
-    apt-get purge -y vuze
-    apt-get purge -y wfuzz
-    apt-get purge -y wifite
-    apt-get purge -y wireshark
-    apt-get purge -y yersinia
-    apt-get purge -y zenmap
-    apt-get purge -y zmap
+    apt-get purge -y aircrack-ng apktool autopsy deluge dirb dirbuster dsniff ettercap fcracklib fcrackzip freeciv Frostwire ftp ftpscan gobuster hashcat httrack hydra john kismet knocker linuxdcpp medusa metasploit-framework minetest nbtscan ncrack netcat nikto nmap ophcrack osquery rfdump skipfish smbmap snort sqlmap tshark vuze wfuzz wifite wireshark yersinia zenmap zmap
     # Games
-    apt-get purge -y aisleriot
-    apt-get purge -y endless-sky
-    apt-get purge -y freeciv
-    apt-get purge -y goldeneye
-    apt-get purge -y gameconqueror
-    apt-get purge -y gnome-mahjongg
-    apt-get purge -y gnome-mines
-    apt-get purge -y gnome-sudoku
-    apt-get purge -y gnomine
-    apt-get purge -y wesnoth
+    apt-get purge -y aisleriot endless-sky freeciv goldeneye gameconqueror gnome-mahjongg gnome-mines gnome-sudoku gnomine wesnoth
     # Insecure software
-    apt-get purge -y ldap-utils
-    apt-get purge -y manaplus
-    apt-get purge -y nis
-    apt-get purge -y rpcbind
-    apt-get purge -y rsh-client
-    apt-get purge -y rsh-server
-    apt-get purge -y rsync
-    apt-get purge -y talk
-    apt-get purge -y telnet
-    apt-get purge -y telnetd
+    apt-get purge -y ldap-utils manaplus nis rpcbind rsh-client rsh-server rsync talk telnet telnetd
     # Unnecessary bloatware
-    apt-get purge -y amule
-    apt-get purge -y apport
-    apt-get purge -y atd
-    apt-get purge -y autofs
-    apt-get purge -y avahi-daemon
-    apt-get purge -y avahi-utils
-    apt-get purge -y bind9
-    apt-get purge -y cups
-    apt-get purge -y doona
-    apt-get purge -y dovecot-imapd
-    apt-get purge -y dovecot-pop3d
-    apt-get purge -y fcrackzip
-    apt-get purge -y iptables-persistent
-    apt-get purge -y isc-dhcp-server
-    apt-get purge -y nfs-common
-    apt-get purge -y nfs-kernel-server
-    apt-get purge -y nginx
-    apt-get purge -y packit
-    apt-get purge -y pompem
-    apt-get purge -y portmap
-    apt-get purge -y proxychains
-    apt-get purge -y python-zeitgeist
-    apt-get purge -y rhythmbox-plugin-zeitgeist
-    apt-get purge -y rpcbind
-    apt-get purge -y slapd
-    apt-get purge -y SNMP
-    apt-get purge -y squidclient
-    apt-get purge -y squid-cgi
-    apt-get purge -y themole
-    apt-get purge -y xprobe
-    apt-get purge -y xserver-xorg*
-    apt-get purge -y zeitgeist
-    apt-get purge -y zeitgeist-core
-    apt-get purge -y zeitgeist-datahub
-    apt-get purge -y nmapsi4
-    apt-get purge -y pumpa
-    apt-get purge -y zangband
+    apt-get purge -y amule apport atd autofs avahi-daemon avahi-utils bind9 cups doona dovecot-imapd dovecot-pop3d fcrackzip iptables-persistent isc-dhcp-server nfs-common nfs-kernel-server nginx packit pompem portmap proxychains python-zeitgeist rhythmbox-plugin-zeitgeist rpcbind slapd SNMP squidclient squid-cgi themole xprobe zeitgeist zeitgeist-core zeitgeist-datahub nmapsi4 pumpa zangband
 
     # Updating again to make sure everything is up to date (Can't be too careful!)
     apt-get update
@@ -430,7 +313,7 @@ function auto {
     echo "password required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
 
     # Managing password complexity requirements (minimum length of 8, 1 upper, 1 lower, 1 digit, 1 special)
-    echo "password required pam_cracklib.so minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1" | sudo tee -a "/etc/pam.d/common-password"
+    # echo "password required pam_cracklib.so minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1" | sudo tee -a "/etc/pam.d/common-password"
 
     # Disallowing guest
     echo "allow-guest=false" | sudo tee -a "/etc/lightdm/lightdm.conf"
