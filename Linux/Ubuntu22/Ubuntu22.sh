@@ -27,11 +27,14 @@ function main {
     printf "            && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___           \n"
     printf "             &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/           \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    printf "    1) Start                                                                                                            \n"
-    printf "    2) Edit ports                                                                                                       \n"
-    printf "    3) View checklist                                                                                                   \n"
-    printf "    4) Exit Program                                                                                                     \n"
-    printf "    5) Update Firefox Configs                                                                                           \n"
+    printf "    1) Reinstall APT                                                                                                    \n"
+    printf "    2) Update APT and snap                                                                                              \n"
+    printf "    3) Install tools and uninstall unnecessary apps                                                                     \n"
+    printf "    4) Configure APT settings                                                                                           \n"
+    printf "    0) Edit ports                                                                                                       \n"
+    printf "    0) View checklist                                                                                                   \n"
+    printf "    0) Update Firefox Configs                                                                                           \n"
+    printf "    0) Exit Program                                                                                                     \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
@@ -40,53 +43,124 @@ function main {
  
     read -r answer
     if [ "$answer" -eq 1 ]
-        then auto;
+        then reinstall_apt;
     elif [ "$answer" -eq 2 ]
-        then managePorts;
+        then update_apps;
     elif [ "$answer" -eq 3 ]
-        then checklist;
+        then manage_apps;
     elif [ "$answer" -eq 4 ]
-        then exit;
+        then configure_apt;
     else
         main;
     fi
 }
 
-# This function contains most of the things that an ubuntu image will need done.
-function auto {
-    # Differences  -- Implement later
-    # Editing host.conf
-    #cp /etc/host.conf /etc/host.conf.bak
-    #echo "nospoof on" | sudo tee -a /etc/host.conf
-    #echo "order bind,hosts" | sudo tee -a /etc/host.conf
-    #ip link set dev promisc off
+# This function updates apps from the snap store and apps from apt.
+function update_apps {
+    sudo snap refresh
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt --fix-broken install -y
+    sudo apt autoremove -y
+}
 
-    # Installing apt-get
+function reinstall_apt {
+    # Getting apt version, OS name, and the codename of the OS
+    APT_VERS=$(apt -v | awk '{print $2}')
+    OS=$(awk -F= '{if ($1 == "ID") print $2}' < /etc/os-release)
+    CODENAME=$(awk -F= '{if ($1 == "VERSION_CODENAME") print $2}' < /etc/os-release)
 
-    # # Getting apt version, OS name, and the codename of the OS
-    # APT_VERS=$(apt -v | awk '{print $2}')
-    # OS=$(awk -F= '{if ($1 == "ID") print $2}' < /etc/os-release)
-    # CODENAME=$(awk -F= '{if ($1 == "VERSION_CODENAME") print $2}' < /etc/os-release)
+    # Installing apt
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_${APT_VERS}_amd64.deb" -O libapt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_${APT_VERS}_amd64.deb" -O apt.deb
+    wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_${APT_VERS}_amd64.deb" -O apt-utils.deb
+    dpkg -Ri .
 
-    # # Installing apt
-    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg6.0_" + "$APT_VERS" + "_amd64.deb" -O libapt.deb
-    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt_" + "$APT_VERS" + "_amd64.deb" -O apt.deb
-    # wget "http://us.archive.ubuntu.com/ubuntu/pool/main/a/apt/apt-utils_" + "$APT_VERS" + "_amd64.deb" -O apt-utils.deb
-    # dpkg -Ri .
+    # Editing /etc/apt/sources.list
+    if [ "$OS" = "debian" ]; then
+        echo "deb http://deb.debian.org/debian          ${CODENAME}           contrib main non-free non-free-firmware"         | sudo tee    /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian          ${CODENAME}-backports contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian          ${CODENAME}-updates   contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian-security ${CODENAME}-security  contrib main non-free non-free-firmware updates" | sudo tee -a /etc/apt/sources.list
+    elif [ "$OS" = "ubuntu" ]; then
+        echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}           main multiverse restricted universe" | sudo tee    /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-security  main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-updates   main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
+    elif [ "$OS" = "mint" ]; then
+        # MINT IS WEIRD!!! MAKE SURE THIS WORKS FIRST!!!
+        echo "deb http://packages.linuxmint.com         ${CODENAME} main upstream import backport #id:linuxmint_main"          | sudo tee    /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian          bookworm           contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian          bookworm-backports contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian          bookworm-updates   contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian-security bookworm-security  contrib main non-free non-free-firmware updates" | sudo tee -a /etc/apt/sources.list
+    fi
+}
 
-    # # Editing /etc/apt/sources.list
-    # if [ "$OS" = "debian" ]; then
-    #     echo "deb http://deb.debian.org/debian $CODENAME contrib main non-free non-free-firmware" | sudo tee /etc/apt/sources.list
-    #     echo "deb http://deb.debian.org/debian $CODENAME-backports contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
-    #     echo "deb http://deb.debian.org/debian $CODENAME-updates contrib main non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
-    #     echo "deb http://security.debian.org/debian-security $CODENAME-security main non-free updates" | sudo tee -a /etc/apt/sources.list
-    # elif [ "$OS" = "ubuntu" ]; then
-    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME main multiverse restricted universe" | sudo tee /etc/apt/sources.list
-    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-    #     echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-updates main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-    # fi
+function manage_apps {
+    # Installing apps
+    sudo apt install -y \
+    auditd chkrootkit cron \
+    firewalld libdate-manip-perl logwatch \
+    nano net-tools openssh-server \
+    openssl p7zip postgresql \
+    postgresql-contrib rkhunter rsyslog ufw
 
+    # Updating again to make sure everything is up to date (Can't be too careful!)
+    update_apps
+
+    # Uninstalling prohibited apps
+    # Hacking tools
+    sudo apt purge -y \
+    aircrack-ng apktool autopsy \
+    deluge dirb dirbuster \
+    dsniff ettercap fcracklib \
+    fcrackzip freeciv Frostwire \
+    ftp ftpscan gobuster \
+    hashcat httrack hydra \
+    john kismet knocker \
+    linuxdcpp medusa metasploit-framework \
+    minetest nbtscan ncrack \
+    netcat nikto nmap \
+    ophcrack osquery rfdump \
+    skipfish smbmap snort \
+    sqlmap tshark vuze \
+    wfuzz wifite wireshark \
+    yersinia zenmap zmap
+    
+    # Games
+    sudo apt purge -y \
+    aisleriot   endless-sky   freeciv \
+    goldeneye   gameconqueror gnome-mahjongg \
+    gnome-mines gnome-sudoku  gnomine \
+    wesnoth
+    
+    # Insecure software
+    sudo apt purge -y \
+    ldap-utils manaplus   nis \
+    rpcbind    rsh-client rsh-server \
+    rsync      talk       telnet \
+    telnetd
+
+    # Other
+    # These apps will keep their config files installed.
+    # If you get a penalty from this line, please reinstall the app, and keep the current configs.
+    sudo apt remove -y \
+    amule               apport                     atd \
+    autofs              avahi-daemon               avahi-utils \
+    bind9               cups                       doona \
+    dovecot-imapd       dovecot-pop3d              fcrackzip \
+    iptables-persistent isc-dhcp-server            nfs-common n\
+    fs-kernel-server    nginx                      packit \
+    pompem              portmap                    proxychains \
+    python-zeitgeist    rhythmbox-plugin-zeitgeist rpcbind \
+    slapd               SNMP                       squidclient \
+    squid-cgi           themole                    xprobe \
+    zeitgeist           zeitgeist-core             zeitgeist-datahub \
+    nmapsi4             pumpa                      zangband
+}
+
+function configure_app {
     # Making installs require secure ssl connection
     apt-get install -y wget ca-certificates
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -97,37 +171,16 @@ function auto {
     echo "APT::Periodic::Download-Upgradeable-Packages \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
+}
 
-    # Updating all apps (snaps included)
-    apt-get update
-    apt-get upgrade -y
-    snap refresh
 
-    # Installing apps
-    apt-get install -y auditd chkrootkit cron firewalld libdate-manip-perl logwatch nano net-tools openssh-server openssl p7zip postgresql postgresql-contrib rkhunter rsyslog ufw
-
-    # Updating again to make sure everything is up to date (Can't be too careful!)
-    apt-get update
-    apt-get upgrade -y
-    apt-get --fix-broken install -y
-    snap refresh
-
-    # Uninstalling prohibited apps
-    # Hacking tools
-    apt-get purge -y aircrack-ng apktool autopsy deluge dirb dirbuster dsniff ettercap fcracklib fcrackzip freeciv Frostwire ftp ftpscan gobuster hashcat httrack hydra john kismet knocker linuxdcpp medusa metasploit-framework minetest nbtscan ncrack netcat nikto nmap ophcrack osquery rfdump skipfish smbmap snort sqlmap tshark vuze wfuzz wifite wireshark yersinia zenmap zmap
-    # Games
-    apt-get purge -y aisleriot endless-sky freeciv goldeneye gameconqueror gnome-mahjongg gnome-mines gnome-sudoku gnomine wesnoth
-    # Insecure software
-    apt-get purge -y ldap-utils manaplus nis rpcbind rsh-client rsh-server rsync talk telnet telnetd
-    # Unnecessary bloatware
-    apt-get purge -y amule apport atd autofs avahi-daemon avahi-utils bind9 cups doona dovecot-imapd dovecot-pop3d fcrackzip iptables-persistent isc-dhcp-server nfs-common nfs-kernel-server nginx packit pompem portmap proxychains python-zeitgeist rhythmbox-plugin-zeitgeist rpcbind slapd SNMP squidclient squid-cgi themole xprobe zeitgeist zeitgeist-core zeitgeist-datahub nmapsi4 pumpa zangband
-
-    # Updating again to make sure everything is up to date (Can't be too careful!)
-    apt-get update
-    apt-get upgrade -y
-    apt-get --fix-broken install -y
-    apt-get autopurge -y
-    snap refresh
+function temp {
+    # Differences  -- Implement later
+    # Editing host.conf
+    #cp /etc/host.conf /etc/host.conf.bak
+    #echo "nospoof on" | sudo tee -a /etc/host.conf
+    #echo "order bind,hosts" | sudo tee -a /etc/host.conf
+    #ip link set dev promisc off
 
     # Setting up auditd
     systemctl --now enable auditd
