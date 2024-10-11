@@ -31,9 +31,19 @@ function main {
     printf "    2) Update APT and snap                                                                                              \n"
     printf "    3) Install tools and uninstall unnecessary apps                                                                     \n"
     printf "    4) Configure APT settings                                                                                           \n"
-    printf "    0) Edit ports                                                                                                       \n"
-    printf "    0) View checklist                                                                                                   \n"
-    printf "    0) Update Firefox Configs                                                                                           \n"
+    printf "    5) Setup Auditd                                                                                                     \n"
+    printf "    6) Chrootkit                                                                                                        \n"
+    printf "    7) Firewalld                                                                                                        \n"
+    printf "    8) Logwatch                                                                                                         \n"
+    printf "    9) SSH                                                                                                              \n"
+    printf "    10) RKHunter                                                                                                        \n"
+    printf "    11) UFW                                                                                                             \n"
+    printf "    12) Create Users & Groups                                                                                           \n"
+    printf "    13) Add & Delete Users & Groups                                                                                     \n"
+    printf "    13) Set Admin Permissions                                                                                           \n"
+    printf "    14) Edit ports                                                                                                      \n"
+    printf "    15) View checklist                                                                                                  \n"
+    printf "    16) Update Firefox Configs                                                                                          \n"
     printf "    0) Exit Program                                                                                                     \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
@@ -50,6 +60,26 @@ function main {
         then manage_apps;
     elif [ "$answer" -eq 4 ]
         then configure_apt;
+    elif [ "$answer" -eq 5 ]
+        then setup_auditd;
+    elif [ "$answer" -eq 6 ]
+        then config_chrootkit;
+    elif [ "$answer" -eq 7 ]
+        then config_firewalld;
+    elif [ "$answer" -eq 8 ]
+        then config_logwatch;
+    elif [ "$answer" -eq 9 ]
+        then config_ssh;
+    elif [ "$answer" -eq 10 ]
+        then config_rkhunter;
+    elif [ "$answer" -eq 11 ]
+        then setup_ufw;
+    elif [ "$answer" -eq 12 ]
+        then create_users_groups;
+    elif [ "$answer" -eq 13 ]
+        then set_admin_permissions;
+    elif [ "$answer" -eq 14 ]
+        then manage_ports;
     else
         main;
     fi
@@ -87,13 +117,16 @@ function reinstall_apt {
         echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
         echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-security  main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
         echo "deb http://archive.ubuntu.com/ubuntu ${CODENAME}-updates   main multiverse restricted universe" | sudo tee -a /etc/apt/sources.list
-    elif [ "$OS" = "mint" ]; then
-        # MINT IS WEIRD!!! MAKE SURE THIS WORKS FIRST!!!
-        echo "deb http://packages.linuxmint.com         ${CODENAME} main upstream import backport #id:linuxmint_main"          | sudo tee    /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian          bookworm           contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian          bookworm-backports contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian          bookworm-updates   contrib main non-free non-free-firmware"         | sudo tee -a /etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian-security bookworm-security  contrib main non-free non-free-firmware updates" | sudo tee -a /etc/apt/sources.list
+    elif [ "$OS" = "linuxmint" ]; then
+        # Get the Ubuntu base version
+        UBUNTU_BASE=$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2)
+        
+        # Configure Linux Mint repositories
+        echo "deb http://packages.linuxmint.com ${CODENAME} main upstream import backport #id:linuxmint_main" | sudo tee /etc/apt/sources.list.d/official-package-repositories.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_BASE} main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_BASE}-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
+        echo "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_BASE}-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
+        echo "deb http://security.ubuntu.com/ubuntu ${UBUNTU_BASE}-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
     fi
 }
 
@@ -174,14 +207,21 @@ function configure_app {
 }
 
 
-function temp {
-    # Differences  -- Implement later
-    # Editing host.conf
-    #cp /etc/host.conf /etc/host.conf.bak
-    #echo "nospoof on" | sudo tee -a /etc/host.conf
-    #echo "order bind,hosts" | sudo tee -a /etc/host.conf
-    #ip link set dev promisc off
 
+
+
+# ----------------------------------------------- Changes made here [start] --------------------------------
+
+
+
+# Differences  -- Implement later
+# Editing host.conf
+#cp /etc/host.conf /etc/host.conf.bak
+#echo "nospoof on" | sudo tee -a /etc/host.conf
+#echo "order bind,hosts" | sudo tee -a /etc/host.conf
+#ip link set dev promisc off
+
+function setup_auditd {
     # Setting up auditd
     systemctl --now enable auditd
     augenrules --load
@@ -255,17 +295,32 @@ function temp {
     systemctl restart auditd
     augenrules --load
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_chrootkit {
     # Running chkrootkit
     sudo chkrootkit | sudo tee -a RootKitInfo.txt
 
     # Making chkrootkit run daily
     sudo echo 'RUN_DAILY="true"' | sudo tee -a /etc/chkrootkit.conf
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_firewalld {
     # Starts firewalld
     systemctl enable firewalld
     firewall-cmd --permanent --add-service=https
     firewall-cmd --reload
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
 
+function config_logwatch {
     # Sets up logwatch
     mkdir /var/cache/logwatch
     cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
@@ -280,6 +335,11 @@ function temp {
 
     logwatch --detail Low --range today
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_ssh {
     # Sets up SSH
     sshd -t -f /etc/ssh/sshd_config
     echo "Banner /etc/issue.net" | sudo tee -a /etc/ssh/sshd_config
@@ -309,6 +369,11 @@ function temp {
     echo "LogLevel VERBOSE"           | sudo tee -a /etc/ssh/sshd_config
     echo "Port 2453"                  | sudo tee -a /etc/ssh/sshd_config
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_rkhunter {
     # Editing rkhunter permissions
     echo "UPDATE_MIRRORS=1" | sudo tee -a "/etc/rkhunter.conf"
     echo "CRON_DAILY_RUN=true" | sudo tee -a "/etc/rkhunter.conf"
@@ -327,6 +392,11 @@ function temp {
     # Running rkhunter daily (just moves a file into cron.daily)
     mv rkhunter /etc/cron.daily
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function setup_ufw {
     # Setting up firewall
     ufw allow in on lo
     ufw allow out on lo
@@ -339,6 +409,11 @@ function temp {
     ufw default deny
     ufw --force enable
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function temp {
     ## Fixing System file permissions
     chmod 640 /etc/shadow
     chmod 644 /etc/passwd
@@ -444,7 +519,11 @@ function temp {
     do
         echo "$user:Somethingsecur3!" | chpasswd
     done
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
 
+function create_users_groups {
     # This creates users
     while true
     do
@@ -469,6 +548,11 @@ function temp {
         fi
     done
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function add_delete_users_groups {
     # This adds users to existing groups
     while true
     do
@@ -507,6 +591,11 @@ function temp {
         fi
     done
 
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function set_admin_permissions {
     # These commands will remove admin rights from all users and then give them back
     # Removing admin permissions
     for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
@@ -530,9 +619,10 @@ function temp {
     echo "Manage Software Updater (Things like installing important security updates and automatically checking for updates daily)"
 
     read -rp "Press [Enter] to return to the menu."
-    clear
     main
 }
+
+# ----------------------------------------------- Changes made here [end] --------------------------------
 
 function managePorts {
     # Checks for open ports.
@@ -567,7 +657,6 @@ function managePorts {
     done
 
     read -rp "Press [Enter] to return to the menu."
-    clear
     main
 }
 
@@ -589,5 +678,4 @@ function checklist {
     main
 }
 
-clear
 main
