@@ -42,15 +42,16 @@ function main {
     printf "    13) Add & Delete Users & Groups                                                                                     \n"
     printf "    13) Set Admin Permissions                                                                                           \n"
     printf "    14) Edit ports                                                                                                      \n"
-    printf "    15) View checklist                                                                                                  \n"
-    printf "    16) Update Firefox Configs                                                                                          \n"
+    printf "    15) Change all Passwords                                                                                            \n"
+    printf "    16) View checklist                                                                                                  \n"
+    printf "    17) Update Firefox Configs                                                                                          \n"
     printf "    0) Exit Program                                                                                                     \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
     printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
- 
+
     read -r answer
     if [ "$answer" -eq 1 ]
         then reinstall_apt;
@@ -59,7 +60,7 @@ function main {
     elif [ "$answer" -eq 3 ]
         then manage_apps;
     elif [ "$answer" -eq 4 ]
-        then configure_apt;
+        then config_apt;
     elif [ "$answer" -eq 5 ]
         then setup_auditd;
     elif [ "$answer" -eq 6 ]
@@ -80,6 +81,8 @@ function main {
         then set_admin_permissions;
     elif [ "$answer" -eq 14 ]
         then manage_ports;
+    elif [ "$answer" -eq 15 ]
+        then change_passwords;
     else
         main;
     fi
@@ -120,7 +123,7 @@ function reinstall_apt {
     elif [ "$OS" = "linuxmint" ]; then
         # Get the Ubuntu base version
         UBUNTU_BASE=$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2)
-        
+
         # Configure Linux Mint repositories
         echo "deb http://packages.linuxmint.com ${CODENAME} main upstream import backport #id:linuxmint_main" | sudo tee /etc/apt/sources.list.d/official-package-repositories.list
         echo "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_BASE} main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
@@ -133,11 +136,12 @@ function reinstall_apt {
 function manage_apps {
     # Installing apps
     sudo apt install -y \
-    auditd chkrootkit cron \
-    firewalld libdate-manip-perl logwatch \
-    nano net-tools openssh-server \
-    openssl p7zip postgresql \
-    postgresql-contrib rkhunter rsyslog ufw
+    auditd             chkrootkit         cron \
+    firewalld          libdate-manip-perl logwatch \
+    nano               net-tools          openssh-server \
+    openssl            p7zip              postgresql \
+    postgresql-contrib rkhunter           rsyslog \
+    ufw
 
     # Updating again to make sure everything is up to date (Can't be too careful!)
     update_apps
@@ -145,29 +149,29 @@ function manage_apps {
     # Uninstalling prohibited apps
     # Hacking tools
     sudo apt purge -y \
-    aircrack-ng apktool autopsy \
-    deluge dirb dirbuster \
-    dsniff ettercap fcracklib \
-    fcrackzip freeciv Frostwire \
-    ftp ftpscan gobuster \
-    hashcat httrack hydra \
-    john kismet knocker \
-    linuxdcpp medusa metasploit-framework \
-    minetest nbtscan ncrack \
-    netcat nikto nmap \
-    ophcrack osquery rfdump \
-    skipfish smbmap snort \
-    sqlmap tshark vuze \
-    wfuzz wifite wireshark \
-    yersinia zenmap zmap
-    
+    aircrack-ng apktool  autopsy \
+    deluge      dirb     dirbuster \
+    dsniff      ettercap fcracklib \
+    fcrackzip   freeciv  Frostwire \
+    ftp         ftpscan  gobuster \
+    hashcat     httrack  hydra \
+    john        kismet   knocker \
+    linuxdcpp   medusa   metasploit-framework \
+    minetest    nbtscan  ncrack \
+    netcat      nikto    nmap \
+    ophcrack    osquery  rfdump \
+    skipfish    smbmap   snort \
+    sqlmap      tshark   vuze \
+    wfuzz       wifite   wireshark \
+    yersinia    zenmap   zmap
+
     # Games
     sudo apt purge -y \
     aisleriot   endless-sky   freeciv \
     goldeneye   gameconqueror gnome-mahjongg \
     gnome-mines gnome-sudoku  gnomine \
     wesnoth
-    
+
     # Insecure software
     sudo apt purge -y \
     ldap-utils manaplus   nis \
@@ -193,7 +197,7 @@ function manage_apps {
     nmapsi4             pumpa                      zangband
 }
 
-function configure_app {
+function config_apt {
     # Making installs require secure ssl connection
     apt-get install -y wget ca-certificates
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -205,21 +209,6 @@ function configure_app {
     echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
 }
-
-
-
-
-
-# ----------------------------------------------- Changes made here [start] --------------------------------
-
-
-
-# Differences  -- Implement later
-# Editing host.conf
-#cp /etc/host.conf /etc/host.conf.bak
-#echo "nospoof on" | sudo tee -a /etc/host.conf
-#echo "order bind,hosts" | sudo tee -a /etc/host.conf
-#ip link set dev promisc off
 
 function setup_auditd {
     # Setting up auditd
@@ -315,7 +304,7 @@ function config_firewalld {
     systemctl enable firewalld
     firewall-cmd --permanent --add-service=https
     firewall-cmd --reload
-    
+
     read -rp "Press [Enter] to return to the menu."
     main
 }
@@ -325,13 +314,13 @@ function config_logwatch {
     mkdir /var/cache/logwatch
     cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
 
-    echo "Output = mail" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "MailTo = me@mydomain.org" | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Output = mail"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "MailTo = me@mydomain.org"               | sudo tee -a /etc/logwatch/conf/logwatch.conf
     echo "MailFrom = logwatch@host1.mydomain.org" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Detail = Low" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = All" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = '-http'" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = '-eximstats'" | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Detail = Low"                           | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = All"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-http'"                      | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-eximstats'"                 | sudo tee -a /etc/logwatch/conf/logwatch.conf
 
     logwatch --detail Low --range today
 
@@ -513,12 +502,6 @@ function temp {
     find / -type f -name "*.jpg"   >> pics.txt
     find / -type f -name "*.jpeg"  >> pics.txt
 
-    # Changes the passwords for all users
-    echo "Setting all passwords to Somethingsecur3!"
-    for user in $(getent passwd | awk -F: '{if ($3 > 999) print $1}')
-    do
-        echo "$user:Somethingsecur3!" | chpasswd
-    done
     read -rp "Press [Enter] to return to the menu."
     main
 }
@@ -595,10 +578,20 @@ function add_delete_users_groups {
     main
 }
 
+function change_passwords {
+    # These commands will change the passwords of every user
+    echo "Setting all passwords to Somethingsecur3!"
+    for user in $(getent passwd | awk -F: '{if ($3 > 999) print $1}')
+    do
+        echo "$user:Somethingsecur3!" | sudo chpasswd
+    done
+}
+
 function set_admin_permissions {
     # These commands will remove admin rights from all users and then give them back
-    # Removing admin permissions
-    for user in $(getent passwd | awk -F: '{if ($3 > 999 && $3 != 65534) print $1}')
+    # Removing admin permissions from all users with a UID > 999 and not equal to 65534 or the current user's id
+
+    for user in $(getent passwd | awk -F: -v USER_ID=$(id -u) '{if ($3 > 999 && $3 != 65534 && $3 != USER_ID) print $1}')
     do
         usermod -G "$user" "$user"
     done
@@ -674,7 +667,6 @@ function checklist {
     printf "    8) Win!!!\n\n"
 
     read -rp "Press [Enter] to return to the menu."
-    clear
     main
 }
 
