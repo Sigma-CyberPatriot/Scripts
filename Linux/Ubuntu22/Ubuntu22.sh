@@ -27,25 +27,24 @@ function main {
     printf "            && |   && | && |  && | && |   && | && |  && && |    && |    && |   && |      &&&  /___  &&&  /___           \n"
     printf "             &&&&&&&_/  &&&&&&&__/  &&&&&&&_/  &&_/   &&&&_/    &&_/     &&&&&&&_/      &&&&&&&&_/ &&&&&&&&_/           \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Written by: Jackson Campbell ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    printf "    1) Reinstall APT                                                                                                    \n"
-    printf "    2) Update APT and snap                                                                                              \n"
-    printf "    3) Install tools and uninstall unnecessary apps                                                                     \n"
-    printf "    4) Configure APT settings                                                                                           \n"
-    printf "    5) Setup Auditd                                                                                                     \n"
-    printf "    6) Chrootkit                                                                                                        \n"
-    printf "    7) Firewalld                                                                                                        \n"
-    printf "    8) Logwatch                                                                                                         \n"
-    printf "    9) SSH                                                                                                              \n"
+    printf "     0) Exit Program                                                                                                    \n"
+    printf "     1) Reinstall APT                                                                                                   \n"
+    printf "     2) Update APT and snap                                                                                             \n"
+    printf "     3) Install tools and uninstall unnecessary apps                                                                    \n"
+    printf "     4) Configure APT settings                                                                                          \n"
+    printf "     5) Setup Auditd                                                                                                    \n"
+    printf "     6) Chrootkit                                                                                                       \n"
+    printf "     7) Firewalld                                                                                                       \n"
+    printf "     8) Logwatch                                                                                                        \n"
+    printf "     9) SSH                                                                                                             \n"
     printf "    10) RKHunter                                                                                                        \n"
     printf "    11) UFW                                                                                                             \n"
     printf "    12) Create Users & Groups                                                                                           \n"
     printf "    13) Add & Delete Users & Groups                                                                                     \n"
-    printf "    13) Set Admin Permissions                                                                                           \n"
-    printf "    14) Edit ports                                                                                                      \n"
-    printf "    15) Change all Passwords                                                                                            \n"
-    printf "    16) View checklist                                                                                                  \n"
-    printf "    17) Update Firefox Configs                                                                                          \n"
-    printf "    0) Exit Program                                                                                                     \n"
+    printf "    14) Set Admin Permissions                                                                                           \n"
+    printf "    15) Edit ports                                                                                                      \n"
+    printf "    16) Change all Passwords                                                                                            \n"
+    printf "    17) View checklist                                                                                                  \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
@@ -53,36 +52,42 @@ function main {
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     read -r answer
-    if [ "$answer" -eq 1 ]
+    if ["$answer" -eq 0]
+        then exit;
+    elif ["$answer" -eq 1 ]
         then reinstall_apt;
-    elif [ "$answer" -eq 2 ]
+    elif ["$answer" -eq 2 ]
         then update_apps;
-    elif [ "$answer" -eq 3 ]
+    elif ["$answer" -eq 3 ]
         then manage_apps;
-    elif [ "$answer" -eq 4 ]
+    elif ["$answer" -eq 4 ]
         then config_apt;
-    elif [ "$answer" -eq 5 ]
+    elif ["$answer" -eq 5 ]
         then setup_auditd;
-    elif [ "$answer" -eq 6 ]
+    elif ["$answer" -eq 6 ]
         then config_chrootkit;
-    elif [ "$answer" -eq 7 ]
+    elif ["$answer" -eq 7 ]
         then config_firewalld;
-    elif [ "$answer" -eq 8 ]
+    elif ["$answer" -eq 8 ]
         then config_logwatch;
-    elif [ "$answer" -eq 9 ]
+    elif ["$answer" -eq 9 ]
         then config_ssh;
-    elif [ "$answer" -eq 10 ]
+    elif ["$answer" -eq 10 ]
         then config_rkhunter;
-    elif [ "$answer" -eq 11 ]
+    elif ["$answer" -eq 11 ]
         then setup_ufw;
-    elif [ "$answer" -eq 12 ]
+    elif ["$answer" -eq 12 ]
         then create_users_groups;
-    elif [ "$answer" -eq 13 ]
+    elif ["$answer" -eq 13 ]
+        then add_delete_users_groups;
+    elif ["$answer" -eq 14 ]
         then set_admin_permissions;
-    elif [ "$answer" -eq 14 ]
+    elif ["$answer" -eq 15 ]
         then manage_ports;
-    elif [ "$answer" -eq 15 ]
+    elif ["$answer" -eq 16 ]
         then change_passwords;
+    elif ["$answer" -eq 17 ]
+        then checklist;
     else
         main;
     fi
@@ -134,15 +139,6 @@ function reinstall_apt {
 }
 
 function manage_apps {
-    # Installing apps
-    sudo apt install -y \
-    auditd             chkrootkit         cron \
-    firewalld          libdate-manip-perl logwatch \
-    nano               net-tools          openssh-server \
-    openssl            p7zip              postgresql \
-    postgresql-contrib rkhunter           rsyslog \
-    ufw
-
     # Updating again to make sure everything is up to date (Can't be too careful!)
     update_apps
 
@@ -150,51 +146,45 @@ function manage_apps {
     # Hacking tools
     sudo apt purge -y \
     aircrack-ng apktool  autopsy \
-    deluge      dirb     dirbuster \
-    dsniff      ettercap fcracklib \
-    fcrackzip   freeciv  Frostwire \
-    ftp         ftpscan  gobuster \
-    hashcat     httrack  hydra \
-    john        kismet   knocker \
-    linuxdcpp   medusa   metasploit-framework \
-    minetest    nbtscan  ncrack \
-    netcat      nikto    nmap \
-    ophcrack    osquery  rfdump \
-    skipfish    smbmap   snort \
-    sqlmap      tshark   vuze \
-    wfuzz       wifite   wireshark \
-    yersinia    zenmap   zmap
+    deluge      dirb     dsniff  \
+    ettercap    ftp     \
+    gobuster    hashcat  httrack \
+    hydra       john     medusa  \
+    minetest    nbtscan  ncrack  \
+    netcat      nikto    nmap    \
+    ophcrack    rfdump   smbmap  \
+    snort       sqlmap   tshark  \
+    vuze        wfuzz    wifite  \
+    wireshark   yersinia zenmap  \
+    zmap
 
     # Games
     sudo apt purge -y \
-    aisleriot   endless-sky   freeciv \
-    goldeneye   gameconqueror gnome-mahjongg \
-    gnome-mines gnome-sudoku  gnomine \
-    wesnoth
+    aisleriot   endless-sky   freeciv         \
+    goldeneye   gameconqueror gnome-mahjongg  \
+    gnome-mines gnome-sudoku  wesnoth
 
     # Insecure software
     sudo apt purge -y \
-    ldap-utils manaplus   nis \
-    rpcbind    rsh-client rsh-server \
-    rsync      talk       telnet \
-    telnetd
+    manaplus   nis        rpcbind \
+    rsh-client rsh-server rsync   \
+    talk       telnet     telnetd
 
     # Other
     # These apps will keep their config files installed.
     # If you get a penalty from this line, please reinstall the app, and keep the current configs.
     sudo apt remove -y \
-    amule               apport                     atd \
-    autofs              avahi-daemon               avahi-utils \
-    bind9               cups                       doona \
-    dovecot-imapd       dovecot-pop3d              fcrackzip \
-    iptables-persistent isc-dhcp-server            nfs-common n\
-    fs-kernel-server    nginx                      packit \
-    pompem              portmap                    proxychains \
-    python-zeitgeist    rhythmbox-plugin-zeitgeist rpcbind \
-    slapd               SNMP                       squidclient \
-    squid-cgi           themole                    xprobe \
-    zeitgeist           zeitgeist-core             zeitgeist-datahub \
-    nmapsi4             pumpa                      zangband
+    amule           apport         autofs \
+    avahi-daemon    avahi-utils    bind9 \
+    cups            doona          dovecot-imapd \
+    dovecot-pop3d   fcrackzip      iptables-persistent \
+    isc-dhcp-server nfs-common     nfs-kernel-server \
+    nginx           packit         pompem \
+    portmap         proxychains    rhythmbox-plugin-zeitgeist \
+    rpcbind         slapd          squidclient \
+    squid-cgi       themole        xprobe \
+    zeitgeist       zeitgeist-core zeitgeist-datahub \
+    nmapsi4         pumpa          zangband
 }
 
 function config_apt {
@@ -419,13 +409,26 @@ function temp {
     chmod 755 /usr/local/sbin
 
     # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
-    echo "PASS_MAX_DAYS 90"      | sudo tee -a "/etc/login.defs"
-    echo "PASS_MIN_DAYS 7"       | sudo tee -a "/etc/login.defs"
-    echo "PASS_WARN_AGE 14"      | sudo tee -a "/etc/login.defs"
-    echo "LOGIN_RETRIES 3"       | sudo tee -a "/etc/login.defs"
-    echo "LOGIN_TIMEOUT 30"      | sudo tee -a "/etc/login.defs"
-    echo "ENCRYPT_METHOD SHA512" | sudo tee -a "/etc/login.defs"
+    # echo "PASS_MAX_DAYS 90"      | sudo tee -a "/etc/login.defs"
+    # echo "PASS_MIN_DAYS 7"       | sudo tee -a "/etc/login.defs"
+    # echo "PASS_WARN_AGE 14"      | sudo tee -a "/etc/login.defs"
+    # echo "LOGIN_RETRIES 3"       | sudo tee -a "/etc/login.defs"
+    # echo "LOGIN_TIMEOUT 30"      | sudo tee -a "/etc/login.defs"
+    # echo "ENCRYPT_METHOD SHA512" | sudo tee -a "/etc/login.defs"
 
+    # Enabling ASLR
+    sysctl -w "kernel.randomize_va_space=2"
+    # Enabling cookie protection
+    sysctl -w "net.ipv4.tcp_syncookies=1"
+    # Disabling ipv6
+    sysctl -w "net.ipv6.conf.all.disable_ipv6=1"
+    # Disabling IP forwarding
+    sysctl -w "net.ipv4.ip_forward=0"
+    # Hiding kernel pointer from unprivileged users
+    sysctl -w "kernel.kptr_restrict=1"
+}
+
+function truetemp {
     # Setting lockout policy (deny after 10 attempts, lock for 30 minutes)
     echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
 
@@ -461,46 +464,11 @@ function temp {
     cat /etc/crontab | sudo tee -a cronjobs.txt
     # Use 'crontab -r' to remove unnecessary jobs.
 
-    # Enabling ASLR
-    sysctl -w kernel.randomize_va_space 2
-    # Enabling cookie protection
-    sysctl -w net.ipv4.tcp_syncookies 1
-    # Disabling ipv6
-    sysctl -w net.ipv6.conf.all.disable_ipv6 1
-    # Disabling IP forwarding
-    sysctl -w net.ipv4.ip_forward 0
-    # Hiding kernel pointer from unprivileged users
-    sysctl -w kernel.kptr_restrict 1
-
     # Preventing IP Spoofing
     echo "nospoof on" | sudo tee -a /etc/host.conf
 
     # Saving active services
     systemctl list-units --type=service --state=active > services.txt
-
-    # Saving prohibited file paths
-    find / -type f -name "*.mp3"   >> audio.txt
-    find / -type f -name "*.ac3"   >> audio.txt
-    find / -type f -name "*.aac"   >> audio.txt
-    find / -type f -name "*.aiff"  >> audio.txt
-    find / -type f -name "*.flac"  >> audio.txt
-    find / -type f -name "*.m4a"   >> audio.txt
-    find / -type f -name "*.m4p"   >> audio.txt
-    find / -type f -name "*.midi"  >> audio.txt
-    find / -type f -name "*.mp2"   >> audio.txt
-    find / -type f -name "*.m3u"   >> audio.txt
-    find / -type f -name "*.ogg"   >> audio.txt
-    find / -type f -name "*.vqf"   >> audio.txt
-    find / -type f -name "*.wav"   >> audio.txt
-    find / -type f -name "*.wma"   >> vids.txt
-    find / -type f -name "*.mp4"   >> vids.txt
-    find / -type f -name "*.avi"   >> vids.txt
-    find / -type f -name "*.mpeg4" >> vids.txt
-    find / -type f -name "*.gif"   >> pics.txt
-    find / -type f -name "*.png"   >> pics.txt
-    find / -type f -name "*.bmp"   >> pics.txt
-    find / -type f -name "*.jpg"   >> pics.txt
-    find / -type f -name "*.jpeg"  >> pics.txt
 
     read -rp "Press [Enter] to return to the menu."
     main
