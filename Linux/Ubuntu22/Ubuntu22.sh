@@ -31,75 +31,96 @@ function main {
     printf "     1) Reinstall APT                                                                                                   \n"
     printf "     2) Update APT and snap                                                                                             \n"
     printf "     3) Install tools and uninstall unnecessary apps                                                                    \n"
+    printf "     3) Stop & disable unnecessary services                                                                             \n"
     printf "     4) Configure APT settings                                                                                          \n"
-    printf "     5) Setup Auditd                                                                                                    \n"
-    printf "     6) Chrootkit                                                                                                       \n"
-    printf "     7) Firewalld                                                                                                       \n"
-    printf "     8) Logwatch                                                                                                        \n"
-    printf "     9) SSH                                                                                                             \n"
-    printf "    10) RKHunter                                                                                                        \n"
-    printf "    11) UFW                                                                                                             \n"
-    printf "    12) Create Users & Groups                                                                                           \n"
-    printf "    13) Add & Delete Users & Groups                                                                                     \n"
-    printf "    14) Set Admin Permissions                                                                                           \n"
-    printf "    15) Edit ports                                                                                                      \n"
-    printf "    16) Change all Passwords                                                                                            \n"
-    printf "    17) View checklist                                                                                                  \n"
+    printf "     5) Create users & groups                                                                                           \n"
+    printf "     6) Add users to groups + Delete users & groups                                                                     \n"
+    printf "     7) Change passwords for all to Somethingsecur3!                                                                    \n"
+    printf "     8) Null passwords do not Auth                                                                                      \n"
+    printf "     9) Set Admin Perms (Removes admin for all; Must enter all current admins!)                                         \n"
+    printf "    10) Setup Auditd                                                                                                    \n"
+    printf "    11) Run CHRootkit                                                                                                   \n"
+    printf "    12) Run RKHunter                                                                                                    \n"
+    printf "           - Check the following: sudo ss -tlnp and then sudo nano /etc/crontab                                         \n"
+    printf "    13) Config & Install Firewalld                                                                                      \n"
+    printf "    14) Config & run UFW                                                                                                \n"
+    printf "    15) Config Logwatch                                                                                                 \n"
+    printf "    16) Config SSH                                                                                                      \n"
+    printf "    17) Fix File Permissions                                                                                            \n"
+    printf "    18) Configure Password Policy                                                                                       \n"
+    printf "    19) Set Account Lockout Policy                                                                                      \n"
+    printf "    20) Config Sysctl Security                                                                                          \n"
+    printf "    21) Disable Guest Account                                                                                           \n"
+    printf "    22) Config Sudo Policy                                                                                              \n"
+    printf "    23) Secure FTP                                                                                                      \n"
+    printf "    24) Disable services                                                                                                \n"
+    printf "    25) Set IP Spoofing Protection                                                                                      \n"
+    printf "    26) Manage Ports                                                                                                    \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
-    printf "        This program does not any passwords.  This needs to be done manually.                                           \n"
     printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     read -r answer
-    if ["$answer" -eq 0]
+    if [ "$answer" -eq 0 ]
         then exit;
-    elif ["$answer" -eq 1 ]
+    elif [ "$answer" -eq 1 ]
         then reinstall_apt;
-    elif ["$answer" -eq 2 ]
+    elif [ "$answer" -eq 2 ]
         then update_apps;
-    elif ["$answer" -eq 3 ]
+    elif [ "$answer" -eq 3 ]
         then manage_apps;
-    elif ["$answer" -eq 4 ]
+    elif [ "$answer" -eq 4 ]
+        then stop_services;
+    elif [ "$answer" -eq 5 ]
         then config_apt;
-    elif ["$answer" -eq 5 ]
-        then setup_auditd;
-    elif ["$answer" -eq 6 ]
-        then config_chrootkit;
-    elif ["$answer" -eq 7 ]
-        then config_firewalld;
-    elif ["$answer" -eq 8 ]
-        then config_logwatch;
-    elif ["$answer" -eq 9 ]
-        then config_ssh;
-    elif ["$answer" -eq 10 ]
-        then config_rkhunter;
-    elif ["$answer" -eq 11 ]
-        then setup_ufw;
-    elif ["$answer" -eq 12 ]
+    elif [ "$answer" -eq 6 ]
         then create_users_groups;
-    elif ["$answer" -eq 13 ]
+    elif [ "$answer" -eq 7 ]
         then add_delete_users_groups;
-    elif ["$answer" -eq 14 ]
-        then set_admin_permissions;
-    elif ["$answer" -eq 15 ]
-        then manage_ports;
-    elif ["$answer" -eq 16 ]
+    elif [ "$answer" -eq 8 ]
         then change_passwords;
-    elif ["$answer" -eq 17 ]
-        then checklist;
+    elif [ "$answer" -eq 9 ]
+        then disable_null_passwords;
+    elif [ "$answer" -eq 10 ]
+        then set_admin_permissions;
+    elif [ "$answer" -eq 11 ]
+        then setup_auditd;
+    elif [ "$answer" -eq 12 ]
+        then config_chrootkit;
+    elif [ "$answer" -eq 13 ]
+        then config_rkhunter;
+    elif [ "$answer" -eq 14 ]
+        then config_firewalld;
+    elif [ "$answer" -eq 15 ]
+        then setup_ufw;
+    elif [ "$answer" -eq 16 ]
+        then config_logwatch;
+    elif [ "$answer" -eq 17 ]
+        then config_ssh;
+    elif [ "$answer" -eq 18 ]
+        then fix_file_permissions;
+    elif [ "$answer" -eq 19 ]
+        then config_password_policy;
+    elif [ "$answer" -eq 20 ]
+        then account_lockout_policy;
+    elif [ "$answer" -eq 21 ]
+        then config_sysctl_security;
+    elif [ "$answer" -eq 22 ]
+        then disable_guest_account;
+    elif [ "$answer" -eq 23 ]
+        then config_sudo_policy;
+    elif [ "$answer" -eq 24 ]
+        then secure_ftp;
+    elif [ "$answer" -eq 25 ]
+        then disable_services;
+    elif [ "$answer" -eq 26 ]
+        then config_ip_spoofing_protection;
+    elif [ "$answer" -eq 27 ]
+        then manage_ports;
     else
         main;
     fi
-}
-
-# This function updates apps from the snap store and apps from apt.
-function update_apps {
-    sudo snap refresh
-    sudo apt update
-    sudo apt upgrade -y
-    sudo apt --fix-broken install -y
-    sudo apt autoremove -y
 }
 
 function reinstall_apt {
@@ -136,6 +157,22 @@ function reinstall_apt {
         echo "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_BASE}-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
         echo "deb http://security.ubuntu.com/ubuntu ${UBUNTU_BASE}-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list.d/official-package-repositories.list
     fi
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+# This function updates apps from the snap store and apps from apt.
+function update_apps {
+    sudo snap refresh
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt --fix-broken install -y
+    sudo apt autoremove -y
+    
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
 }
 
 function manage_apps {
@@ -185,6 +222,67 @@ function manage_apps {
     squid-cgi       themole        xprobe \
     zeitgeist       zeitgeist-core zeitgeist-datahub \
     nmapsi4         pumpa          zangband
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function stop_services {
+    disable_prohibited_services() {
+    local services_to_disable=(
+        # Web servers
+        "apache2" "nginx" "lighttpd" "tomcat" "httpd"
+        
+        # Database servers
+        "mysql" "postgresql" "mongodb" "redis-server" "cassandra"
+        
+        # File sharing
+        "vsftpd" "proftpd" "pure-ftpd" "nfs" "smbd" "nmbd" "samba"
+        
+        # Remote access
+        "vncserver" "xrdp" "telnetd" "rsh-server" "rlogin" "vino"
+        
+        # DNS/DHCP
+        "bind9" "named" "dhcpd" "dnsmasq"
+        
+        # Mail servers
+        "postfix" "sendmail" "exim4" "dovecot"
+        
+        # Game servers
+        "openarena-server" "minecraft-server"
+        
+        # Chat/IRC
+        "ircd" "inspircd" "unrealircd"
+        
+        # Legacy/Insecure
+        "inetd" "xinetd" "rpcbind" "nis"
+        
+        # Proxy/Cache
+        "squid" "privoxy" "polipo"
+        
+        # Print servers
+        "cups" "cupsd"
+        
+        # Time servers
+        "ntp" "chronyd"
+        
+        # Misc network services
+        "rsyncd" "tftp" "snmpd" "avahi-daemon"
+    )
+    
+    if ask_for_confirmation "Disable and stop prohibited services"; then
+        for service_name in "${services_to_disable[@]}"; do
+            if systemctl list-unit-files | grep -q "$service_name"; then
+                echo "Stopping and disabling $service_name..."
+                systemctl stop "$service_name" 2>/dev/null
+                systemctl disable "$service_name" 2>/dev/null
+            fi
+        done
+        echo "Prohibited services have been stopped and disabled."
+    else
+        echo "Operation cancelled."
+    fi
+}
 }
 
 function config_apt {
@@ -198,278 +296,7 @@ function config_apt {
     echo "APT::Periodic::Download-Upgradeable-Packages \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
     echo "APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee -a /etc/apt/apt.conf.d/10periodic
-}
-
-function setup_auditd {
-    # Setting up auditd
-    systemctl --now enable auditd
-    augenrules --load
-    echo "max_log_file_action = keep_logs" | sudo tee -a /etc/audit/auditd.conf
-
-    # Time Rules
-    echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-    echo "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-    echo "-a always,exit -F arch=b32 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-    echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-    echo "wa -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
-
-    # System Locale Rules
-    echo "-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-    echo "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-    echo "-w /etc/issue -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-    echo "-w /etc/issue.net -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-    echo "-w /etc/hosts -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-    echo "-w /etc/network -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
-
-    # Identity Rules
-    echo "-w /etc/group -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
-    echo "-w /etc/passwd -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
-    echo "-w /etc/gshadow -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
-    echo "-w /etc/shadow -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
-    echo "-w /etc/security/opasswd -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
-
-    # Login Rules
-    echo "-w /var/log/faillog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
-    echo "-w /var/log/lastlog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
-    echo "-w /var/log/tallylog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
-
-    # Permissions Rules
-    echo "-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-    echo "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-    echo "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-    echo "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-    echo "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-    echo "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
-
-    # File Change Rules
-    echo "-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" | sudo tee -a /etc/audit/rules.d/file-change.rules
-    echo "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" | sudo tee -a /etc/audit/rules.d/file-change.rules
-
-    # Scope Rules
-    echo "-w /etc/sudoers -p wa -k scope" | sudo tee -a /etc/audit/rules.d/scope.rules
-    echo "-w /etc/sudoers.d/ -p wa -k scope" | sudo tee -a /etc/audit/rules.d/scope.rules
-
-    # Rules
-    echo "-a always,exit -F arch=b64 -C euid!=uid -F euid=0 -Fauid>=1000 -F auid!=4294967295 -S execve -k actions" | sudo tee -a /etc/audit/rules.d/sudo.rules
-    echo "-a always,exit -F arch=b32 -C euid!=uid -F euid=0 -Fauid>=1000 -F auid!=4294967295 -S execve -k actions" | sudo tee -a /etc/audit/rules.d/sudo.rules
-
-    # Module Rules
-    echo "-w /sbin/insmod -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
-    echo "-w /sbin/rmmod -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
-    echo "-w /sbin/modprobe -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
-    echo "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
-
-    # Reloading audit config
-    auditctl -e 1 /etc/audit/rules.d/time.rules
-    auditctl -e 1 /etc/audit/rules.d/system-locale.rules
-    auditctl -e 1 /etc/audit/rules.d/identity.rules
-    auditctl -e 1 /etc/audit/rules.d/logins.rules
-    auditctl -e 1 /etc/audit/rules.d/permissions.rules
-    auditctl -e 1 /etc/audit/rules.d/file-change.rules
-    auditctl -e 1 /etc/audit/rules.d/scope.rules
-    auditctl -e 1 /etc/audit/rules.d/sudo.rules
-    auditctl -e 1 /etc/audit/rules.d/modules.rules
-
-    # Reloading auditd
-    systemctl restart auditd
-    augenrules --load
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function config_chrootkit {
-    # Running chkrootkit
-    sudo chkrootkit | sudo tee -a RootKitInfo.txt
-
-    # Making chkrootkit run daily
-    sudo echo 'RUN_DAILY="true"' | sudo tee -a /etc/chkrootkit.conf
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function config_firewalld {
-    # Starts firewalld
-    systemctl enable firewalld
-    firewall-cmd --permanent --add-service=https
-    firewall-cmd --reload
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function config_logwatch {
-    # Sets up logwatch
-    mkdir /var/cache/logwatch
-    cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
-
-    echo "Output = mail"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "MailTo = me@mydomain.org"               | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "MailFrom = logwatch@host1.mydomain.org" | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Detail = Low"                           | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = All"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = '-http'"                      | sudo tee -a /etc/logwatch/conf/logwatch.conf
-    echo "Service = '-eximstats'"                 | sudo tee -a /etc/logwatch/conf/logwatch.conf
-
-    logwatch --detail Low --range today
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function config_ssh {
-    # Sets up SSH
-    sshd -t -f /etc/ssh/sshd_config
-    echo "Banner /etc/issue.net" | sudo tee -a /etc/ssh/sshd_config
-    systemctl restart sshd.service
-
-    # Editing sshd_config to set too many things to count.
-    echo "PermitRootLogin no"         | sudo tee -a /etc/ssh/sshd_config
-    echo "PermitUserEnvironment no"   | sudo tee -a /etc/ssh/sshd_config
-    echo "PermitEmptyPasswords no"    | sudo tee -a /etc/ssh/sshd_config
-    echo "Protocol 2"                 | sudo tee -a /etc/ssh/sshd_config
-    echo "PrintLastLog no"            | sudo tee -a /etc/ssh/sshd_config
-    echo "PubkeyAuthentication yes"   | sudo tee -a /etc/ssh/sshd_config
-    echo "RSAAuthentication yes"      | sudo tee -a /etc/ssh/sshd_config
-    echo "LoginGraceTime 30"          | sudo tee -a /etc/ssh/sshd_config
-    echo "ClientAliveInterval 600"    | sudo tee -a /etc/ssh/sshd_config
-    echo "ClientAliveCountMax 1"      | sudo tee -a /etc/ssh/sshd_config
-    echo "UsePAM yes"                 | sudo tee -a /etc/ssh/sshd_config
-    echo "UsePrivilegeSeparation yes" | sudo tee -a /etc/ssh/sshd_config
-    echo "StrictModes yes"            | sudo tee -a /etc/ssh/sshd_config
-    echo "IgnoreUserKnownHosts yes"   | sudo tee -a /etc/ssh/sshd_config
-    echo "IgnoreRhosts yes"           | sudo tee -a /etc/ssh/sshd_config
-    echo "RhostsAuthentication no"    | sudo tee -a /etc/ssh/sshd_config
-    echo "RhostsRSAAuthentication no" | sudo tee -a /etc/ssh/sshd_config
-    echo "HostBasedAuthentication no" | sudo tee -a /etc/ssh/sshd_config
-    echo "AllowTcpForwarding no"      | sudo tee -a /etc/ssh/sshd_config
-    echo "X11Forwarding no"           | sudo tee -a /etc/ssh/sshd_config
-    echo "LogLevel VERBOSE"           | sudo tee -a /etc/ssh/sshd_config
-    echo "Port 2453"                  | sudo tee -a /etc/ssh/sshd_config
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function config_rkhunter {
-    # Editing rkhunter permissions
-    echo "UPDATE_MIRRORS=1" | sudo tee -a "/etc/rkhunter.conf"
-    echo "CRON_DAILY_RUN=true" | sudo tee -a "/etc/rkhunter.conf"
-    echo "ALLOW_SSH_ROOT_USER=no" | sudo tee -a "/etc/rkhunter.conf"
-    echo "ALOW_SSH_PROT_1=no" | sudo tee -a "/etc/rkhunter.conf"
-    echo "ALLOW_SYSLOG_REMOTE=no" | sudo tee -a "/etc/rkhunter.conf"
-    echo "USER_SYSLOG=authpriv.notice" | sudo tee -a "/etc/rkhunter.conf"
-
-    # Forcing sudo authentication
-    echo "Defaults authenticate" | sudo tee -a "/etc/sudoers"
-
-    # Updating and running rkhunter
-    rkhunter --update
-    rkhunter --check
-
-    # Running rkhunter daily (just moves a file into cron.daily)
-    mv rkhunter /etc/cron.daily
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function setup_ufw {
-    # Setting up firewall
-    ufw allow in on lo
-    ufw allow out on lo
-    ufw deny in from 127.0.0.0/8
-    ufw deny in from ::1
-    ufw allow ssh
-    ufw allow http
-    ufw deny 23
-    ufw deny icmp
-    ufw default deny
-    ufw --force enable
-
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function temp {
-    ## Fixing System file permissions
-    chmod 640 /etc/shadow
-    chmod 644 /etc/passwd
-    chmod 640 /var/log
-    chmod 640 /var/log/syslog
-    chown syslog /var/log/syslog
-    chown root /var/log
-    chgrp adm /var/log/syslog
-    chmod 755 /bin
-    chmod 755 /sbin
-    chmod 755 /usr/bin
-    chmod 755 /usr/sbin
-    chmod 755 /usr/local/bin
-    chmod 755 /usr/local/sbin
-
-    # Editing /etc/login.defs to set a max passwd age(90), min passwd age(7), warn age(14), number of retries(3), and a login timeout(30).
-    # echo "PASS_MAX_DAYS 90"      | sudo tee -a "/etc/login.defs"
-    # echo "PASS_MIN_DAYS 7"       | sudo tee -a "/etc/login.defs"
-    # echo "PASS_WARN_AGE 14"      | sudo tee -a "/etc/login.defs"
-    # echo "LOGIN_RETRIES 3"       | sudo tee -a "/etc/login.defs"
-    # echo "LOGIN_TIMEOUT 30"      | sudo tee -a "/etc/login.defs"
-    # echo "ENCRYPT_METHOD SHA512" | sudo tee -a "/etc/login.defs"
-
-    # Enabling ASLR
-    sysctl -w "kernel.randomize_va_space=2"
-    # Enabling cookie protection
-    sysctl -w "net.ipv4.tcp_syncookies=1"
-    # Disabling ipv6
-    sysctl -w "net.ipv6.conf.all.disable_ipv6=1"
-    # Disabling IP forwarding
-    sysctl -w "net.ipv4.ip_forward=0"
-    # Hiding kernel pointer from unprivileged users
-    sysctl -w "kernel.kptr_restrict=1"
-}
-
-function truetemp {
-    # Setting lockout policy (deny after 10 attempts, lock for 30 minutes)
-    echo "auth required pam_tally2.so deny=10 unlock_time=1800" | sudo tee -a "/etc/pam.d/common-auth"
-
-    # Setting minimum password length and how many passwords to remember
-    echo "password required pam_unix.so minlen=8 remember=5" | sudo tee -a "/etc/pam.d/common-password"
-
-    # Managing password complexity requirements (minimum length of 8, 1 upper, 1 lower, 1 digit, 1 special)
-    # echo "password required pam_cracklib.so minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1" | sudo tee -a "/etc/pam.d/common-password"
-
-    # Disallowing guest
-    echo "allow-guest=false" | sudo tee -a "/etc/lightdm/lightdm.conf"
-
-    # Forces user authentication for sudo.  I can't use editFile for this because I can't append it and Defaults appears many times.
-    sed -i "9 a\Defaults env_reset, timestamp_timeout=0" /etc/sudoers
-    sed -i "9 d" /etc/sudoers
-
-    # Managing FTP permissions (Removing write commands and allowing ssl)
-    echo "cmds_denied rmdir send rename put mput mdelete delete chmod" | sudo tee -a "/etc/vsftpd.conf"
-    echo "ssl_enable=YES" | sudo tee -a "/etc/vsftpd.conf"
-    echo "listen_ipv6=NO" | sudo tee -a "/etc/vsftpd.conf"
-    echo "anonymous_enable=NO" | sudo tee -a "/etc/vsftpd.conf"
-    echo "guest_enable=NO" | sudo tee -a "/etc/vsftpd.conf"
-    echo "userlist_deny=YES" | sudo tee -a "/etc/vsftpd.conf"
-    echo "root" | sudo tee "/etc/vsftpd/user_list"
-
-    # Disabling SMTP
-    sudo service sendmail stop
-
-    # Puts the cron jobs onto the desktop.  (Both user and root)
-    for filename in /var/spool/cron/crontabs/*; do
-        cat "$filename" | sudo tee -a cronjobs.txt
-    done
-    cat /etc/crontab | sudo tee -a cronjobs.txt
-    # Use 'crontab -r' to remove unnecessary jobs.
-
-    # Preventing IP Spoofing
-    echo "nospoof on" | sudo tee -a /etc/host.conf
-
-    # Saving active services
-    systemctl list-units --type=service --state=active > services.txt
-
+    
     read -rp "Press [Enter] to return to the menu."
     main
 }
@@ -553,6 +380,28 @@ function change_passwords {
     do
         echo "$user:Somethingsecur3!" | sudo chpasswd
     done
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function disable_null_passwords() {
+    # Backup original file
+    sudo cp /etc/pam.d/common-auth /etc/pam.d/common-auth.bak
+    
+    # Remove 'nullok' from pam_unix.so line
+    sudo sed -i 's/\(pam_unix.so\s\+nullok\)/pam_unix.so/' /etc/pam.d/common-auth
+    
+    # Also remove 'nullok_secure' if it exists
+    sudo sed -i 's/\(pam_unix.so\s\+nullok_secure\)/pam_unix.so/' /etc/pam.d/common-auth
+    
+    if grep -q "nullok" /etc/pam.d/common-auth; then
+        echo "Failed to remove nullok"
+        return 1
+    else
+        echo "Disabled nullok"
+        return 0
+    fi
 }
 
 function set_admin_permissions {
@@ -567,7 +416,7 @@ function set_admin_permissions {
     # Giving back admin permissions
     while true
     do
-        echo "Enter the name of a admin to add.  Type '0' to move on."
+        echo "Enter the name of ALL authorized admins one by one.  Type '0' to move on."
         read -r admin
         if [ "$admin" -eq 0 ]
             then break
@@ -583,7 +432,527 @@ function set_admin_permissions {
     main
 }
 
-# ----------------------------------------------- Changes made here [end] --------------------------------
+function setup_auditd {
+    # Setting up auditd
+    systemctl --now enable auditd
+    augenrules --load
+    echo "max_log_file_action = keep_logs" | sudo tee -a /etc/audit/auditd.conf
+
+    # Time Rules
+    echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+    echo "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+    echo "-a always,exit -F arch=b32 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+    echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+    echo "wa -k time-change" | sudo tee -a /etc/audit/rules.d/time.rules
+
+    # System Locale Rules
+    echo "-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+    echo "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+    echo "-w /etc/issue -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+    echo "-w /etc/issue.net -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+    echo "-w /etc/hosts -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+    echo "-w /etc/network -p wa -k system-locale" | sudo tee -a /etc/audit/rules.d/system-locale.rules
+
+    # Identity Rules
+    echo "-w /etc/group -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
+    echo "-w /etc/passwd -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
+    echo "-w /etc/gshadow -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
+    echo "-w /etc/shadow -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
+    echo "-w /etc/security/opasswd -p wa -k identity" | sudo tee -a /etc/audit/rules.d/identity.rules
+
+    # Login Rules
+    echo "-w /var/log/faillog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
+    echo "-w /var/log/lastlog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
+    echo "-w /var/log/tallylog -p wa -k logins" | sudo tee -a /etc/audit/rules.d/logins.rules
+
+    # Permissions Rules
+    echo "-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+    echo "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+    echo "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+    echo "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+    echo "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+    echo "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod" | sudo tee -a /etc/audit/rules.d/permissions.rules
+
+    # File Change Rules
+    echo "-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" | sudo tee -a /etc/audit/rules.d/file-change.rules
+    echo "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" | sudo tee -a /etc/audit/rules.d/file-change.rules
+
+    # Scope Rules
+    echo "-w /etc/sudoers -p wa -k scope" | sudo tee -a /etc/audit/rules.d/scope.rules
+    echo "-w /etc/sudoers.d/ -p wa -k scope" | sudo tee -a /etc/audit/rules.d/scope.rules
+
+    # Rules
+    echo "-a always,exit -F arch=b64 -C euid!=uid -F euid=0 -Fauid>=1000 -F auid!=4294967295 -S execve -k actions" | sudo tee -a /etc/audit/rules.d/sudo.rules
+    echo "-a always,exit -F arch=b32 -C euid!=uid -F euid=0 -Fauid>=1000 -F auid!=4294967295 -S execve -k actions" | sudo tee -a /etc/audit/rules.d/sudo.rules
+
+    # Module Rules
+    echo "-w /sbin/insmod -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
+    echo "-w /sbin/rmmod -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
+    echo "-w /sbin/modprobe -p x -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
+    echo "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules" | sudo tee -a /etc/audit/rules.d/modules.rules
+
+    # Reloading audit config
+    auditctl -e 1 /etc/audit/rules.d/time.rules
+    auditctl -e 1 /etc/audit/rules.d/system-locale.rules
+    auditctl -e 1 /etc/audit/rules.d/identity.rules
+    auditctl -e 1 /etc/audit/rules.d/logins.rules
+    auditctl -e 1 /etc/audit/rules.d/permissions.rules
+    auditctl -e 1 /etc/audit/rules.d/file-change.rules
+    auditctl -e 1 /etc/audit/rules.d/scope.rules
+    auditctl -e 1 /etc/audit/rules.d/sudo.rules
+    auditctl -e 1 /etc/audit/rules.d/modules.rules
+
+    # Reloading auditd
+    systemctl restart auditd
+    augenrules --load
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_chrootkit {
+    # Get the actual user's home directory
+    REAL_USER=$(who am i | awk '{print $1}')
+    USER_HOME=$(eval echo ~${REAL_USER})
+    
+    # First check if chkrootkit is installed, if not install it
+    if ! command -v chkrootkit &> /dev/null; then
+        sudo apt-get update
+        sudo apt-get install chkrootkit -y
+    fi
+
+    # Running chkrootkit and saving output
+    echo "Chkrootkit scan run on $(date)" > "${USER_HOME}/Desktop/RootKitInfo.txt"
+    sudo chkrootkit >> "${USER_HOME}/Desktop/RootKitInfo.txt" 2>&1
+
+    # Making chkrootkit run daily
+    echo 'RUN_DAILY="true"' | sudo tee -a /etc/chkrootkit.conf
+
+    echo "Scan complete. Results saved to ${USER_HOME}/Desktop/RootKitInfo.txt"
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_rkhunter {
+    # Check if rkhunter is installed
+    if ! command -v rkhunter &> /dev/null; then
+        echo "rkhunter is not installed. Install? (y/n)"
+        read -r install_rkhunter
+        if [[ "$install_rkhunter" == "y" || "$install_rkhunter" == "Y" ]]; then
+            if command -v yum &> /dev/null; then
+                sudo yum install -y rkhunter
+            elif command -v apt-get &> /dev/null; then
+                sudo apt-get install -y rkhunter
+            else
+                echo "Install rkhunter manually"
+                return
+            fi
+        else
+            echo "rkhunter installation skipped."
+            read -rp "Press [Enter] to return to the menu."
+            main
+            return
+        fi
+    fi
+
+    # Editing rkhunter configuration
+    sudo tee -a /etc/rkhunter.conf > /dev/null << EOF
+UPDATE_MIRRORS=1
+CRON_DAILY_RUN=true
+ALLOW_SSH_ROOT_USER=no
+ALLOW_SSH_PROT_1=no
+ALLOW_SYSLOG_REMOTE=no
+USER_SYSLOG=authpriv.notice
+WEB_CMD=/usr/bin/wget
+EOF
+
+    # Enforce sudo authentication
+    echo "Defaults authenticate" | sudo tee -a /etc/sudoers
+
+    # Update and initialize rkhunter
+    sudo rkhunter --update
+    sudo rkhunter --propupd  # Create initial hash database
+
+    # Run rkhunter scan
+    echo "Running rkhunter scan..."
+    sudo rkhunter --check --skip-keypress
+
+    # Note: Daily scans are configured via CRON_DAILY_RUN=true in config file
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_firewalld {
+    # Check if firewalld is installed
+    if ! command -v firewall-cmd &> /dev/null; then
+        echo "firewalld isn't installed. Install? (y/n)"
+        read -r install_firewalld
+        if [[ "$install_firewalld" == "y" ]]; then
+            if command -v yum &> /dev/null; then
+                sudo yum install -y firewalld
+            elif command -v apt-get &> /dev/null; then
+                sudo apt-get install -y firewalld
+            else
+                echo "Install firewalld manually"
+                return
+            fi
+        else
+            echo "firewalld installation skipped."
+            read -rp "Press [Enter] to return to the menu."
+    	    main
+        fi
+    fi
+
+    # Enable and start firewalld
+    systemctl enable firewalld
+    systemctl start firewalld
+
+    # Set default zone to drop
+    firewall-cmd --set-default-zone=drop
+
+    # Check if SSH service is available before allowing it
+    if systemctl is-active --quiet sshd; then
+        firewall-cmd --permanent --add-service=ssh
+    else
+        echo "SSH service not active. Skipping SSH config"
+    fi
+
+    # Allow essential services
+    firewall-cmd --permanent --add-service=https
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --permanent --add-service=dns
+
+    # Block common attack vectors
+    firewall-cmd --permanent --add-icmp-block=echo-request
+    firewall-cmd --permanent --add-icmp-block=echo-reply
+
+    # Rate limiting for SSH connection attempts, if SSH is enabled
+    if systemctl is-active --quiet sshd; then
+        firewall-cmd --permanent --add-rich-rule='rule service name=ssh limit value=3/m accept'
+    fi
+
+    # Block common malicious ports
+    firewall-cmd --permanent --add-port=21/tcp --remove-port=21/tcp
+    firewall-cmd --permanent --add-port=23/tcp --remove-port=23/tcp
+    firewall-cmd --permanent --add-port=2049/tcp --remove-port=2049/tcp
+    firewall-cmd --permanent --add-port=515/tcp --remove-port=515/tcp
+
+    firewall-cmd --reload
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function setup_ufw {
+    if ! command -v ufw &> /dev/null; then
+        echo "UFW is not installed"
+        return 1
+    fi
+
+    ufw --force reset
+
+    ufw default deny incoming
+    ufw default allow outgoing
+    
+    ufw allow in on lo
+    ufw allow out on lo
+    ufw deny in from 127.0.0.0/8
+    ufw deny in from ::1
+
+    ufw allow ssh
+    ufw allow http
+    
+    ufw deny telnet
+    ufw deny 2049
+    ufw deny icmp
+    
+    ufw --force enable
+    
+    ufw status verbose
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_logwatch {
+    # Sets up logwatch
+    mkdir /var/cache/logwatch
+    cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
+
+    echo "Output = mail"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "MailTo = me@mydomain.org"               | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "MailFrom = logwatch@host1.mydomain.org" | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Detail = Low"                           | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = All"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-http'"                      | sudo tee -a /etc/logwatch/conf/logwatch.conf
+    echo "Service = '-eximstats'"                 | sudo tee -a /etc/logwatch/conf/logwatch.conf
+
+    logwatch --detail Low --range today
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_ssh {
+    # Sets up SSH
+    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+    
+    cat > /etc/ssh/sshd_config << EOF
+Banner /etc/issue.net
+PermitRootLogin no
+PermitUserEnvironment no
+PermitEmptyPasswords no
+Protocol 2
+PrintLastLog no
+PubkeyAuthentication yes
+LoginGraceTime 30
+ClientAliveInterval 600
+ClientAliveCountMax 1
+UsePAM yes
+StrictModes yes
+IgnoreUserKnownHosts yes
+IgnoreRhosts yes
+HostBasedAuthentication no
+AllowTcpForwarding no
+X11Forwarding no
+LogLevel VERBOSE
+Port 2453
+EOF
+
+    # Test and apply configuration
+    if sshd -t -f /etc/ssh/sshd_config; then
+        systemctl restart sshd.service
+        echo "SSH configuration updated successfully"
+    else
+        echo "Error in SSH config, reverting to backup"
+        mv /etc/ssh/sshd_config.bak /etc/ssh/sshd_config
+        systemctl restart sshd.service
+    fi
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+fix_file_permissions() {
+    chmod 640 /etc/shadow
+    chmod 644 /etc/passwd
+    chmod 640 /var/log
+    chmod 640 /var/log/syslog
+    chown syslog /var/log/syslog
+    chown root /var/log
+    chgrp adm /var/log/syslog
+    chmod 755 /bin
+    chmod 755 /sbin
+    chmod 755 /usr/bin
+    chmod 755 /usr/sbin
+    chmod 755 /usr/local/bin
+    chmod 755 /usr/local/sbin
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_password_policy() {
+    # Install password quality package
+    sudo apt-get install -y libpam-pwquality
+    
+    # Backup PAM files
+    sudo cp /etc/pam.d/common-password /etc/pam.d/common-password.bak
+    
+    # Configure PAM password complexity policies
+    sudo sed -i '/pam_pwquality.so/c\password requisite pam_pwquality.so retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 reject_username enforce_for_root' /etc/pam.d/common-password
+    sudo sed -i '/pam_unix.so/c\password sufficient pam_unix.so use_authtok sha512 shadow remember=5' /etc/pam.d/common-password
+    
+    # Configure login.defs password aging and login policies
+    sed -i 's/^PASS_MAX_DAYS\s\+[0-9]\+$/PASS_MAX_DAYS 90/' "/etc/login.defs"
+    sed -i 's/^PASS_MIN_DAYS\s\+[0-9]\+$/PASS_MIN_DAYS 10/' "/etc/login.defs"
+    sed -i 's/^PASS_WARN_AGE\s\+[0-9]\+$/PASS_WARN_AGE 7/' "/etc/login.defs"
+    sed -i 's/^LOGIN_RETRIES\s\+[0-9]\+$/LOGIN_RETRIES 3/' "/etc/login.defs"
+    sed -i 's/^LOGIN_TIMEOUT\s\+[0-9]\+$/LOGIN_TIMEOUT 30/' "/etc/login.defs"
+    sed -i 's/^ENCRYPT_METHOD\s\+\w\+$/ENCRYPT_METHOD SHA512/' "/etc/login.defs"
+    
+    echo "Password policy configured successfully"
+    
+    # If you want to keep the menu functionality
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function account_lockout_policy {
+    local faillock_file="/usr/share/pam-configs/faillock"
+    local faillock_notify_file="/usr/share/pam-configs/faillock_notify"
+    # Create and configure faillock file
+    echo "Configuring $faillock_file..."
+    sudo touch "$faillock_file"
+    sudo bash -c "cat > $faillock_file" <<'EOL'
+Name: Enforce failed login attempt counter
+Default: no
+Priority: 0
+Auth-Type: Primary
+Auth:
+ [default=die] pam_faillock.so authfail
+ sufficient pam_faillock.so authsucc
+EOL
+    echo "$faillock_file configured."
+    # Create and configure faillock_notify file
+    echo "Configuring $faillock_notify_file..."
+    sudo touch "$faillock_notify_file"
+    sudo bash -c "cat > $faillock_notify_file" <<'EOL'
+Name: Notify on failed login attempts
+Default: no
+Priority: 1024
+Auth-Type: Primary
+Auth:
+ requisite pam_faillock.so preauth
+EOL
+    sudo pam-auth-update --enable faillock --enable faillock_notify
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_sysctl_security {
+    # Backup original sysctl.conf
+    sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
+
+    # Apply security settings directly
+    sudo tee -a /etc/sysctl.conf << EOF
+kernel.randomize_va_space = 2
+net.ipv4.tcp_syncookies = 1
+net.ipv4.ip_forward = 0
+kernel.kptr_restrict = 1
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.default.accept_redirects = 0
+EOF
+
+    # Apply changes
+    sudo sysctl -p
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function disable_guest_account {
+    local lightdm_conf="/etc/lightdm/lightdm.conf"
+    
+    # Create directory if it doesn't exist
+    sudo mkdir -p "$(dirname "$lightdm_conf")"
+    
+    # Config LightDM
+    sudo tee "$lightdm_conf" > /dev/null <<EOL
+[SeatDefaults]
+allow-guest=false
+greeter-hide-users=true
+greeter-show-manual-login=true
+autologin-user=none
+EOL
+
+    # Also disable guest in GDM if it's installed
+    if dpkg -l | grep -q gdm3; then
+        sudo mkdir -p /etc/gdm3
+        echo "[daemon]
+DisallowGuest=true
+AutomaticLoginEnable=false" | sudo tee -a /etc/gdm3/custom.conf
+    fi
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_sudo_policy {
+    # Backup sudoers file
+    sudo cp /etc/sudoers /etc/sudoers.bak
+    
+    # Add secure sudo defaults
+    echo 'Defaults env_reset
+Defaults mail_badpass
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults timestamp_timeout=0
+Defaults requiretty
+Defaults !visiblepw' | sudo EDITOR='tee -a' visudo
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function secure_ftp {
+    read -p "Is FTP required? (y/n): " ftp_required
+    
+    if [[ $ftp_required != "y" ]]; then
+        sudo apt-get purge -y vsftpd
+        sudo apt-get autoremove -y
+        echo "FTP server removed"
+        return
+    fi
+
+    # If FTP is required, secure it
+    local vsftpd_conf="/etc/vsftpd.conf"
+    
+    # Backup original config
+    sudo cp "$vsftpd_conf" "${vsftpd_conf}.bak"
+    
+    # Configure secure settings
+    sudo tee "$vsftpd_conf" > /dev/null <<EOL
+# Security Settings
+anonymous_enable=NO
+local_enable=YES
+write_enable=NO
+ssl_enable=YES
+force_local_logins_ssl=YES
+force_local_data_ssl=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+require_ssl_reuse=NO
+ssl_ciphers=HIGH
+cmds_denied=DELE,RMD,RNFR,RNTO,MKD,STOR,STOU,XMKD,XRMD
+listen=YES
+listen_ipv6=NO
+guest_enable=NO
+userlist_enable=YES
+userlist_deny=YES
+EOL
+
+    sudo mkdir -p /etc/vsftpd
+    echo "root" | sudo tee /etc/vsftpd/user_list
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function disable_services {
+    # List of common unnecessary services
+    local services=("sendmail" "telnet" "rsh" "rlogin" "rexec" "xinetd")
+    
+    for service in "${services[@]}"; do
+        if systemctl is-active --quiet "$service"; then
+            sudo systemctl stop "$service"
+            sudo systemctl disable "$service"
+            echo "Disabled $service"
+        fi
+    done
+    
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function config_ip_spoofing_protection {
+    # Configure host.conf
+    sudo tee /etc/host.conf > /dev/null <<EOL
+order bind,hosts
+multi on
+nospoof on
+EOL
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
 
 function managePorts {
     # Checks for open ports.
@@ -616,6 +985,25 @@ function managePorts {
             break
         fi
     done
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function truetemp {
+
+    # Puts the cron jobs onto the desktop.  (Both user and root)
+    for filename in /var/spool/cron/crontabs/*; do
+        cat "$filename" | sudo tee -a cronjobs.txt
+    done
+    cat /etc/crontab | sudo tee -a cronjobs.txt
+    # Use 'crontab -r' to remove unnecessary jobs.
+
+    # Preventing IP Spoofing
+    echo "nospoof on" | sudo tee -a /etc/host.conf
+
+    # Saving active services
+    systemctl list-units --type=service --state=active > services.txt
 
     read -rp "Press [Enter] to return to the menu."
     main
