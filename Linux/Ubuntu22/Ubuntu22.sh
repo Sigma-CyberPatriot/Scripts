@@ -31,33 +31,33 @@ function main {
     printf "     1) Reinstall APT                                                                                                   \n"
     printf "     2) Update APT and snap                                                                                             \n"
     printf "     3) Install tools and uninstall unnecessary apps                                                                    \n"
-    printf "     3) Stop & disable unnecessary services                                                                             \n"
-    printf "     4) Configure APT settings                                                                                          \n"
-    printf "     5) Create users & groups                                                                                           \n"
-    printf "     6) Add users to groups + Delete users & groups                                                                     \n"
-    printf "     7) Change passwords for all to Somethingsecur3!                                                                    \n"
-    printf "     8) Null passwords do not Auth                                                                                      \n"
-    printf "     9) Set Admin Perms (Removes admin for all; Must enter all current admins!)                                         \n"
-    printf "    10) Setup Auditd                                                                                                    \n"
-    printf "    11) Run CHRootkit                                                                                                   \n"
-    printf "    12) Run RKHunter                                                                                                    \n"
+    printf "     4) Stop & disable unnecessary services                                                                             \n"
+    printf "     5) Configure APT settings                                                                                          \n"
+    printf "     6) Create users & groups                                                                                           \n"
+    printf "     7) Add users to groups + Delete users & groups                                                                     \n"
+    printf "     8) Change passwords for all to Somethingsecur3!                                                                    \n"
+    printf "     9) Null passwords do not Auth                                                                                      \n"
+    printf "    10) Set Admin Perms (Removes admin for all; Must enter all current admins!)                                         \n"
+    printf "    11) Setup Auditd                                                                                                    \n"
+    printf "    12) Run CHRootkit                                                                                                   \n"
+    printf "    13) Run RKHunter                                                                                                    \n"
     printf "           - Programs such as ps, ss, and lsof can help when looking for malware.                                       \n"
     printf "           - Check the following: 'sudo ss -tlnp' and then 'sudo nano /etc/crontab'                                     \n"
     printf "           - Then 'sudo pkill -f <service_name>' and 'which <service_name>' and 'sudo rm /usr/bin/<service_name>'       \n"
-    printf "    13) Config & Install Firewalld                                                                                      \n"
-    printf "    14) Config & run UFW                                                                                                \n"
-    printf "    15) Config Logwatch                                                                                                 \n"
-    printf "    16) Config SSH                                                                                                      \n"
-    printf "    17) Fix File Permissions                                                                                            \n"
-    printf "    18) Configure Password Policy                                                                                       \n"
-    printf "    19) Set Account Lockout Policy                                                                                      \n"
-    printf "    20) Config Sysctl Security                                                                                          \n"
-    printf "    21) Disable Guest Account                                                                                           \n"
-    printf "    22) Config Sudo Policy                                                                                              \n"
-    printf "    23) Secure FTP                                                                                                      \n"
-    printf "    24) Disable services                                                                                                \n"
-    printf "    25) Set IP Spoofing Protection                                                                                      \n"
-    printf "    26) Manage Ports                                                                                                    \n"
+    printf "    14) Config & Install Firewalld                                                                                      \n"
+    printf "    15) Config & run UFW                                                                                                \n"
+    printf "    16) Config Logwatch                                                                                                 \n"
+    printf "    17) Config SSH                                                                                                      \n"
+    printf "    18) Fix File Permissions                                                                                            \n"
+    printf "    19) Configure Password Policy                                                                                       \n"
+    printf "    20) Set Account Lockout Policy                                                                                      \n"
+    printf "    21) Config Sysctl Security                                                                                          \n"
+    printf "    22) Disable Guest Account                                                                                           \n"
+    printf "    23) Config Sudo Policy                                                                                              \n"
+    printf "    24) Secure FTP                                                                                                      \n"
+    printf "    25) Disable services                                                                                                \n"
+    printf "    26) Set IP Spoofing Protection                                                                                      \n"
+    printf "    27) Manage Ports                                                                                                    \n"
     printf "                                                                                                                        \n"
     printf "    Disclaimers:                                                                                                        \n"
     printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
@@ -387,7 +387,7 @@ function change_passwords {
     main
 }
 
-function disable_null_passwords() {
+function disable_null_passwords {
     # Backup original file
     sudo cp /etc/pam.d/common-auth /etc/pam.d/common-auth.bak
     
@@ -404,6 +404,9 @@ function disable_null_passwords() {
         echo "Disabled nullok"
         return 0
     fi
+
+    read -rp "Press [Enter] to return to the menu."
+    main
 }
 
 function set_admin_permissions {
@@ -547,13 +550,13 @@ function config_rkhunter {
                 sudo apt-get install -y rkhunter
             else
                 echo "Install rkhunter manually"
-                return
+                read -rp "Press [Enter] to return to the menu."
+                main
             fi
         else
             echo "rkhunter installation skipped."
             read -rp "Press [Enter] to return to the menu."
             main
-            return
         fi
     fi
 
@@ -890,7 +893,9 @@ function secure_ftp {
         sudo apt-get purge -y vsftpd
         sudo apt-get autoremove -y
         echo "FTP server removed"
-        return
+        
+        read -rp "Press [Enter] to return to the menu."
+        main
     fi
 
     # If FTP is required, secure it
