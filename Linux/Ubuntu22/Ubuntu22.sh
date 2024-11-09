@@ -56,9 +56,9 @@ function main {
     printf "    23) Config Sudo Policy                                                                                              \n"
     printf "    24) Secure FTP                                                                                                      \n"
     printf "    25) Disable services                                                                                                \n"
-    printf "    26) Set IP Spoofing Protection                                                                                      \n"
+    printf "    26) Set IP Spoofing Protection (Deprecated)                                                                         \n"
     printf "    27) Manage Ports                                                                                                    \n"
-    printf "    28) List Prohibited Files                                                                                           \n"
+    printf "    28) List Prohibited Files (pics.txt, audio.txt, vids.txt)                                                           \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     read -r answer
@@ -766,7 +766,7 @@ function config_password_policy() {
     sudo cp /etc/pam.d/common-password /etc/pam.d/common-password.bak
     
     # Configure PAM password complexity policies
-    sudo sed -i '/pam_pwquality.so/c\password requisite pam_pwquality.so retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 reject_username enforce_for_root' /etc/pam.d/common-password
+    sudo sed -i '/pam_pwquality.so/c\password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 reject_username enforce_for_root' /etc/pam.d/common-password
     sudo sed -i '/pam_unix.so/c\password sufficient pam_unix.so use_authtok sha512 shadow remember=5' /etc/pam.d/common-password
     
     # Configure login.defs password aging and login policies
