@@ -58,9 +58,7 @@ function main {
     printf "    25) Disable services                                                                                                \n"
     printf "    26) Set IP Spoofing Protection                                                                                      \n"
     printf "    27) Manage Ports                                                                                                    \n"
-    printf "                                                                                                                        \n"
-    printf "    Disclaimers:                                                                                                        \n"
-    printf "        Note that any new groups will be empty, as you cannot make lists of lists.                                      \n"
+    printf "    28) List Prohibited Files                                                                                           \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     read -r answer
@@ -120,6 +118,8 @@ function main {
         then config_ip_spoofing_protection;
     elif [ "$answer" -eq 27 ]
         then manage_ports;
+    elif [ "$answer" -eq 28 ]
+        then list_prohibited_files;
     else
         main;
     fi
@@ -992,6 +992,35 @@ function managePorts {
             break
         fi
     done
+
+    read -rp "Press [Enter] to return to the menu."
+    main
+}
+
+function list_prohibited_files {
+    # Saving prohibited file paths
+    find / -type f -name "*.mp3"   >> audio.txt
+    find / -type f -name "*.ac3"   >> audio.txt
+    find / -type f -name "*.aac"   >> audio.txt
+    find / -type f -name "*.aiff"  >> audio.txt
+    find / -type f -name "*.flac"  >> audio.txt
+    find / -type f -name "*.m4a"   >> audio.txt
+    find / -type f -name "*.m4p"   >> audio.txt
+    find / -type f -name "*.midi"  >> audio.txt
+    find / -type f -name "*.mp2"   >> audio.txt
+    find / -type f -name "*.m3u"   >> audio.txt
+    find / -type f -name "*.ogg"   >> audio.txt
+    find / -type f -name "*.vqf"   >> audio.txt
+    find / -type f -name "*.wav"   >> audio.txt
+    find / -type f -name "*.wma"   >> vids.txt
+    find / -type f -name "*.mp4"   >> vids.txt
+    find / -type f -name "*.avi"   >> vids.txt
+    find / -type f -name "*.mpeg4" >> vids.txt
+    find / -type f -name "*.gif"   >> pics.txt
+    find / -type f -name "*.png"   >> pics.txt
+    find / -type f -name "*.bmp"   >> pics.txt
+    find / -type f -name "*.jpg"   >> pics.txt
+    find / -type f -name "*.jpeg"  >> pics.txt
 
     read -rp "Press [Enter] to return to the menu."
     main
