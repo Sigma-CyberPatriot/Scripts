@@ -55,10 +55,9 @@ function main {
     printf "    22) Disable Guest Account                                                                                           \n"
     printf "    23) Config Sudo Policy                                                                                              \n"
     printf "    24) Secure FTP                                                                                                      \n"
-    printf "    25) Disable services                                                                                                \n"
-    printf "    26) Set IP Spoofing Protection (Deprecated)                                                                         \n"
-    printf "    27) Manage Ports                                                                                                    \n"
-    printf "    28) List Prohibited Files (pics.txt, audio.txt, vids.txt)                                                           \n"
+    printf "    25) Set IP Spoofing Protection (Deprecated)                                                                         \n"
+    printf "    26) Manage Ports                                                                                                    \n"
+    printf "    27) List Prohibited Files (pics.txt, audio.txt, vids.txt)                                                           \n"
     printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     read -r answer
@@ -113,12 +112,10 @@ function main {
     elif [ "$answer" -eq 24 ]
         then secure_ftp;
     elif [ "$answer" -eq 25 ]
-        then disable_services;
-    elif [ "$answer" -eq 26 ]
         then config_ip_spoofing_protection;
-    elif [ "$answer" -eq 27 ]
+    elif [ "$answer" -eq 26 ]
         then manage_ports;
-    elif [ "$answer" -eq 28 ]
+    elif [ "$answer" -eq 27 ]
         then list_prohibited_files;
     else
         main;
@@ -230,7 +227,6 @@ function manage_apps {
 }
 
 function stop_services {
-    disable_prohibited_services() {
     local services_to_disable=(
         # Web servers
         "apache2" "nginx" "lighttpd" "tomcat" "httpd"
@@ -242,7 +238,7 @@ function stop_services {
         "vsftpd" "proftpd" "pure-ftpd" "nfs" "smbd" "nmbd" "samba"
         
         # Remote access
-        "vncserver" "xrdp" "telnetd" "rsh-server" "rlogin" "vino"
+        "vncserver" "xrdp" "telnet" "telnetd" "rsh" "rsh-server" "rlogin" "vino" "rexec"
         
         # DNS/DHCP
         "bind9" "named" "dhcpd" "dnsmasq"
@@ -272,7 +268,6 @@ function stop_services {
         "rsyncd" "tftp" "snmpd" "avahi-daemon"
     )
     
-    if ask_for_confirmation "Disable and stop prohibited services"; then
         for service_name in "${services_to_disable[@]}"; do
             if systemctl list-unit-files | grep -q "$service_name"; then
                 echo "Stopping and disabling $service_name..."
@@ -281,10 +276,8 @@ function stop_services {
             fi
         done
         echo "Prohibited services have been stopped and disabled."
-    else
-        echo "Operation cancelled."
-    fi
-}
+        read -rp "Press [Enter] to return to the menu."
+        main
 }
 
 function config_apt {
@@ -399,10 +392,14 @@ function disable_null_passwords {
     
     if grep -q "nullok" /etc/pam.d/common-auth; then
         echo "Failed to remove nullok"
+        read -rp "Press [Enter] to return to the menu."
+    	main
         return 1
     else
         echo "Disabled nullok"
-        return 0
+        read -rp "Press [Enter] to return to the menu."
+    	main
+    	return 0
     fi
 
     read -rp "Press [Enter] to return to the menu."
@@ -681,10 +678,16 @@ function setup_ufw {
 }
 
 function config_logwatch {
-    # Sets up logwatch
-    mkdir /var/cache/logwatch
-    cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
+    # Check if logwatch is installed
+    if ! command -v logwatch >/dev/null 2>&1; then
+        echo "Error: Please install logwatch first"
+        read -rp "Press [Enter] to return to the menu."
+        return 1
+    }
 
+    sudo mkdir -p /var/cache/logwatch /etc/logwatch/conf/
+    
+    sudo cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
     echo "Output = mail"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
     echo "MailTo = me@mydomain.org"               | sudo tee -a /etc/logwatch/conf/logwatch.conf
     echo "MailFrom = logwatch@host1.mydomain.org" | sudo tee -a /etc/logwatch/conf/logwatch.conf
@@ -692,9 +695,7 @@ function config_logwatch {
     echo "Service = All"                          | sudo tee -a /etc/logwatch/conf/logwatch.conf
     echo "Service = '-http'"                      | sudo tee -a /etc/logwatch/conf/logwatch.conf
     echo "Service = '-eximstats'"                 | sudo tee -a /etc/logwatch/conf/logwatch.conf
-
     logwatch --detail Low --range today
-
     read -rp "Press [Enter] to return to the menu."
     main
 }
@@ -787,6 +788,7 @@ function config_password_policy() {
 function account_lockout_policy {
     local faillock_file="/usr/share/pam-configs/faillock"
     local faillock_notify_file="/usr/share/pam-configs/faillock_notify"
+    
     # Create and configure faillock file
     echo "Configuring $faillock_file..."
     sudo touch "$faillock_file"
@@ -799,7 +801,7 @@ Auth:
  [default=die] pam_faillock.so authfail
  sufficient pam_faillock.so authsucc
 EOL
-    echo "$faillock_file configured."
+
     # Create and configure faillock_notify file
     echo "Configuring $faillock_notify_file..."
     sudo touch "$faillock_notify_file"
@@ -811,11 +813,22 @@ Auth-Type: Primary
 Auth:
  requisite pam_faillock.so preauth
 EOL
-    sudo pam-auth-update --enable faillock --enable faillock_notify
+
+    # Directly modify common-auth to add faillock configuration
+    echo "Configuring PAM auth..."
+    sudo sed -i '1i auth required pam_faillock.so preauth silent deny=3 unlock_time=600' /etc/pam.d/common-auth
+    sudo sed -i '/pam_unix.so/i auth [default=die] pam_faillock.so authfail' /etc/pam.d/common-auth
+    sudo sed -i '/pam_unix.so/a auth sufficient pam_faillock.so authsucc' /etc/pam.d/common-auth
+    
+    echo "Account lockout policy configured successfully"
+    echo "Lockout policy is now active with:"
+    echo "- 3 failed attempts results in lockout"
+    echo "- 10 minute (600 second) lockout duration"
     
     read -rp "Press [Enter] to return to the menu."
     main
 }
+
 
 function config_sysctl_security {
     # Backup original sysctl.conf
@@ -929,22 +942,6 @@ EOL
     sudo mkdir -p /etc/vsftpd
     echo "root" | sudo tee /etc/vsftpd/user_list
 
-    read -rp "Press [Enter] to return to the menu."
-    main
-}
-
-function disable_services {
-    # List of common unnecessary services
-    local services=("sendmail" "telnet" "rsh" "rlogin" "rexec" "xinetd")
-    
-    for service in "${services[@]}"; do
-        if systemctl is-active --quiet "$service"; then
-            sudo systemctl stop "$service"
-            sudo systemctl disable "$service"
-            echo "Disabled $service"
-        fi
-    done
-    
     read -rp "Press [Enter] to return to the menu."
     main
 }
