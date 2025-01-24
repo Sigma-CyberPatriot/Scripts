@@ -383,12 +383,12 @@ function change_passwords {
 function disable_null_passwords {
     # Backup original file
     sudo cp /etc/pam.d/common-auth /etc/pam.d/common-auth.bak
+
+    # Also remove 'nullok_secure' if it exists
+    sudo sed -i 's/\(pam_unix.so\s\+nullok_secure\)/pam_unix.so/' /etc/pam.d/common-auth
     
     # Remove 'nullok' from pam_unix.so line
     sudo sed -i 's/\(pam_unix.so\s\+nullok\)/pam_unix.so/' /etc/pam.d/common-auth
-    
-    # Also remove 'nullok_secure' if it exists
-    sudo sed -i 's/\(pam_unix.so\s\+nullok_secure\)/pam_unix.so/' /etc/pam.d/common-auth
     
     if grep -q "nullok" /etc/pam.d/common-auth; then
         echo "Failed to remove nullok"
